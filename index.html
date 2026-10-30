@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#11141a">
-<meta name="description" content="Autorregistro ABC: situación, pensamientos y consecuencias, para revisarlo con tu psicólogo/a.">
+<meta name="description" content="Autorregistro ABC: antecedente, pensamientos y consecuencias, para revisarlo con tu psicólogo.">
 <title>Registro ABC</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
@@ -173,13 +173,14 @@ main:has(>.crisis){display:flex;flex-direction:column;min-height:calc(100dvh - 8
 <div id="print"></div>
 <script>
 'use strict';
-const VERSION = 2;
+const VERSION = 3;
 const STORE = 'abc.v1';
 
 /* ===================== Datos ===================== */
 const EMOS = ['Ansiedad','Tristeza','Ira','Miedo','Culpa','Vergüenza','Frustración','Soledad','Celos','Asco','Alegría','Calma'];
 const FIS = ['Tensión muscular','Palpitaciones','Nudo en el estómago','Falta de aire','Llanto','Temblor','Calor o sudor','Mareo','Cansancio','Dolor de cabeza','Inquietud'];
-const DEFAULTS = {settings:{nombre:'', psico:'', consulta:'', theme:'auto'}, entries:[], draft:null};
+const PSICO = 'Raúl Triana Guillén'; // psicólogo por defecto: la app es suya
+const DEFAULTS = {settings:{nombre:'', psico:PSICO, consulta:'', theme:'auto'}, entries:[], draft:null};
 // Una entrada: {id, at (ms), a, b, emo:[{n, i 0–10}], fis:[…], fisTxt, cond, cp, lp, cre, upd}
 // cp y lp: qué pasó después de la conducta, a corto y a largo plazo (desde la v2)
 let S;
@@ -188,6 +189,7 @@ function load(){
   S = Object.assign(structuredClone(DEFAULTS), S);
   S.settings = Object.assign(structuredClone(DEFAULTS.settings), S.settings);
   if (!Array.isArray(S.entries)) S.entries = [];
+  if (!S.settings.psico) S.settings.psico = PSICO; // las versiones 1 y 2 lo dejaban vacío
   for (const e of S.entries.concat(S.draft ? [S.draft.data] : [])){ e.cp = e.cp || ''; e.lp = e.lp || ''; }
 }
 function save(){
@@ -539,7 +541,7 @@ function sheetExport(){
   if (S.settings.consulta) opts.push(['consulta', 'Desde la última consulta', dmy(fromDateVal(S.settings.consulta))]);
   opts.push(['14', 'Últimas 2 semanas', ''], ['30', 'Último mes', ''], ['all', 'Todo', ''], ['custom', 'Elegir fechas', '']);
   const n = expList().length;
-  sheet(`<h2>Exportar para tu psicólogo/a</h2><div class="sub">Elige el periodo y cómo quieres mandarlo.</div>
+  sheet(`<h2>Exportar para tu psicólogo</h2><div class="sub">Elige el periodo y cómo quieres mandarlo.</div>
     <div class="stack">${opts.map(([v, l, d]) => `<button class="opt ${EXP.per === v ? 'sel' : ''}" data-act="exp-per" data-v="${v}"><span>${l}</span><span class="d">${d}</span></button>`).join('')}</div>
     ${EXP.per === 'custom' ? `<div class="row" style="margin-top:8px"><div style="flex:1"><label class="f">Desde</label><input type="date" id="exp-from" value="${EXP.from}"></div><div style="flex:1"><label class="f">Hasta</label><input type="date" id="exp-to" value="${EXP.to}"></div></div>` : ''}
     <div class="muted num" style="margin:12px 2px" id="exp-n">${n} registro${n === 1 ? '' : 's'} en este periodo</div>
@@ -548,7 +550,7 @@ function sheetExport(){
       <button class="opt" data-act="exp-txt"><span>💬 Texto</span><span class="d">Para pegarlo en un mensaje</span></button>
       <button class="opt" data-act="exp-csv"><span>📊 CSV</span><span class="d">Se abre en Excel</span></button>
     </div>
-    <div class="note">El informe lleva datos de salud. Cuando lo envíes, quedará también donde lo mandes (el chat o el correo): mándalo solo a tu psicólogo/a.</div>`, el => {
+    <div class="note">El informe lleva datos de salud. Cuando lo envíes, quedará también donde lo mandes (el chat o el correo): mándalo solo a tu psicólogo.</div>`, el => {
     const upd = () => { const n = expList().length; el.querySelector('#exp-n').textContent = `${n} registro${n === 1 ? '' : 's'} en este periodo`; };
     const f = el.querySelector('#exp-from'), t = el.querySelector('#exp-to');
     if (f){ f.addEventListener('change', () => { EXP.from = f.value; upd(); }); t.addEventListener('change', () => { EXP.to = t.value; upd(); }); }
@@ -557,7 +559,7 @@ function sheetExport(){
 function reportHtml(list){
   const {from, to} = expRange(), s = S.settings, st = stats(list), now = Date.now();
   return `<h1>Autorregistro ABC</h1>
-    <div class="meta">${s.nombre ? `<b>Paciente:</b> ${esc(s.nombre)} · ` : ''}${s.psico ? `<b>Psicólogo/a:</b> ${esc(s.psico)} · ` : ''}<b>Periodo:</b> ${dmy(from)} – ${dmy(to)} · <b>Registros:</b> ${st.n} en ${st.dias} día${st.dias === 1 ? '' : 's'}</div>
+    <div class="meta">${s.nombre ? `<b>Paciente:</b> ${esc(s.nombre)} · ` : ''}${s.psico ? `<b>Psicólogo:</b> ${esc(s.psico)} · ` : ''}<b>Periodo:</b> ${dmy(from)} – ${dmy(to)} · <b>Registros:</b> ${st.n} en ${st.dias} día${st.dias === 1 ? '' : 's'}</div>
     <h2>Resumen</h2>
     <table class="rs"><tr><th>Emoción</th><th>Veces</th><th>Intensidad media</th><th>Máxima</th></tr>
       ${st.emos.map(e => `<tr><td>${esc(e.n)}</td><td class="n">${e.c}</td><td class="n">${dec(e.sum / e.c)}</td><td class="n">${e.max}</td></tr>`).join('')}</table>
@@ -622,12 +624,12 @@ function renderAjustes(){
   app.innerHTML = `<header class="top"><div><h1>Ajustes</h1></div></header>
   <div class="card">
     <label class="f" style="margin-top:0">Tu nombre</label><input data-s="nombre" maxlength="60" autocomplete="name" value="${esc(s.nombre)}" placeholder="Sale en el informe (opcional)">
-    <label class="f">Tu psicólogo/a</label><input data-s="psico" maxlength="60" value="${esc(s.psico)}" placeholder="Opcional">
+    <label class="f">Tu psicólogo</label><input data-s="psico" maxlength="60" value="${esc(s.psico)}" placeholder="${PSICO}">
     <label class="f">Última consulta</label><input type="date" data-s="consulta" value="${esc(s.consulta)}">
     <div class="muted small" style="margin-top:6px">Sirve para exportar «desde la última consulta».</div>
   </div>
   <div class="card">
-    <label class="f" style="margin-top:0">Para tu psicólogo/a</label>
+    <label class="f" style="margin-top:0">Para tu psicólogo</label>
     <button class="btn pri" style="width:100%" data-act="export">Exportar registros (PDF, texto o CSV)</button>
   </div>
   <div class="card">
@@ -649,7 +651,9 @@ function renderAjustes(){
   <div class="muted num" style="text-align:center;font-size:12px">Registro ABC · versión ${VERSION} · ${S.entries.length} registro${S.entries.length === 1 ? '' : 's'}</div>
   ${CRISIS}`;
   app.querySelectorAll('[data-s]').forEach(inp => inp.addEventListener('change', () => {
-    S.settings[inp.dataset.s] = inp.value.trim(); save(); toast('Guardado');
+    S.settings[inp.dataset.s] = inp.value.trim();
+    if (inp.dataset.s === 'psico' && !S.settings.psico) inp.value = S.settings.psico = PSICO; // vacío = el de siempre
+    save(); toast('Guardado');
   }));
   app.querySelector('#imp').addEventListener('change', async e => {
     const f = e.target.files[0]; if (!f) return; e.target.value = '';
@@ -665,7 +669,7 @@ function renderAjustes(){
         if (i < 0){ S.entries.push(x); added++; }
         else if (x.upd > (S.entries[i].upd || 0)){ S.entries[i] = x; updated++; }
       }
-      if (data.settings) for (const k of ['nombre','psico','consulta']) if (!S.settings[k] && typeof data.settings[k] === 'string') S.settings[k] = data.settings[k];
+      if (data.settings) for (const k of ['nombre','consulta']) if (!S.settings[k] && typeof data.settings[k] === 'string') S.settings[k] = data.settings[k];
       save(); render();
       toast(`Importado: ${added} registro${added === 1 ? '' : 's'} nuevo${added === 1 ? '' : 's'}` + (updated ? `, ${updated} actualizado${updated === 1 ? '' : 's'}` : ''));
     }catch(_){ toast('Ese archivo no es una copia válida'); }

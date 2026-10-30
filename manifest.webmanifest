@@ -1,7 +1,7 @@
 {
   "name": "Registro ABC",
   "short_name": "Registro ABC",
-  "description": "Autorregistro ABC: situación, pensamientos y consecuencias, para revisarlo con tu psicólogo/a.",
+  "description": "Autorregistro ABC: antecedente, pensamientos y consecuencias, para revisarlo con tu psicólogo.",
   "lang": "es",
   "id": "./index.html",
   "start_url": "./index.html",
