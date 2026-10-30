@@ -135,6 +135,10 @@ nav.tabs button[aria-current="page"]{color:var(--text);background:var(--card)}
 .toast button{color:var(--toast-link);font-weight:800;margin-left:10px}
 details summary{cursor:pointer;font-weight:700}
 main:has(>.crisis){display:flex;flex-direction:column;min-height:calc(100dvh - 84px - env(safe-area-inset-bottom))}
+.card.pend{border-color:var(--hi)}
+.card.pend .opt{margin-top:6px;flex-direction:column;align-items:flex-start;gap:2px}
+.card.pend .pa{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.ecard .falta{margin-top:8px;font-size:12px;font-weight:700;color:var(--hi)}
 .crisis{color:var(--muted);font-size:11.5px;text-align:center;margin:auto 8px 0;padding-top:28px;opacity:.85}
 .crisis a{color:inherit;font-weight:700}
 @keyframes up{from{transform:translateY(24px);opacity:0}}
@@ -173,7 +177,7 @@ main:has(>.crisis){display:flex;flex-direction:column;min-height:calc(100dvh - 8
 <div id="print"></div>
 <script>
 'use strict';
-const VERSION = 3;
+const VERSION = 4;
 const STORE = 'abc.v1';
 
 /* ===================== Datos ===================== */
@@ -277,9 +281,13 @@ document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('cl
 function renderRegistrar(){
   const k = dayKey(), hoy = sorted().filter(e => dayKey(e.at) === k).reverse();
   const semana = S.entries.filter(e => dayKey(e.at) >= weekStart(k)).length;
-  const d = S.draft;
+  const d = S.draft, pend = sorted().filter(e => lpPending(e));
   app.innerHTML = `<header class="top"><div><h1>Registro ABC</h1><div class="sub">${longDate(Date.now())}</div></div>
     ${semana ? `<span class="chip num">${semana} esta semana</span>` : ''}</header>
+  ${pend.length ? `<div class="card pend"><b>${pend.length === 1 ? 'Un registro por completar' : pend.length + ' registros por completar'}</b>
+      <div class="muted small" style="margin:2px 0 8px">¿Qué pasó después, horas o días más tarde?</div>
+      ${pend.slice(0, 5).map(e => `<button class="opt" data-act="lp" data-id="${esc(e.id)}"><span class="pa">${esc(e.a)}</span><span class="d num">${dayTitle(dayKey(e.at))} · ${hhmm(e.at)}</span></button>`).join('')}
+      ${pend.length > 5 ? `<div class="muted small" style="margin-top:6px">y ${pend.length - 5} más en el Historial</div>` : ''}</div>` : ''}
   ${d ? `<div class="card"><b>Tienes un registro a medias</b><div class="muted small" style="margin-top:4px">${esc((d.data.a || d.data.b || 'Sin texto todavía').slice(0, 90))}</div>
       <div class="actions"><button class="btn pri" data-act="new">Seguir</button><button class="btn ghost" data-act="discard">Descartar</button></div></div>`
     : `<button class="btn pri big" data-act="new"><span style="font-size:24px">＋</span> Nuevo registro</button>`}
@@ -299,7 +307,27 @@ function renderRegistrar(){
 const CRISIS = `<div class="crisis">¿Estás en crisis o piensas en hacerte daño? Llama al <a href="tel:024">024</a> (gratis, 24 h) o al <a href="tel:112">112</a>.</div>`;
 function entryCard(e){
   return `<button class="ecard" data-act="open" data-id="${esc(e.id)}"><div class="eh"><span class="et num">${hhmm(e.at)}</span><span class="emos">${byI(e).map(emoChip).join('')}</span></div>
-    <div class="ea">${esc(e.a)}</div><div class="eb">«${esc(e.b)}»</div></button>`;
+    <div class="ea">${esc(e.a)}</div><div class="eb">«${esc(e.b)}»</div>${lpPending(e) ? '<div class="falta">Falta: qué pasó más adelante</div>' : ''}</button>`;
+}
+
+/* ===================== «Más adelante» pendiente ===================== */
+// Pasadas 12 h, se pide completar qué pasó más adelante. Solo registros de las últimas 2 semanas y sin «Omitir».
+const LP_MIN = 12 * 3600e3, LP_MAX = 14 * DAY_MS;
+function lpPending(e, now = Date.now()){ return !e.lp && !e.lpNo && now - e.at >= LP_MIN && now - e.at <= LP_MAX; }
+function sheetLp(id){
+  const e = S.entries.find(x => x.id === id); if (!e) return;
+  sheet(`<h2>¿Qué pasó después?</h2><div class="sub">${dayTitle(dayKey(e.at))} · ${hhmm(e.at)}</div>
+    <div class="dsec" style="margin-top:8px"><div class="dl"><span class="L">A</span>Antecedente</div><p>${nl(e.a)}</p></div>
+    ${e.cond ? `<div class="dsec"><div class="ttl" style="margin-top:0">Qué hice</div><p>${nl(e.cond)}</p></div>` : ''}
+    ${e.cp ? `<div class="dsec"><div class="ttl" style="margin-top:0">Justo después</div><p>${nl(e.cp)}</p></div>` : ''}
+    <label class="f" style="margin-top:16px">Más adelante (horas o días después)</label>
+    <textarea id="lp-txt" rows="3" style="min-height:90px" placeholder="¿Qué efecto tuvo después? Ej.: Al día siguiente me daba más miedo hablar con ella."></textarea>
+    <div class="actions"><button class="btn ghost" data-act="lp-no" data-id="${esc(e.id)}">Nada que añadir</button><button class="btn pri" data-act="lp-save" data-id="${esc(e.id)}">Guardar</button></div>`,
+    el => el.querySelector('#lp-txt').focus());
+}
+function lpSet(id, fields, msg){
+  const e = S.entries.find(x => x.id === id); if (!e) return;
+  Object.assign(e, fields, {upd: Date.now()}); save(); closeSheet(); render(); toast(msg);
 }
 
 /* ===================== Editor (A → B → C) ===================== */
@@ -356,7 +384,7 @@ function renderEditor(){
     <p class="hint">Qué efecto tuvo lo que hiciste (opcional).</p>
     <label class="f" style="margin-top:0">Justo después</label>
     <textarea data-f="cp" rows="2" style="min-height:60px" placeholder="Ej.: Me alivié al salir de la sala.">${esc(d.cp)}</textarea>
-    <label class="f">Más adelante</label>
+    <label class="f">Más adelante <span style="font-weight:400">· horas o días después; si aún no lo sabes, déjalo: te lo recordaré pasadas 12 h</span></label>
     <textarea data-f="lp" rows="2" style="min-height:60px" placeholder="Ej.: No pude explicar los errores y al día siguiente me daba más miedo hablar con ella.">${esc(d.lp)}</textarea>`;
   }
   app.innerHTML = `<header class="top"><button class="navb" data-act="ed-close" aria-label="Cerrar">✕</button>
@@ -377,6 +405,7 @@ function saveEntry(){
   }
   const now = Date.now();
   const e = {id: ED.id || uid(), at: d.at, a: d.a.trim(), b: d.b.trim(), emo: d.emo, fis: d.fis, fisTxt: d.fisTxt.trim(), cond: d.cond.trim(), cp: d.cp.trim(), lp: d.lp.trim(), cre: d.cre || now, upd: now};
+  if (d.lpNo && !e.lp) e.lpNo = true;
   if (ED.id){ const i = S.entries.findIndex(x => x.id === ED.id); if (i >= 0) S.entries[i] = e; else S.entries.push(e); }
   else { S.entries.push(e); S.draft = null; }
   if (!save()) return;
@@ -662,7 +691,7 @@ function renderAjustes(){
       if (!data || !Array.isArray(data.entries)) throw 0;
       const valid = data.entries.filter(x => x && typeof x.id === 'string' && typeof x.at === 'number' && typeof x.a === 'string' && typeof x.b === 'string' && Array.isArray(x.emo))
         .map(x => ({id:x.id, at:x.at, a:x.a, b:x.b, emo:x.emo.filter(y => y && typeof y.n === 'string').map(y => ({n:y.n.slice(0, 30), i:Math.max(0, Math.min(10, Math.round(+y.i || 0)))})),
-          fis:Array.isArray(x.fis) ? x.fis.filter(y => typeof y === 'string') : [], fisTxt:String(x.fisTxt || ''), cond:String(x.cond || ''), cp:String(x.cp || ''), lp:String(x.lp || ''), cre:+x.cre || x.at, upd:+x.upd || x.at}));
+          fis:Array.isArray(x.fis) ? x.fis.filter(y => typeof y === 'string') : [], fisTxt:String(x.fisTxt || ''), cond:String(x.cond || ''), cp:String(x.cp || ''), lp:String(x.lp || ''), ...(x.lpNo ? {lpNo:true} : {}), cre:+x.cre || x.at, upd:+x.upd || x.at}));
       let added = 0, updated = 0;
       for (const x of valid){
         const i = S.entries.findIndex(y => y.id === x.id);
@@ -713,6 +742,13 @@ const ACT = {
   'open': b => sheetEntry(b.dataset.id),
   'edit': b => openEditor(b.dataset.id),
   'del': b => delEntry(b.dataset.id),
+  'lp': b => sheetLp(b.dataset.id),
+  'lp-save': b => {
+    const v = document.getElementById('lp-txt').value.trim();
+    if (!v) return toast('Escribe qué pasó o toca «Nada que añadir»');
+    lpSet(b.dataset.id, {lp: v}, 'Registro completado');
+  },
+  'lp-no': b => lpSet(b.dataset.id, {lpNo: true}, 'Hecho: ya no te lo recordaré'),
   'fil-per': b => { FIL.per = b.dataset.v; renderHistorial(); },
   'fil-emo': b => { FIL.emo = b.dataset.n || null; renderHistorial(); },
   'fil-min': b => { FIL.min = +b.dataset.v; renderHistorial(); },
