@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#11141a">
+<meta name="description" content="Autorregistro ABC: situación, pensamientos y consecuencias, para revisarlo con tu psicólogo/a.">
+<title>Registro ABC</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{
+  --bg:#11141a; --card:#191d25; --card2:#212631; --line:#2c3340; --text:#e8ecf2; --muted:#949eae;
+  --acc:#8fb0ff; --acc-ink:#8fb0ff; --on-acc:#0c1630; --lo:#7fa8d9; --mid:#b9a2e8; --hi:#f2b47e; --danger:#ff8a7a;
+  --radius:18px; --shadow:0 8px 30px rgba(0,0,0,.35); --toast-link:#3d64c8;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#f3f4f7; --card:#ffffff; --card2:#eceef3; --line:#dcdfe6; --text:#161a22; --muted:#5f6878;
+    --acc:#3d64c8; --acc-ink:#3d64c8; --on-acc:#ffffff; --lo:#3f73b0; --mid:#7a5cc4; --hi:#a8601a; --danger:#c43c2c;
+    --shadow:0 6px 24px rgba(20,30,50,.10); --toast-link:#8fb0ff; color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f3f4f7; --card:#ffffff; --card2:#eceef3; --line:#dcdfe6; --text:#161a22; --muted:#5f6878;
+  --acc:#3d64c8; --acc-ink:#3d64c8; --on-acc:#ffffff; --lo:#3f73b0; --mid:#7a5cc4; --hi:#a8601a; --danger:#c43c2c;
+  --shadow:0 6px 24px rgba(20,30,50,.10); --toast-link:#8fb0ff; color-scheme:light;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.45}
+body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+body.editing{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+body.editing nav.tabs{display:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+input,select,textarea{font:inherit;color:var(--text);background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
+textarea{resize:vertical;min-height:120px;line-height:1.45}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
+input[type=range]{padding:0;border:0;background:none;height:34px;accent-color:var(--acc)}
+input[type=range]:focus{outline:none}
+.num{font-variant-numeric:tabular-nums}
+main{max-width:560px;margin:0 auto;padding:16px 16px 24px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:4px 0 14px}
+header.top h1{font-size:22px;margin:0;letter-spacing:-.02em}
+header.top .sub{color:var(--muted);font-size:14px}
+.navb{width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:20px;font-weight:800;line-height:1;display:grid;place-items:center;flex:0 0 auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;background:var(--card2);border:1px solid var(--line);font-size:14px;font-weight:600}
+.chip.on{background:var(--acc);color:var(--on-acc);border-color:transparent}
+.ich{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;border:1px solid currentColor;font-size:13px;font-weight:600;white-space:nowrap}
+.ich b{font-weight:800}
+.lo{color:var(--lo)} .mid{color:var(--mid)} .hi{color:var(--hi)}
+.btn{flex:1;padding:12px 14px;border-radius:14px;background:var(--card2);border:1px solid var(--line);font-weight:700;text-align:center}
+.btn.pri{background:var(--acc);color:var(--on-acc);border-color:transparent}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--danger);border-color:var(--danger);background:transparent}
+.btn.sm{flex:0 0 auto;padding:9px 12px;font-size:14px}
+.btn.big{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:18px;font-size:18px;border-radius:18px}
+.actions{display:flex;gap:8px;margin-top:12px}
+.row{display:flex;gap:8px;align-items:center}
+.row>*{min-width:0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+label.f{display:block;font-size:13px;color:var(--muted);font-weight:600;margin:12px 0 6px}
+.seg{display:flex;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:3px;gap:3px}
+.seg button{flex:1;padding:8px 4px;border-radius:9px;font-weight:700;font-size:14px;color:var(--muted)}
+.seg button.on{background:var(--acc);color:var(--on-acc)}
+h3.sec{display:flex;justify-content:space-between;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:18px 2px 8px}
+.empty{color:var(--muted);text-align:center;padding:22px 10px;font-size:14px}
+/* tarjetas de registro */
+.ecard{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:8px}
+.ecard .eh{display:flex;gap:10px;align-items:flex-start}
+.ecard .et{font-weight:800;font-size:16px;min-width:46px;padding-top:1px}
+.ecard .emos{display:flex;gap:6px;flex-wrap:wrap}
+.ecard .ea{margin-top:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ecard .eb{margin-top:4px;color:var(--muted);font-style:italic;font-size:14px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.L{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:10px;background:var(--acc);color:var(--on-acc);font-weight:800;font-size:16px;margin-right:8px;flex:0 0 auto}
+.abc{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.abc li{display:flex;align-items:flex-start;font-size:14px}
+/* editor */
+.steps{display:flex;gap:6px;margin:0 0 16px}
+.steps button{flex:1;padding:8px 4px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:13px;font-weight:700;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px}
+.steps button b{font-size:18px;color:var(--text)}
+.steps button.on{border-color:var(--acc);color:var(--text);box-shadow:inset 0 -3px 0 var(--acc)}
+.steps button.ok b::after{content:" ✓";color:var(--acc-ink);font-size:14px}
+h2.q{display:flex;align-items:center;font-size:20px;margin:18px 0 4px;letter-spacing:-.01em}
+h2.q:first-child{margin-top:4px}
+.hint{color:var(--muted);font-size:14px;margin:0 0 10px}
+.sl{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px 4px;margin-top:8px}
+.sl .row{justify-content:space-between}
+.sl .v{font-size:22px;font-weight:800}
+.sl .ticks{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:-4px;padding-bottom:4px}
+.sl .rm{color:var(--muted);font-size:13px;font-weight:700;padding:4px 0}
+.edfoot{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:5}
+.edfoot .in{max-width:528px;margin:0 auto;display:flex;gap:8px}
+/* detalle */
+.dsec{margin-top:14px}
+.dsec .dl{display:flex;align-items:center;font-weight:700;margin-bottom:6px}
+.dsec p{margin:0 0 0 38px;white-space:pre-wrap;overflow-wrap:anywhere}
+.dsec .chips{margin-left:38px}
+.dsec .ttl{margin:8px 0 4px 38px;color:var(--muted);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+/* resumen */
+.hero{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
+.hero .big{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.hero .lbl{color:var(--muted);font-size:12px;font-weight:600;margin-top:2px}
+.hb{display:grid;grid-template-columns:minmax(80px,auto) 1fr auto;gap:6px 10px;align-items:center;font-size:14px}
+.hb .bar{height:10px;border-radius:99px;background:var(--card2);overflow:hidden}
+.hb .bar i{display:block;height:100%;border-radius:99px;background:var(--acc)}
+.hb .bar i.lo{background:var(--lo)} .hb .bar i.mid{background:var(--mid)} .hb .bar i.hi{background:var(--hi)}
+.hb .r{color:var(--muted);font-size:13px;text-align:right;white-space:nowrap}
+.vbars{display:flex;align-items:flex-end;gap:6px;height:120px;margin-top:6px}
+.vbars>div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;min-width:0}
+.vbars i{display:block;width:100%;max-width:34px;background:var(--acc);border-radius:6px 6px 2px 2px;min-height:2px}
+.vbars span{font-size:10px;color:var(--muted);white-space:nowrap}
+.vbars em{font-style:normal;font-size:11px;font-weight:700}
+/* hojas, pestañas, avisos */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:5}
+nav.tabs .in{display:flex;max-width:560px;width:100%}
+nav.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;font-size:12px;font-weight:700;color:var(--muted);border-radius:12px}
+nav.tabs button .ic{font-size:20px;line-height:1}
+nav.tabs button[aria-current="page"]{color:var(--text);background:var(--card)}
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10;display:flex;align-items:flex-end;justify-content:center;animation:fade .15s}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:90vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom));box-shadow:var(--shadow);animation:up .18s ease}
+.sheet h2{margin:0 0 4px;font-size:20px}
+.sheet .sub{color:var(--muted);font-size:14px;margin-bottom:6px}
+.sheet .grab{width:40px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 12px}
+.stack{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:13px 14px;border-radius:14px;background:var(--card2);border:1px solid var(--line)}
+.opt .d{color:var(--muted);font-size:13px}
+.opt.sel{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+.note{border-left:4px solid var(--hi);background:var(--card2);border-radius:12px;padding:10px 12px;font-size:13px;margin-top:12px}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:99px;font-weight:700;font-size:14px;z-index:20;box-shadow:var(--shadow);animation:up .2s;width:max-content;max-width:calc(100vw - 32px);text-align:center}
+.toast button{color:var(--toast-link);font-weight:800;margin-left:10px}
+details summary{cursor:pointer;font-weight:700}
+@keyframes up{from{transform:translateY(24px);opacity:0}}
+.toast{animation-name:tup} @keyframes tup{from{transform:translate(-50%,24px);opacity:0}}
+@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+/* informe para imprimir / guardar como PDF */
+#print{display:none}
+@media print{
+  @page{size:A4 landscape;margin:12mm}
+  html,body{background:#fff!important;color:#000!important;padding:0!important}
+  main,nav.tabs,#sheet-root,.toast,.edfoot{display:none!important}
+  #print{display:block;font-size:9.5pt;line-height:1.35;color:#000}
+  #print h1{font-size:16pt;margin:0 0 4px}
+  #print h2{font-size:11.5pt;margin:14px 0 6px}
+  #print .meta{color:#333;margin-bottom:6px}
+  #print table{width:100%;border-collapse:collapse}
+  #print th,#print td{border:1px solid #999;padding:4px 6px;text-align:left;vertical-align:top;white-space:pre-wrap;overflow-wrap:anywhere}
+  #print th{background:#eee}
+  #print table.rs{width:auto;min-width:50%}
+  #print table.rs td.n{text-align:right}
+  #print tr{break-inside:avoid}
+  #print .foot{margin-top:10px;color:#555;font-size:8pt}
+}
+</style>
+</head>
+<body>
+<main id="app" aria-live="polite"></main>
+<nav class="tabs" aria-label="Secciones"><div class="in">
+  <button data-tab="registrar"><span class="ic">✍️</span>Registrar</button>
+  <button data-tab="historial"><span class="ic">📖</span>Historial</button>
+  <button data-tab="resumen"><span class="ic">📊</span>Resumen</button>
+  <button data-tab="ajustes"><span class="ic">⚙️</span>Ajustes</button>
+</div></nav>
+<div id="sheet-root"></div>
+<div id="print"></div>
+<script>
+'use strict';
+const VERSION = 1;
+const STORE = 'abc.v1';
+
+/* ===================== Datos ===================== */
+const EMOS = ['Ansiedad','Tristeza','Ira','Miedo','Culpa','Vergüenza','Frustración','Soledad','Celos','Asco','Alegría','Calma'];
+const FIS = ['Tensión muscular','Palpitaciones','Nudo en el estómago','Falta de aire','Llanto','Temblor','Calor o sudor','Mareo','Cansancio','Dolor de cabeza','Inquietud'];
+const DEFAULTS = {settings:{nombre:'', psico:'', consulta:'', theme:'auto'}, entries:[], draft:null};
+// Una entrada: {id, at (ms), a, b, emo:[{n, i 0–10}], fis:[…], fisTxt, cond, cre, upd}
+let S;
+function load(){
+  try{ S = JSON.parse(localStorage.getItem(STORE)) || {}; }catch(e){ S = {}; }
+  S = Object.assign(structuredClone(DEFAULTS), S);
+  S.settings = Object.assign(structuredClone(DEFAULTS.settings), S.settings);
+  if (!Array.isArray(S.entries)) S.entries = [];
+}
+function save(){
+  try{ localStorage.setItem(STORE, JSON.stringify(S)); return true; }
+  catch(e){ toast('No se ha podido guardar: el almacenamiento del móvil está lleno'); return false; }
+}
+load();
+if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(()=>{});
+
+/* ===================== Utilidades ===================== */
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nl = s => esc(s).replace(/\n/g, '<br>');
+const pad = n => String(n).padStart(2, '0');
+const DAY_MS = 86400e3;
+const DAYS_LONG = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const MONTHS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const MONTHS_LONG = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const cap = s => s[0].toUpperCase() + s.slice(1);
+const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+// El día de la app empieza a las 05:00: lo de madrugada cuenta en el día anterior
+function dayKey(ms = Date.now()){ const x = new Date(ms - 5*3600e3); return x.getFullYear()+'-'+pad(x.getMonth()+1)+'-'+pad(x.getDate()); }
+function keyToDate(k){ const [y,m,d] = k.split('-').map(Number); return new Date(y, m-1, d, 12); }
+function addDays(k, n){ const d = keyToDate(k); d.setDate(d.getDate()+n); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function weekStart(k){ return addDays(k, -((keyToDate(k).getDay() + 6) % 7)); }
+function dayTitle(k){
+  const t = dayKey(); if (k === t) return 'Hoy'; if (k === addDays(t, -1)) return 'Ayer';
+  const d = keyToDate(k);
+  return cap(DAYS_LONG[d.getDay()]) + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + (d.getFullYear() !== new Date().getFullYear() ? ' ' + d.getFullYear() : '');
+}
+const hhmm = ms => { const d = new Date(ms); return pad(d.getHours())+':'+pad(d.getMinutes()); };
+const dmy = ms => { const d = new Date(ms); return pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear(); };
+const longDate = ms => { const d = new Date(ms); return cap(DAYS_LONG[d.getDay()]) + ' ' + d.getDate() + ' de ' + MONTHS_LONG[d.getMonth()] + ' de ' + d.getFullYear(); };
+const dateVal = ms => { const d = new Date(ms); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); };
+const toLocalInput = ms => dateVal(ms) + 'T' + hhmm(ms);
+const fromLocalInput = s => { const t = new Date(s).getTime(); return isFinite(t) ? t : null; };
+function fromDateVal(s, end){ if (!/^\d{4}-\d{2}-\d{2}$/.test(s || '')) return null; const [y,m,d] = s.split('-').map(Number); return end ? new Date(y, m-1, d, 23, 59, 59, 999).getTime() : new Date(y, m-1, d).getTime(); }
+const dec = n => (Math.round(n * 10) / 10).toLocaleString('es-ES');
+
+const maxI = e => e.emo.reduce((a, x) => Math.max(a, x.i), 0);
+const byI = e => e.emo.slice().sort((a, b) => b.i - a.i);
+const ilvl = i => i >= 7 ? 'hi' : i >= 4 ? 'mid' : 'lo';
+const emoChip = x => `<span class="ich ${ilvl(x.i)}">${esc(x.n)} <b class="num">${x.i}</b></span>`;
+const emoTxt = e => byI(e).map(x => x.n + ' ' + x.i).join(', ');
+const fisTxt = e => e.fis.join(', ') + (e.fisTxt ? (e.fis.length ? ' · ' : '') + e.fisTxt : '');
+const sorted = () => S.entries.slice().sort((a, b) => b.at - a.at);
+function inPeriod(list, per){
+  if (per === 'all') return list;
+  const from = addDays(dayKey(), -(+per - 1));
+  return list.filter(e => dayKey(e.at) >= from);
+}
+
+function toast(msg, undo){
+  document.querySelectorAll('.toast').forEach(t => t.remove());
+  const t = document.createElement('div'); t.className = 'toast'; t.innerHTML = esc(msg) + (undo ? ' <button>Deshacer</button>' : '');
+  if (undo) t.querySelector('button').onclick = () => { undo(); t.remove(); };
+  document.body.appendChild(t); setTimeout(() => t.remove(), 4500);
+}
+function sheet(html, onMount){
+  const root = document.getElementById('sheet-root');
+  root.innerHTML = `<div class="sheet-bg"><div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div>${html}</div></div>`;
+  const bg = root.firstChild;
+  bg.addEventListener('click', e => { if (e.target === bg) closeSheet(); });
+  if (onMount) onMount(bg.querySelector('.sheet'));
+}
+function closeSheet(){ document.getElementById('sheet-root').innerHTML = ''; }
+
+/* ===================== Navegación ===================== */
+const TABS = ['registrar','historial','resumen','ajustes'];
+let TAB = 'registrar';
+let ED = null; // registro que se está escribiendo: {id (null si es nuevo), step, data}
+const app = document.getElementById('app');
+function render(){
+  document.body.classList.toggle('editing', !!ED);
+  document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-current', !ED && b.dataset.tab === TAB ? 'page' : 'false'));
+  if (ED) return renderEditor();
+  ({registrar:renderRegistrar, historial:renderHistorial, resumen:renderResumen, ajustes:renderAjustes})[TAB]();
+}
+function applyTheme(){ const t = S.settings.theme; if (t === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', t); }
+document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('click', () => {
+  closeSheet(); TAB = b.dataset.tab; history.replaceState(null, '', '#' + TAB); window.scrollTo(0, 0); render();
+}));
+
+/* ===================== Registrar ===================== */
+function renderRegistrar(){
+  const k = dayKey(), hoy = sorted().filter(e => dayKey(e.at) === k).reverse();
+  const semana = S.entries.filter(e => dayKey(e.at) >= weekStart(k)).length;
+  const d = S.draft;
+  app.innerHTML = `<header class="top"><div><h1>Registro ABC</h1><div class="sub">${longDate(Date.now())}</div></div>
+    ${semana ? `<span class="chip num">${semana} esta semana</span>` : ''}</header>
+  ${d ? `<div class="card"><b>Tienes un registro a medias</b><div class="muted small" style="margin-top:4px">${esc((d.data.a || d.data.b || 'Sin texto todavía').slice(0, 90))}</div>
+      <div class="actions"><button class="btn pri" data-act="new">Seguir</button><button class="btn ghost" data-act="discard">Descartar</button></div></div>`
+    : `<button class="btn pri big" data-act="new"><span style="font-size:24px">＋</span> Nuevo registro</button>`}
+  <details class="card" style="margin-top:12px" ${S.entries.length ? '' : 'open'}><summary>¿Cómo se rellena?</summary>
+    <ul class="abc" style="margin-top:12px">
+      <li><span class="L">A</span><span><b>Situación:</b> lo que pasó, como lo grabaría una cámara: dónde, con quién, qué se dijo.</span></li>
+      <li><span class="L">B</span><span><b>Pensamientos:</b> lo que te pasó por la cabeza en ese momento, tal cual.</span></li>
+      <li><span class="L">C</span><span><b>Consecuencias:</b> qué sentiste y con qué intensidad (0–10), qué notaste en el cuerpo y qué hiciste.</span></li>
+    </ul>
+    <div class="muted small" style="margin-top:10px">Mejor apuntarlo cuanto antes, cuando aún recuerdas lo que pensaste. No hace falta escribir mucho.</div>
+  </details>
+  <h3 class="sec"><span>Hoy</span><span class="num">${hoy.length || ''}</span></h3>
+  ${hoy.length ? hoy.map(entryCard).join('') : `<div class="empty">Aún no hay registros hoy.</div>`}`;
+}
+function entryCard(e){
+  return `<button class="ecard" data-act="open" data-id="${esc(e.id)}"><div class="eh"><span class="et num">${hhmm(e.at)}</span><span class="emos">${byI(e).map(emoChip).join('')}</span></div>
+    <div class="ea">${esc(e.a)}</div><div class="eb">«${esc(e.b)}»</div></button>`;
+}
+
+/* ===================== Editor (A → B → C) ===================== */
+const blank = () => ({at: Date.now(), a:'', b:'', emo:[], fis:[], fisTxt:'', cond:''});
+const isBlank = d => !d.a.trim() && !d.b.trim() && !d.emo.length && !d.fis.length && !d.fisTxt.trim() && !d.cond.trim();
+function openEditor(id){
+  closeSheet();
+  if (id){ const e = S.entries.find(x => x.id === id); if (!e) return; ED = {id, step:0, data:structuredClone(e)}; }
+  else if (S.draft) ED = S.draft;
+  else { ED = {id:null, step:0, data:blank()}; S.draft = ED; save(); }
+  window.scrollTo(0, 0); render();
+}
+function edChanged(){ if (!ED.id){ S.draft = ED; save(); } }
+function closeEditor(){
+  if (!ED.id){
+    if (isBlank(ED.data)) S.draft = null; else toast('Guardado como borrador');
+    save();
+  }
+  ED = null; window.scrollTo(0, 0); render();
+}
+const STEPS = [['A','Situación'],['B','Pensamientos'],['C','Consecuencias']];
+function stepOk(i, d){ return i === 0 ? !!d.a.trim() : i === 1 ? !!d.b.trim() : d.emo.length > 0; }
+function renderEditor(){
+  const d = ED.data, st = ED.step;
+  let body;
+  if (st === 0) body = `
+    <h2 class="q"><span class="L">A</span>¿Qué pasó?</h2>
+    <p class="hint">Describe la situación: dónde estabas, con quién y qué ocurrió. Solo los hechos.</p>
+    <textarea data-f="a" rows="6" placeholder="Ej.: En la reunión, mi jefa ha dicho delante de todos que el informe tenía errores.">${esc(d.a)}</textarea>
+    <label class="f">Cuándo pasó</label><input type="datetime-local" id="ed-at" value="${toLocalInput(d.at)}">`;
+  else if (st === 1) body = `
+    <h2 class="q"><span class="L">B</span>¿Qué pensaste?</h2>
+    <p class="hint">Lo que te pasó por la cabeza en ese momento, tal cual, en primera persona.</p>
+    <textarea data-f="b" rows="6" placeholder="Ej.: «Soy un desastre». «Ahora todos piensan que no valgo para esto».">${esc(d.b)}</textarea>`;
+  else {
+    const names = EMOS.concat(d.emo.map(x => x.n).filter(n => !EMOS.includes(n)));
+    body = `
+    <h2 class="q"><span class="L">C</span>¿Qué sentiste?</h2>
+    <p class="hint">Marca las emociones y cuánto: 0 = nada, 10 = lo máximo que has sentido.</p>
+    <div class="chips">${names.map(n => `<button class="chip ${d.emo.some(x => x.n === n) ? 'on' : ''}" data-act="emo" data-n="${esc(n)}">${esc(n)}</button>`).join('')}</div>
+    <div class="row" style="margin-top:8px"><input id="ed-otra" maxlength="30" placeholder="Otra emoción"><button class="btn sm" data-act="emo-add">Añadir</button></div>
+    ${d.emo.map((x, i) => `<div class="sl"><div class="row"><b>${esc(x.n)}</b><span><button class="rm" data-act="emo" data-n="${esc(x.n)}" aria-label="Quitar ${esc(x.n)}">Quitar</button> <span class="v num ${ilvl(x.i)}" id="ev${i}">${x.i}</span></span></div>
+      <input type="range" min="0" max="10" step="1" value="${x.i}" data-emo="${i}" aria-label="Intensidad de ${esc(x.n)}">
+      <div class="ticks"><span>0 nada</span><span>5</span><span>10 máximo</span></div></div>`).join('')}
+    <h2 class="q">En el cuerpo</h2>
+    <p class="hint">Lo que notaste físicamente (opcional).</p>
+    <div class="chips">${FIS.map(n => `<button class="chip ${d.fis.includes(n) ? 'on' : ''}" data-act="fis" data-n="${esc(n)}">${esc(n)}</button>`).join('')}</div>
+    <textarea data-f="fisTxt" rows="2" style="margin-top:8px;min-height:60px" placeholder="Otra cosa o más detalle">${esc(d.fisTxt)}</textarea>
+    <h2 class="q">¿Qué hiciste?</h2>
+    <p class="hint">Lo que hiciste o tuviste ganas de hacer.</p>
+    <textarea data-f="cond" rows="3" style="min-height:80px" placeholder="Ej.: Me callé y me fui antes de que acabara la reunión.">${esc(d.cond)}</textarea>`;
+  }
+  app.innerHTML = `<header class="top"><button class="navb" data-act="ed-close" aria-label="Cerrar">✕</button>
+      <h1 style="flex:1">${ED.id ? 'Editar registro' : 'Nuevo registro'}</h1></header>
+    <div class="steps">${STEPS.map(([l, n], i) => `<button data-act="ed-step" data-s="${i}" class="${i === st ? 'on' : ''} ${stepOk(i, d) ? 'ok' : ''}"><b>${l}</b>${n}</button>`).join('')}</div>
+    ${body}
+    <div class="edfoot"><div class="in">${st > 0 ? '<button class="btn" data-act="ed-prev">Atrás</button>' : ''}
+      ${st < 2 ? '<button class="btn pri" data-act="ed-next">Siguiente</button>' : '<button class="btn pri" data-act="ed-save">Guardar registro</button>'}</div></div>`;
+  const ta = app.querySelector('textarea[data-f]');
+  if (ta && st < 2 && !ta.value) ta.focus();
+}
+function edGo(step){ ED.step = step; edChanged(); window.scrollTo(0, 0); render(); }
+function saveEntry(){
+  const d = ED.data;
+  for (const i of [0, 1, 2]) if (!stepOk(i, d)){
+    toast(['Falta la situación (A)', 'Faltan los pensamientos (B)', 'Marca al menos una emoción (C)'][i]);
+    return edGo(i);
+  }
+  const now = Date.now();
+  const e = {id: ED.id || uid(), at: d.at, a: d.a.trim(), b: d.b.trim(), emo: d.emo, fis: d.fis, fisTxt: d.fisTxt.trim(), cond: d.cond.trim(), cre: d.cre || now, upd: now};
+  if (ED.id){ const i = S.entries.findIndex(x => x.id === ED.id); if (i >= 0) S.entries[i] = e; else S.entries.push(e); }
+  else { S.entries.push(e); S.draft = null; }
+  if (!save()) return;
+  const edited = !!ED.id; ED = null;
+  if (!edited) TAB = TAB === 'ajustes' ? 'registrar' : TAB;
+  window.scrollTo(0, 0); render(); toast(edited ? 'Cambios guardados' : 'Registro guardado');
+}
+
+/* ===================== Detalle ===================== */
+function sheetEntry(id){
+  const e = S.entries.find(x => x.id === id); if (!e) return;
+  sheet(`<h2>${dayTitle(dayKey(e.at))} · ${hhmm(e.at)}</h2><div class="sub">${longDate(e.at)}</div>
+    <div class="dsec"><div class="dl"><span class="L">A</span>Situación</div><p>${nl(e.a)}</p></div>
+    <div class="dsec"><div class="dl"><span class="L">B</span>Pensamientos</div><p>${nl(e.b)}</p></div>
+    <div class="dsec"><div class="dl"><span class="L">C</span>Consecuencias</div>
+      <div class="ttl">Emociones</div><div class="chips">${byI(e).map(emoChip).join('')}</div>
+      ${e.fis.length || e.fisTxt ? `<div class="ttl">En el cuerpo</div><p>${esc(fisTxt(e))}</p>` : ''}
+      ${e.cond ? `<div class="ttl">Qué hice</div><p>${nl(e.cond)}</p>` : ''}</div>
+    <div class="actions" style="margin-top:18px"><button class="btn" data-act="edit" data-id="${esc(e.id)}">Editar</button><button class="btn danger" data-act="del" data-id="${esc(e.id)}">Borrar</button></div>`);
+}
+function delEntry(id){
+  const i = S.entries.findIndex(x => x.id === id); if (i < 0) return;
+  const [removed] = S.entries.splice(i, 1); save(); closeSheet(); render();
+  toast('Registro borrado', () => { S.entries.push(removed); save(); render(); });
+}
+
+/* ===================== Historial ===================== */
+let FIL = {emo:null, min:0, per:'30', q:''};
+function filtered(){
+  const q = norm(FIL.q.trim());
+  return inPeriod(sorted(), FIL.per).filter(e => {
+    if (FIL.emo){ const x = e.emo.find(x => x.n === FIL.emo); if (!x || x.i < FIL.min) return false; }
+    else if (maxI(e) < FIL.min) return false;
+    if (q && !norm([e.a, e.b, e.cond, e.fisTxt, ...e.fis, ...e.emo.map(x => x.n)].join(' ')).includes(q)) return false;
+    return true;
+  });
+}
+function usedEmos(list){
+  const c = {}; list.forEach(e => e.emo.forEach(x => c[x.n] = (c[x.n] || 0) + 1));
+  return Object.keys(c).sort((a, b) => c[b] - c[a]);
+}
+function renderHistorial(){
+  const emos = usedEmos(S.entries);
+  if (FIL.emo && !emos.includes(FIL.emo)) FIL.emo = null;
+  app.innerHTML = `<header class="top"><div><h1>Historial</h1><div class="sub num" id="hcount"></div></div>
+      ${S.entries.length ? '<button class="btn sm" data-act="export">Exportar</button>' : ''}</header>
+    ${S.entries.length ? `<div class="card">
+      <div class="seg">${[['7','7 días'],['30','30 días'],['90','3 meses'],['all','Todo']].map(([v, l]) => `<button data-act="fil-per" data-v="${v}" class="${FIL.per === v ? 'on' : ''}">${l}</button>`).join('')}</div>
+      <label class="f">Emoción</label>
+      <div class="chips"><button class="chip ${!FIL.emo ? 'on' : ''}" data-act="fil-emo" data-n="">Todas</button>${emos.map(n => `<button class="chip ${FIL.emo === n ? 'on' : ''}" data-act="fil-emo" data-n="${esc(n)}">${esc(n)}</button>`).join('')}</div>
+      <label class="f">Intensidad</label>
+      <div class="seg">${[[0,'Cualquiera'],[4,'4 o más'],[7,'7 o más']].map(([v, l]) => `<button data-act="fil-min" data-v="${v}" class="${FIL.min === v ? 'on' : ''}">${l}</button>`).join('')}</div>
+      <input type="search" id="fil-q" style="margin-top:12px" placeholder="Buscar en el texto" value="${esc(FIL.q)}">
+    </div>` : ''}
+    <div id="hlist"></div>`;
+  const q = app.querySelector('#fil-q');
+  if (q) q.addEventListener('input', () => { FIL.q = q.value; renderHList(); });
+  renderHList();
+}
+function renderHList(){
+  const el = document.getElementById('hlist'), list = filtered();
+  document.getElementById('hcount').textContent = S.entries.length ? `${list.length} registro${list.length === 1 ? '' : 's'}` : '';
+  if (!S.entries.length){ el.innerHTML = `<div class="empty">Aquí irán apareciendo tus registros.</div>`; return; }
+  if (!list.length){ el.innerHTML = `<div class="empty">Ningún registro con estos filtros.<div style="margin-top:10px"><button class="btn sm" data-act="fil-clear">Quitar filtros</button></div></div>`; return; }
+  let h = '', groups = {};
+  list.forEach(e => { const k = dayKey(e.at); (groups[k] = groups[k] || []).push(e); });
+  for (const k of Object.keys(groups)){
+    h +=`<h3 class="sec"><span>${dayTitle(k)}</span><span class="num">${groups[k].length}</span></h3>` + groups[k].map(entryCard).join('');
+  }
+  el.innerHTML = h;
+}
+
+/* ===================== Resumen ===================== */
+let RES_PER = '30';
+function stats(list){
+  const emo = {}, fis = {}, buckets = {lo:0, mid:0, hi:0}, franja = [0, 0, 0, 0];
+  for (const e of list){
+    for (const x of e.emo){ const s = emo[x.n] = emo[x.n] || {n:x.n, c:0, sum:0, max:0}; s.c++; s.sum += x.i; s.max = Math.max(s.max, x.i); }
+    for (const f of e.fis) fis[f] = (fis[f] || 0) + 1;
+    buckets[ilvl(maxI(e))]++;
+    const h = new Date(e.at).getHours(); franja[h < 6 ? 0 : h < 12 ? 1 : h < 20 ? 2 : 3]++;
+  }
+  const emos = Object.values(emo).sort((a, b) => b.c - a.c || b.sum / b.c - a.sum / a.c);
+  const fisL = Object.entries(fis).sort((a, b) => b[1] - a[1]);
+  const media = list.length ? list.reduce((a, e) => a + maxI(e), 0) / list.length : 0;
+  return {n:list.length, dias:new Set(list.map(e => dayKey(e.at))).size, media, emos, fis:fisL, buckets, franja};
+}
+function renderResumen(){
+  const list = inPeriod(S.entries, RES_PER), st = stats(list);
+  const seg = `<div class="seg" style="margin-bottom:12px">${[['7','7 días'],['30','30 días'],['90','3 meses'],['all','Todo']].map(([v, l]) => `<button data-act="res-per" data-v="${v}" class="${RES_PER === v ? 'on' : ''}">${l}</button>`).join('')}</div>`;
+  if (!st.n){
+    app.innerHTML = `<header class="top"><div><h1>Resumen</h1></div></header>${S.entries.length ? seg : ''}<div class="empty">${S.entries.length ? 'No hay registros en este periodo.' : 'Cuando tengas algunos registros, aquí verás qué emociones aparecen más y con qué intensidad.'}</div>`;
+    return;
+  }
+  const maxC = st.emos[0].c;
+  const hb = (label, val, max, cls, right) => `<span>${label}</span><span class="bar"><i class="${cls}" style="width:${max ? Math.max(3, val / max * 100) : 0}%"></i></span><span class="r num">${right}</span>`;
+  // registros por día (7 días) o por semana
+  let cols = [];
+  if (RES_PER === '7'){
+    for (let i = 6; i >= 0; i--){ const k = addDays(dayKey(), -i); cols.push({l: 'LMXJVSD'[(keyToDate(k).getDay() + 6) % 7], c: list.filter(e => dayKey(e.at) === k).length}); }
+  } else {
+    const first = list.reduce((a, e) => Math.min(a, e.at), Infinity);
+    const nW = RES_PER === '30' ? 5 : RES_PER === '90' ? 13 : Math.min(12, Math.floor((keyToDate(weekStart(dayKey())) - keyToDate(weekStart(dayKey(first)))) / (7 * DAY_MS)) + 1);
+    const w0 = weekStart(dayKey());
+    for (let i = nW - 1; i >= 0; i--){
+      const ws = addDays(w0, -7 * i), we = addDays(ws, 7), d = keyToDate(ws);
+      cols.push({l: d.getDate() + '/' + (d.getMonth() + 1), c: list.filter(e => { const k = dayKey(e.at); return k >= ws && k < we; }).length});
+    }
+  }
+  const maxCol = Math.max(1, ...cols.map(c => c.c));
+  const fr = ['Madrugada','Mañana','Tarde','Noche'], maxF = Math.max(...st.franja);
+  app.innerHTML = `<header class="top"><div><h1>Resumen</h1><div class="sub">${RES_PER === 'all' ? 'Desde el primer registro' : 'Últimos ' + RES_PER + ' días'}</div></div>
+      <button class="btn sm" data-act="export">Exportar</button></header>
+    ${seg}
+    <div class="card hero">
+      <div><div class="big num">${st.n}</div><div class="lbl">registros</div></div>
+      <div><div class="big num">${st.dias}</div><div class="lbl">días con registro</div></div>
+      <div><div class="big num ${ilvl(st.media)}">${dec(st.media)}</div><div class="lbl">intensidad media</div></div>
+    </div>
+    <div class="card"><h3 class="sec" style="margin-top:0"><span>Emociones</span><span>veces · media · máx.</span></h3>
+      <div class="hb">${st.emos.map(s => hb(esc(s.n), s.c, maxC, ilvl(s.sum / s.c), `${s.c} · ${dec(s.sum / s.c)} · ${s.max}`)).join('')}</div>
+    </div>
+    <div class="card"><h3 class="sec" style="margin-top:0"><span>Intensidad de cada registro</span></h3>
+      <div class="hb">${hb('Baja (0–3)', st.buckets.lo, st.n, 'lo', st.buckets.lo)}${hb('Media (4–6)', st.buckets.mid, st.n, 'mid', st.buckets.mid)}${hb('Alta (7–10)', st.buckets.hi, st.n, 'hi', st.buckets.hi)}</div>
+      <div class="muted small" style="margin-top:8px">Cuenta la emoción más intensa de cada registro.</div>
+    </div>
+    <div class="card"><h3 class="sec" style="margin-top:0"><span>${RES_PER === '7' ? 'Registros por día' : 'Registros por semana'}</span></h3>
+      <div class="vbars">${cols.map(c => `<div><em class="num">${c.c || ''}</em><i style="height:${c.c / maxCol * 80}%"></i><span>${c.l}</span></div>`).join('')}</div>
+    </div>
+    <div class="card"><h3 class="sec" style="margin-top:0"><span>Momento del día</span></h3>
+      <div class="hb">${fr.map((n, i) => hb(n, st.franja[i], maxF, '', st.franja[i])).join('')}</div>
+      <div class="muted small" style="margin-top:8px">Madrugada 0–6 h · mañana 6–12 h · tarde 12–20 h · noche 20–24 h.</div>
+    </div>
+    ${st.fis.length ? `<div class="card"><h3 class="sec" style="margin-top:0"><span>En el cuerpo</span></h3>
+      <div class="hb">${st.fis.slice(0, 8).map(([n, c]) => hb(esc(n), c, st.fis[0][1], '', c)).join('')}</div></div>` : ''}`;
+}
+
+/* ===================== Exportar para el psicólogo ===================== */
+let EXP = {per: null, from:'', to:''};
+function expRange(){
+  const now = Date.now(), first = S.entries.reduce((a, e) => Math.min(a, e.at), now);
+  switch (EXP.per){
+    case 'consulta': return {from: fromDateVal(S.settings.consulta) ?? first, to: now};
+    case '14': return {from: fromDateVal(addDays(dayKey(), -13)), to: now};
+    case '30': return {from: fromDateVal(addDays(dayKey(), -29)), to: now};
+    case 'custom': return {from: fromDateVal(EXP.from) ?? first, to: fromDateVal(EXP.to, true) ?? now};
+    default: return {from: first, to: now};
+  }
+}
+function expList(){ const {from, to} = expRange(); return S.entries.filter(e => e.at >= from && e.at <= to).sort((a, b) => a.at - b.at); }
+function fileBase(){
+  const {from, to} = expRange(), f = ms => dmy(ms).replace(/\//g, '-');
+  return ('Registro ABC ' + (S.settings.nombre ? S.settings.nombre + ' ' : '') + f(from) + ' a ' + f(to)).replace(/[\\/:*?"<>|]/g, '');
+}
+function sheetExport(){
+  if (!EXP.per) EXP.per = S.settings.consulta ? 'consulta' : '14';
+  if (!EXP.from) EXP.from = dateVal(Date.now() - 13 * DAY_MS);
+  if (!EXP.to) EXP.to = dateVal(Date.now());
+  const opts = [];
+  if (S.settings.consulta) opts.push(['consulta', 'Desde la última consulta', dmy(fromDateVal(S.settings.consulta))]);
+  opts.push(['14', 'Últimas 2 semanas', ''], ['30', 'Último mes', ''], ['all', 'Todo', ''], ['custom', 'Elegir fechas', '']);
+  const n = expList().length;
+  sheet(`<h2>Exportar para tu psicólogo/a</h2><div class="sub">Elige el periodo y cómo quieres mandarlo.</div>
+    <div class="stack">${opts.map(([v, l, d]) => `<button class="opt ${EXP.per === v ? 'sel' : ''}" data-act="exp-per" data-v="${v}"><span>${l}</span><span class="d">${d}</span></button>`).join('')}</div>
+    ${EXP.per === 'custom' ? `<div class="row" style="margin-top:8px"><div style="flex:1"><label class="f">Desde</label><input type="date" id="exp-from" value="${EXP.from}"></div><div style="flex:1"><label class="f">Hasta</label><input type="date" id="exp-to" value="${EXP.to}"></div></div>` : ''}
+    <div class="muted num" style="margin:12px 2px" id="exp-n">${n} registro${n === 1 ? '' : 's'} en este periodo</div>
+    <div class="stack">
+      <button class="opt" data-act="exp-pdf"><span>📄 PDF</span><span class="d">Se abre el diálogo de imprimir: elige «Guardar como PDF»</span></button>
+      <button class="opt" data-act="exp-txt"><span>💬 Texto</span><span class="d">Para pegarlo en un mensaje</span></button>
+      <button class="opt" data-act="exp-csv"><span>📊 CSV</span><span class="d">Se abre en Excel</span></button>
+    </div>
+    <div class="note">El informe lleva datos de salud. Cuando lo envíes, quedará también donde lo mandes (el chat o el correo): mándalo solo a tu psicólogo/a.</div>`, el => {
+    const upd = () => { const n = expList().length; el.querySelector('#exp-n').textContent = `${n} registro${n === 1 ? '' : 's'} en este periodo`; };
+    const f = el.querySelector('#exp-from'), t = el.querySelector('#exp-to');
+    if (f){ f.addEventListener('change', () => { EXP.from = f.value; upd(); }); t.addEventListener('change', () => { EXP.to = t.value; upd(); }); }
+  });
+}
+function reportHtml(list){
+  const {from, to} = expRange(), s = S.settings, st = stats(list), now = Date.now();
+  return `<h1>Autorregistro ABC</h1>
+    <div class="meta">${s.nombre ? `<b>Paciente:</b> ${esc(s.nombre)} · ` : ''}${s.psico ? `<b>Psicólogo/a:</b> ${esc(s.psico)} · ` : ''}<b>Periodo:</b> ${dmy(from)} – ${dmy(to)} · <b>Registros:</b> ${st.n} en ${st.dias} día${st.dias === 1 ? '' : 's'}</div>
+    <h2>Resumen</h2>
+    <table class="rs"><tr><th>Emoción</th><th>Veces</th><th>Intensidad media</th><th>Máxima</th></tr>
+      ${st.emos.map(e => `<tr><td>${esc(e.n)}</td><td class="n">${e.c}</td><td class="n">${dec(e.sum / e.c)}</td><td class="n">${e.max}</td></tr>`).join('')}</table>
+    <p>Intensidad de cada registro (la emoción más intensa): baja (0–3) ${st.buckets.lo} · media (4–6) ${st.buckets.mid} · alta (7–10) ${st.buckets.hi}.
+      ${st.fis.length ? `<br>En el cuerpo, lo más frecuente: ${st.fis.slice(0, 5).map(([n, c]) => esc(n) + ' (' + c + ')').join(', ')}.` : ''}</p>
+    <h2>Registros</h2>
+    <table class="rg"><thead><tr><th style="width:11%">Fecha</th><th style="width:22%">A · Situación</th><th style="width:22%">B · Pensamientos</th><th style="width:14%">C · Emociones (0–10)</th><th style="width:13%">C · En el cuerpo</th><th style="width:18%">C · Qué hizo</th></tr></thead>
+      <tbody>${list.map(e => `<tr><td>${cap(DAYS_LONG[new Date(e.at).getDay()]).slice(0, 3)} ${dmy(e.at)}<br>${hhmm(e.at)}</td><td>${esc(e.a)}</td><td>${esc(e.b)}</td><td>${esc(emoTxt(e))}</td><td>${esc(fisTxt(e))}</td><td>${esc(e.cond)}</td></tr>`).join('')}</tbody></table>
+    <div class="foot">Generado con Registro ABC el ${dmy(now)} a las ${hhmm(now)}. Contiene datos de salud: confidencial.</div>`;
+}
+function exportPDF(){
+  const list = expList(); if (!list.length) return toast('No hay registros en ese periodo');
+  document.getElementById('print').innerHTML = reportHtml(list);
+  const t = document.title; document.title = fileBase();
+  const done = () => { document.title = t; document.getElementById('print').innerHTML = ''; window.removeEventListener('afterprint', done); };
+  window.addEventListener('afterprint', done);
+  setTimeout(() => window.print(), 50);
+}
+function reportText(list){
+  const {from, to} = expRange(), s = S.settings;
+  const lines = ['Autorregistro ABC' + (s.nombre ? ' · ' + s.nombre : ''), `Periodo: ${dmy(from)} – ${dmy(to)} · ${list.length} registros`, ''];
+  for (const e of list){
+    lines.push(`— ${cap(DAYS_LONG[new Date(e.at).getDay()])} ${dmy(e.at)}, ${hhmm(e.at)}`, `A · Situación: ${e.a}`, `B · Pensamientos: ${e.b}`, `C · Emociones: ${emoTxt(e)}`);
+    if (e.fis.length || e.fisTxt) lines.push(`C · En el cuerpo: ${fisTxt(e)}`);
+    if (e.cond) lines.push(`C · Qué hice: ${e.cond}`);
+    lines.push('');
+  }
+  return lines.join('\n').trim();
+}
+async function exportText(){
+  const list = expList(); if (!list.length) return toast('No hay registros en ese periodo');
+  const text = reportText(list);
+  if (navigator.share){ try{ await navigator.share({title: 'Registro ABC', text}); return; }catch(e){ if (e.name === 'AbortError') return; } }
+  try{ await navigator.clipboard.writeText(text); toast('Copiado: pégalo en el mensaje'); }catch(_){ toast('No se ha podido copiar'); }
+}
+function csvCell(v){
+  v = String(v ?? '');
+  if (/^[=+@\t\r]/.test(v)) v = "'" + v; // que Excel no lo tome como fórmula
+  return /[;"\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+}
+function exportCSV(){
+  const list = expList(); if (!list.length) return toast('No hay registros en ese periodo');
+  const rows = [['Fecha','Hora','A · Situación','B · Pensamientos','C · Emociones (0-10)','Intensidad máxima','C · En el cuerpo','C · Qué hizo']]
+    .concat(list.map(e => [dmy(e.at), hhmm(e.at), e.a, e.b, emoTxt(e), maxI(e), fisTxt(e), e.cond]));
+  shareOrDownload(new Blob(['﻿' + rows.map(r => r.map(csvCell).join(';')).join('\r\n')], {type:'text/csv'}), fileBase() + '.csv');
+}
+async function shareOrDownload(blob, name){
+  const f = new File([blob], name, {type: blob.type});
+  if (navigator.canShare && navigator.canShare({files:[f]})){
+    try{ await navigator.share({files:[f], title:name}); return; }catch(e){ if (e.name === 'AbortError') return; }
+  }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  toast('Archivo guardado en Descargas');
+}
+
+/* ===================== Ajustes ===================== */
+function renderAjustes(){
+  const s = S.settings;
+  app.innerHTML = `<header class="top"><div><h1>Ajustes</h1></div></header>
+  <div class="card">
+    <label class="f" style="margin-top:0">Tu nombre</label><input data-s="nombre" maxlength="60" autocomplete="name" value="${esc(s.nombre)}" placeholder="Sale en el informe (opcional)">
+    <label class="f">Tu psicólogo/a</label><input data-s="psico" maxlength="60" value="${esc(s.psico)}" placeholder="Opcional">
+    <label class="f">Última consulta</label><input type="date" data-s="consulta" value="${esc(s.consulta)}">
+    <div class="muted small" style="margin-top:6px">Sirve para exportar «desde la última consulta».</div>
+  </div>
+  <div class="card">
+    <label class="f" style="margin-top:0">Para tu psicólogo/a</label>
+    <button class="btn pri" style="width:100%" data-act="export">Exportar registros (PDF, texto o CSV)</button>
+  </div>
+  <div class="card">
+    <label class="f" style="margin-top:0">Tema</label>
+    <div class="seg">${[['auto','Auto'],['dark','Oscuro'],['light','Claro']].map(([v, l]) => `<button data-act="theme" data-v="${v}" class="${s.theme === v ? 'on' : ''}">${l}</button>`).join('')}</div>
+  </div>
+  <div class="card">
+    <label class="f" style="margin-top:0">🔒 Privacidad</label>
+    <div class="muted small">Tus registros se guardan <b>solo en este móvil</b>. La app no tiene servidor ni cuentas y no envía nada a ningún sitio: solo sale lo que tú exportas y mandas. Si desinstalas la app o borras los datos de Chrome, se pierden; para no perderlos, guarda una copia de seguridad de vez en cuando.</div>
+  </div>
+  <div class="card">
+    <label class="f" style="margin-top:0">Copia de seguridad</label>
+    <div class="actions" style="margin-top:0"><button class="btn" data-act="bk-export">Exportar</button><label class="btn" style="cursor:pointer">Importar<input type="file" accept="application/json,.json" id="imp" hidden></label></div>
+    <div class="muted small" style="margin-top:8px">La copia lleva todos tus registros: guárdala en un sitio privado. Al importar se añaden los registros que falten; no se borra nada.</div>
+  </div>
+  <div class="card">
+    <button class="btn danger" style="width:100%" data-act="wipe">Borrar todos los datos</button>
+  </div>
+  <div class="muted num" style="text-align:center;font-size:12px">Registro ABC · versión ${VERSION} · ${S.entries.length} registro${S.entries.length === 1 ? '' : 's'}</div>`;
+  app.querySelectorAll('[data-s]').forEach(inp => inp.addEventListener('change', () => {
+    S.settings[inp.dataset.s] = inp.value.trim(); save(); toast('Guardado');
+  }));
+  app.querySelector('#imp').addEventListener('change', async e => {
+    const f = e.target.files[0]; if (!f) return; e.target.value = '';
+    try{
+      const data = JSON.parse(await f.text());
+      if (!data || !Array.isArray(data.entries)) throw 0;
+      const valid = data.entries.filter(x => x && typeof x.id === 'string' && typeof x.at === 'number' && typeof x.a === 'string' && typeof x.b === 'string' && Array.isArray(x.emo))
+        .map(x => ({id:x.id, at:x.at, a:x.a, b:x.b, emo:x.emo.filter(y => y && typeof y.n === 'string').map(y => ({n:y.n.slice(0, 30), i:Math.max(0, Math.min(10, Math.round(+y.i || 0)))})),
+          fis:Array.isArray(x.fis) ? x.fis.filter(y => typeof y === 'string') : [], fisTxt:String(x.fisTxt || ''), cond:String(x.cond || ''), cre:+x.cre || x.at, upd:+x.upd || x.at}));
+      let added = 0, updated = 0;
+      for (const x of valid){
+        const i = S.entries.findIndex(y => y.id === x.id);
+        if (i < 0){ S.entries.push(x); added++; }
+        else if (x.upd > (S.entries[i].upd || 0)){ S.entries[i] = x; updated++; }
+      }
+      if (data.settings) for (const k of ['nombre','psico','consulta']) if (!S.settings[k] && typeof data.settings[k] === 'string') S.settings[k] = data.settings[k];
+      save(); render();
+      toast(`Importado: ${added} registro${added === 1 ? '' : 's'} nuevo${added === 1 ? '' : 's'}` + (updated ? `, ${updated} actualizado${updated === 1 ? '' : 's'}` : ''));
+    }catch(_){ toast('Ese archivo no es una copia válida'); }
+  });
+}
+function backupExport(){
+  const data = {app:'registro-abc', version:VERSION, exportado:new Date().toISOString(), settings:S.settings, entries:S.entries};
+  shareOrDownload(new Blob([JSON.stringify(data, null, 1)], {type:'application/json'}), 'Copia Registro ABC ' + dmy(Date.now()).replace(/\//g, '-') + '.json');
+}
+function sheetWipe(){
+  sheet(`<h2>¿Borrar todos los datos?</h2><div class="sub">Se borrarán ${S.entries.length} registro${S.entries.length === 1 ? '' : 's'} y los ajustes de este móvil. No se puede deshacer; si quieres conservarlos, exporta antes una copia.</div>
+    <div class="actions"><button class="btn" data-act="sheet-close">Cancelar</button><button class="btn danger" data-act="wipe-yes">Borrar todo</button></div>`);
+}
+
+/* ===================== Acciones ===================== */
+const ACT = {
+  'new': () => openEditor(null),
+  'discard': () => { const d = S.draft; S.draft = null; save(); render(); toast('Borrador descartado', () => { S.draft = d; save(); render(); }); },
+  'ed-close': closeEditor,
+  'ed-step': b => edGo(+b.dataset.s),
+  'ed-prev': () => edGo(ED.step - 1),
+  'ed-next': () => edGo(ED.step + 1),
+  'ed-save': saveEntry,
+  'emo': b => {
+    const n = b.dataset.n, i = ED.data.emo.findIndex(x => x.n === n);
+    if (i >= 0) ED.data.emo.splice(i, 1); else ED.data.emo.push({n, i:5});
+    edChanged(); keepScroll(render);
+  },
+  'emo-add': () => {
+    const inp = document.getElementById('ed-otra'), n = inp.value.trim().replace(/\s+/g, ' ');
+    if (!n) return inp.focus();
+    const name = cap(n);
+    if (!ED.data.emo.some(x => norm(x.n) === norm(name))) ED.data.emo.push({n: EMOS.find(x => norm(x) === norm(name)) || name, i:5});
+    edChanged(); keepScroll(render);
+  },
+  'fis': b => {
+    const n = b.dataset.n, i = ED.data.fis.indexOf(n);
+    if (i >= 0) ED.data.fis.splice(i, 1); else ED.data.fis.push(n);
+    edChanged(); keepScroll(render);
+  },
+  'open': b => sheetEntry(b.dataset.id),
+  'edit': b => openEditor(b.dataset.id),
+  'del': b => delEntry(b.dataset.id),
+  'fil-per': b => { FIL.per = b.dataset.v; renderHistorial(); },
+  'fil-emo': b => { FIL.emo = b.dataset.n || null; renderHistorial(); },
+  'fil-min': b => { FIL.min = +b.dataset.v; renderHistorial(); },
+  'fil-clear': () => { FIL = {emo:null, min:0, per:'all', q:''}; renderHistorial(); },
+  'res-per': b => { RES_PER = b.dataset.v; renderResumen(); },
+  'theme': b => { S.settings.theme = b.dataset.v; save(); applyTheme(); renderAjustes(); },
+  'export': sheetExport,
+  'exp-per': b => { EXP.per = b.dataset.v; sheetExport(); },
+  'exp-pdf': exportPDF,
+  'exp-txt': exportText,
+  'exp-csv': exportCSV,
+  'bk-export': backupExport,
+  'wipe': sheetWipe,
+  'wipe-yes': () => { S = structuredClone(DEFAULTS); save(); applyTheme(); closeSheet(); ED = null; TAB = 'registrar'; render(); toast('Datos borrados'); },
+  'sheet-close': closeSheet,
+};
+function keepScroll(fn){ const y = window.scrollY; fn(); window.scrollTo(0, y); }
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const f = ACT[b.dataset.act]; if (f){ e.preventDefault(); f(b, e); }
+});
+// Lo que se escribe en el editor se guarda al momento como borrador (sin repintar, para no perder el foco)
+app.addEventListener('input', e => {
+  if (!ED) return;
+  const t = e.target;
+  if (t.dataset.f){ ED.data[t.dataset.f] = t.value; edChanged(); }
+  else if (t.dataset.emo != null){
+    const i = +t.dataset.emo, v = +t.value; ED.data.emo[i].i = v; edChanged();
+    const lab = document.getElementById('ev' + i); lab.textContent = v; lab.className = 'v num ' + ilvl(v);
+  }
+});
+app.addEventListener('change', e => {
+  if (ED && e.target.id === 'ed-at'){ const t = fromLocalInput(e.target.value); if (t){ ED.data.at = t; edChanged(); } }
+});
+app.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'ed-otra'){ e.preventDefault(); ACT['emo-add'](); } });
+
+// El día cambia a las 05:00: al volver a la app se repinta «Hoy»
+document.addEventListener('visibilitychange', () => { if (!document.hidden && !ED && !document.querySelector('.sheet') && TAB === 'registrar') render(); });
+function tabFromHash(){ const h = location.hash.slice(1); if (TABS.includes(h)) TAB = h; }
+window.addEventListener('hashchange', () => { tabFromHash(); render(); });
+tabFromHash();
+applyTheme();
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+render();
+</script>
+</body>
+</html>
