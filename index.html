@@ -57,7 +57,7 @@ header.top .sub{color:var(--muted);font-size:14px}
 .btn.ghost{background:transparent}
 .btn.danger{color:var(--danger);border-color:var(--danger);background:transparent}
 .btn.sm{flex:0 0 auto;padding:9px 12px;font-size:14px}
-.btn.big{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:18px;font-size:18px;border-radius:18px}
+.btn.big{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:18px;font-size:18px;border-radius:18px}
 .actions{display:flex;gap:8px;margin-top:12px}
 .row{display:flex;gap:8px;align-items:center}
 .row>*{min-width:0}
@@ -134,6 +134,9 @@ nav.tabs button[aria-current="page"]{color:var(--text);background:var(--card)}
 .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:99px;font-weight:700;font-size:14px;z-index:20;box-shadow:var(--shadow);animation:up .2s;width:max-content;max-width:calc(100vw - 32px);text-align:center}
 .toast button{color:var(--toast-link);font-weight:800;margin-left:10px}
 details summary{cursor:pointer;font-weight:700}
+main:has(>.crisis){display:flex;flex-direction:column;min-height:calc(100dvh - 84px - env(safe-area-inset-bottom))}
+.crisis{color:var(--muted);font-size:11.5px;text-align:center;margin:auto 8px 0;padding-top:28px;opacity:.85}
+.crisis a{color:inherit;font-weight:700}
 @keyframes up{from{transform:translateY(24px);opacity:0}}
 .toast{animation-name:tup} @keyframes tup{from{transform:translate(-50%,24px);opacity:0}}
 @keyframes fade{from{opacity:0}}
@@ -170,20 +173,22 @@ details summary{cursor:pointer;font-weight:700}
 <div id="print"></div>
 <script>
 'use strict';
-const VERSION = 1;
+const VERSION = 2;
 const STORE = 'abc.v1';
 
 /* ===================== Datos ===================== */
 const EMOS = ['Ansiedad','Tristeza','Ira','Miedo','Culpa','Vergüenza','Frustración','Soledad','Celos','Asco','Alegría','Calma'];
 const FIS = ['Tensión muscular','Palpitaciones','Nudo en el estómago','Falta de aire','Llanto','Temblor','Calor o sudor','Mareo','Cansancio','Dolor de cabeza','Inquietud'];
 const DEFAULTS = {settings:{nombre:'', psico:'', consulta:'', theme:'auto'}, entries:[], draft:null};
-// Una entrada: {id, at (ms), a, b, emo:[{n, i 0–10}], fis:[…], fisTxt, cond, cre, upd}
+// Una entrada: {id, at (ms), a, b, emo:[{n, i 0–10}], fis:[…], fisTxt, cond, cp, lp, cre, upd}
+// cp y lp: qué pasó después de la conducta, a corto y a largo plazo (desde la v2)
 let S;
 function load(){
   try{ S = JSON.parse(localStorage.getItem(STORE)) || {}; }catch(e){ S = {}; }
   S = Object.assign(structuredClone(DEFAULTS), S);
   S.settings = Object.assign(structuredClone(DEFAULTS.settings), S.settings);
   if (!Array.isArray(S.entries)) S.entries = [];
+  for (const e of S.entries.concat(S.draft ? [S.draft.data] : [])){ e.cp = e.cp || ''; e.lp = e.lp || ''; }
 }
 function save(){
   try{ localStorage.setItem(STORE, JSON.stringify(S)); return true; }
@@ -278,23 +283,26 @@ function renderRegistrar(){
     : `<button class="btn pri big" data-act="new"><span style="font-size:24px">＋</span> Nuevo registro</button>`}
   <details class="card" style="margin-top:12px" ${S.entries.length ? '' : 'open'}><summary>¿Cómo se rellena?</summary>
     <ul class="abc" style="margin-top:12px">
-      <li><span class="L">A</span><span><b>Situación:</b> lo que pasó, como lo grabaría una cámara: dónde, con quién, qué se dijo.</span></li>
-      <li><span class="L">B</span><span><b>Pensamientos:</b> lo que te pasó por la cabeza en ese momento, tal cual.</span></li>
-      <li><span class="L">C</span><span><b>Consecuencias:</b> qué sentiste y con qué intensidad (0–10), qué notaste en el cuerpo y qué hiciste.</span></li>
+      <li><span class="L">A</span><span><b>Antecedente:</b> lo que lo desencadenó. Algo de fuera (dónde, con quién, qué pasó) o de dentro (un recuerdo, una sensación, una idea). Solo los hechos.</span></li>
+      <li><span class="L">B</span><span><b>Pensamientos:</b> lo que te pasó por la cabeza en ese momento, tal cual, en frases.</span></li>
+      <li><span class="L">C</span><span><b>Consecuencias:</b> qué sentiste y con qué intensidad (0–10), qué notaste en el cuerpo, qué hiciste y qué pasó después.</span></li>
     </ul>
     <div class="muted small" style="margin-top:10px">Mejor apuntarlo cuanto antes, cuando aún recuerdas lo que pensaste. No hace falta escribir mucho.</div>
   </details>
   <h3 class="sec"><span>Hoy</span><span class="num">${hoy.length || ''}</span></h3>
-  ${hoy.length ? hoy.map(entryCard).join('') : `<div class="empty">Aún no hay registros hoy.</div>`}`;
+  ${hoy.length ? hoy.map(entryCard).join('') : `<div class="empty">Aún no hay registros hoy.</div>`}
+  ${CRISIS}`;
 }
+// Discreto, al pie de Registrar y Ajustes
+const CRISIS = `<div class="crisis">¿Estás en crisis o piensas en hacerte daño? Llama al <a href="tel:024">024</a> (gratis, 24 h) o al <a href="tel:112">112</a>.</div>`;
 function entryCard(e){
   return `<button class="ecard" data-act="open" data-id="${esc(e.id)}"><div class="eh"><span class="et num">${hhmm(e.at)}</span><span class="emos">${byI(e).map(emoChip).join('')}</span></div>
     <div class="ea">${esc(e.a)}</div><div class="eb">«${esc(e.b)}»</div></button>`;
 }
 
 /* ===================== Editor (A → B → C) ===================== */
-const blank = () => ({at: Date.now(), a:'', b:'', emo:[], fis:[], fisTxt:'', cond:''});
-const isBlank = d => !d.a.trim() && !d.b.trim() && !d.emo.length && !d.fis.length && !d.fisTxt.trim() && !d.cond.trim();
+const blank = () => ({at: Date.now(), a:'', b:'', emo:[], fis:[], fisTxt:'', cond:'', cp:'', lp:''});
+const isBlank = d => !d.a.trim() && !d.b.trim() && !d.emo.length && !d.fis.length && !d.fisTxt.trim() && !d.cond.trim() && !d.cp.trim() && !d.lp.trim();
 function openEditor(id){
   closeSheet();
   if (id){ const e = S.entries.find(x => x.id === id); if (!e) return; ED = {id, step:0, data:structuredClone(e)}; }
@@ -310,20 +318,21 @@ function closeEditor(){
   }
   ED = null; window.scrollTo(0, 0); render();
 }
-const STEPS = [['A','Situación'],['B','Pensamientos'],['C','Consecuencias']];
+const STEPS = [['A','Antecedente'],['B','Pensamientos'],['C','Consecuencias']];
 function stepOk(i, d){ return i === 0 ? !!d.a.trim() : i === 1 ? !!d.b.trim() : d.emo.length > 0; }
 function renderEditor(){
   const d = ED.data, st = ED.step;
   let body;
   if (st === 0) body = `
-    <h2 class="q"><span class="L">A</span>¿Qué pasó?</h2>
-    <p class="hint">Describe la situación: dónde estabas, con quién y qué ocurrió. Solo los hechos.</p>
-    <textarea data-f="a" rows="6" placeholder="Ej.: En la reunión, mi jefa ha dicho delante de todos que el informe tenía errores.">${esc(d.a)}</textarea>
+    <h2 class="q"><span class="L">A</span>¿Qué lo desencadenó?</h2>
+    <p class="hint">Puede ser algo de fuera (dónde estabas, con quién, qué pasó) o de dentro de ti: un recuerdo, una sensación del cuerpo, una idea que te vino. Solo los hechos.</p>
+    <textarea data-f="a" rows="6" placeholder="Ej.: En la reunión, mi jefa ha dicho delante de todos que el informe tenía errores. / Estaba en la cama y me vino el recuerdo de la discusión de ayer.">${esc(d.a)}</textarea>
     <label class="f">Cuándo pasó</label><input type="datetime-local" id="ed-at" value="${toLocalInput(d.at)}">`;
   else if (st === 1) body = `
     <h2 class="q"><span class="L">B</span>¿Qué pensaste?</h2>
     <p class="hint">Lo que te pasó por la cabeza en ese momento, tal cual, en primera persona.</p>
-    <textarea data-f="b" rows="6" placeholder="Ej.: «Soy un desastre». «Ahora todos piensan que no valgo para esto».">${esc(d.b)}</textarea>`;
+    <textarea data-f="b" rows="6" placeholder="Ej.: «Soy un desastre». «Ahora todos piensan que no valgo para esto».">${esc(d.b)}</textarea>
+    <div class="note" style="border-left-color:var(--acc)"><b>Pensamiento no es emoción.</b> Un pensamiento es una frase («soy un inútil», «me va a salir mal»); la emoción suele caber en una palabra (tristeza, miedo, rabia) y va en C. «Me sentí inútil» es en realidad un pensamiento: «soy un inútil».</div>`;
   else {
     const names = EMOS.concat(d.emo.map(x => x.n).filter(n => !EMOS.includes(n)));
     body = `
@@ -340,7 +349,13 @@ function renderEditor(){
     <textarea data-f="fisTxt" rows="2" style="margin-top:8px;min-height:60px" placeholder="Otra cosa o más detalle">${esc(d.fisTxt)}</textarea>
     <h2 class="q">¿Qué hiciste?</h2>
     <p class="hint">Lo que hiciste o tuviste ganas de hacer.</p>
-    <textarea data-f="cond" rows="3" style="min-height:80px" placeholder="Ej.: Me callé y me fui antes de que acabara la reunión.">${esc(d.cond)}</textarea>`;
+    <textarea data-f="cond" rows="3" style="min-height:80px" placeholder="Ej.: Me callé y me fui antes de que acabara la reunión.">${esc(d.cond)}</textarea>
+    <h2 class="q">¿Qué pasó después?</h2>
+    <p class="hint">Qué efecto tuvo lo que hiciste (opcional).</p>
+    <label class="f" style="margin-top:0">Justo después</label>
+    <textarea data-f="cp" rows="2" style="min-height:60px" placeholder="Ej.: Me alivié al salir de la sala.">${esc(d.cp)}</textarea>
+    <label class="f">Más adelante</label>
+    <textarea data-f="lp" rows="2" style="min-height:60px" placeholder="Ej.: No pude explicar los errores y al día siguiente me daba más miedo hablar con ella.">${esc(d.lp)}</textarea>`;
   }
   app.innerHTML = `<header class="top"><button class="navb" data-act="ed-close" aria-label="Cerrar">✕</button>
       <h1 style="flex:1">${ED.id ? 'Editar registro' : 'Nuevo registro'}</h1></header>
@@ -359,7 +374,7 @@ function saveEntry(){
     return edGo(i);
   }
   const now = Date.now();
-  const e = {id: ED.id || uid(), at: d.at, a: d.a.trim(), b: d.b.trim(), emo: d.emo, fis: d.fis, fisTxt: d.fisTxt.trim(), cond: d.cond.trim(), cre: d.cre || now, upd: now};
+  const e = {id: ED.id || uid(), at: d.at, a: d.a.trim(), b: d.b.trim(), emo: d.emo, fis: d.fis, fisTxt: d.fisTxt.trim(), cond: d.cond.trim(), cp: d.cp.trim(), lp: d.lp.trim(), cre: d.cre || now, upd: now};
   if (ED.id){ const i = S.entries.findIndex(x => x.id === ED.id); if (i >= 0) S.entries[i] = e; else S.entries.push(e); }
   else { S.entries.push(e); S.draft = null; }
   if (!save()) return;
@@ -372,12 +387,14 @@ function saveEntry(){
 function sheetEntry(id){
   const e = S.entries.find(x => x.id === id); if (!e) return;
   sheet(`<h2>${dayTitle(dayKey(e.at))} · ${hhmm(e.at)}</h2><div class="sub">${longDate(e.at)}</div>
-    <div class="dsec"><div class="dl"><span class="L">A</span>Situación</div><p>${nl(e.a)}</p></div>
+    <div class="dsec"><div class="dl"><span class="L">A</span>Antecedente</div><p>${nl(e.a)}</p></div>
     <div class="dsec"><div class="dl"><span class="L">B</span>Pensamientos</div><p>${nl(e.b)}</p></div>
     <div class="dsec"><div class="dl"><span class="L">C</span>Consecuencias</div>
       <div class="ttl">Emociones</div><div class="chips">${byI(e).map(emoChip).join('')}</div>
       ${e.fis.length || e.fisTxt ? `<div class="ttl">En el cuerpo</div><p>${esc(fisTxt(e))}</p>` : ''}
-      ${e.cond ? `<div class="ttl">Qué hice</div><p>${nl(e.cond)}</p>` : ''}</div>
+      ${e.cond ? `<div class="ttl">Qué hice</div><p>${nl(e.cond)}</p>` : ''}
+      ${e.cp ? `<div class="ttl">Justo después</div><p>${nl(e.cp)}</p>` : ''}
+      ${e.lp ? `<div class="ttl">Más adelante</div><p>${nl(e.lp)}</p>` : ''}</div>
     <div class="actions" style="margin-top:18px"><button class="btn" data-act="edit" data-id="${esc(e.id)}">Editar</button><button class="btn danger" data-act="del" data-id="${esc(e.id)}">Borrar</button></div>`);
 }
 function delEntry(id){
@@ -393,7 +410,7 @@ function filtered(){
   return inPeriod(sorted(), FIL.per).filter(e => {
     if (FIL.emo){ const x = e.emo.find(x => x.n === FIL.emo); if (!x || x.i < FIL.min) return false; }
     else if (maxI(e) < FIL.min) return false;
-    if (q && !norm([e.a, e.b, e.cond, e.fisTxt, ...e.fis, ...e.emo.map(x => x.n)].join(' ')).includes(q)) return false;
+    if (q && !norm([e.a, e.b, e.cond, e.cp, e.lp, e.fisTxt, ...e.fis, ...e.emo.map(x => x.n)].join(' ')).includes(q)) return false;
     return true;
   });
 }
@@ -547,8 +564,8 @@ function reportHtml(list){
     <p>Intensidad de cada registro (la emoción más intensa): baja (0–3) ${st.buckets.lo} · media (4–6) ${st.buckets.mid} · alta (7–10) ${st.buckets.hi}.
       ${st.fis.length ? `<br>En el cuerpo, lo más frecuente: ${st.fis.slice(0, 5).map(([n, c]) => esc(n) + ' (' + c + ')').join(', ')}.` : ''}</p>
     <h2>Registros</h2>
-    <table class="rg"><thead><tr><th style="width:11%">Fecha</th><th style="width:22%">A · Situación</th><th style="width:22%">B · Pensamientos</th><th style="width:14%">C · Emociones (0–10)</th><th style="width:13%">C · En el cuerpo</th><th style="width:18%">C · Qué hizo</th></tr></thead>
-      <tbody>${list.map(e => `<tr><td>${cap(DAYS_LONG[new Date(e.at).getDay()]).slice(0, 3)} ${dmy(e.at)}<br>${hhmm(e.at)}</td><td>${esc(e.a)}</td><td>${esc(e.b)}</td><td>${esc(emoTxt(e))}</td><td>${esc(fisTxt(e))}</td><td>${esc(e.cond)}</td></tr>`).join('')}</tbody></table>
+    <table class="rg"><thead><tr><th style="width:9%">Fecha</th><th style="width:18%">A · Antecedente</th><th style="width:18%">B · Pensamientos</th><th style="width:12%">C · Emociones (0–10)</th><th style="width:11%">C · En el cuerpo</th><th style="width:15%">C · Qué hizo</th><th style="width:17%">C · Después (corto / largo plazo)</th></tr></thead>
+      <tbody>${list.map(e => `<tr><td>${cap(DAYS_LONG[new Date(e.at).getDay()]).slice(0, 3)} ${dmy(e.at)}<br>${hhmm(e.at)}</td><td>${esc(e.a)}</td><td>${esc(e.b)}</td><td>${esc(emoTxt(e))}</td><td>${esc(fisTxt(e))}</td><td>${esc(e.cond)}</td><td>${e.cp ? '<b>Corto:</b> ' + esc(e.cp) : ''}${e.cp && e.lp ? '<br>' : ''}${e.lp ? '<b>Largo:</b> ' + esc(e.lp) : ''}</td></tr>`).join('')}</tbody></table>
     <div class="foot">Generado con Registro ABC el ${dmy(now)} a las ${hhmm(now)}. Contiene datos de salud: confidencial.</div>`;
 }
 function exportPDF(){
@@ -563,9 +580,11 @@ function reportText(list){
   const {from, to} = expRange(), s = S.settings;
   const lines = ['Autorregistro ABC' + (s.nombre ? ' · ' + s.nombre : ''), `Periodo: ${dmy(from)} – ${dmy(to)} · ${list.length} registros`, ''];
   for (const e of list){
-    lines.push(`— ${cap(DAYS_LONG[new Date(e.at).getDay()])} ${dmy(e.at)}, ${hhmm(e.at)}`, `A · Situación: ${e.a}`, `B · Pensamientos: ${e.b}`, `C · Emociones: ${emoTxt(e)}`);
+    lines.push(`— ${cap(DAYS_LONG[new Date(e.at).getDay()])} ${dmy(e.at)}, ${hhmm(e.at)}`, `A · Antecedente: ${e.a}`, `B · Pensamientos: ${e.b}`, `C · Emociones: ${emoTxt(e)}`);
     if (e.fis.length || e.fisTxt) lines.push(`C · En el cuerpo: ${fisTxt(e)}`);
     if (e.cond) lines.push(`C · Qué hice: ${e.cond}`);
+    if (e.cp) lines.push(`C · Justo después: ${e.cp}`);
+    if (e.lp) lines.push(`C · Más adelante: ${e.lp}`);
     lines.push('');
   }
   return lines.join('\n').trim();
@@ -583,8 +602,8 @@ function csvCell(v){
 }
 function exportCSV(){
   const list = expList(); if (!list.length) return toast('No hay registros en ese periodo');
-  const rows = [['Fecha','Hora','A · Situación','B · Pensamientos','C · Emociones (0-10)','Intensidad máxima','C · En el cuerpo','C · Qué hizo']]
-    .concat(list.map(e => [dmy(e.at), hhmm(e.at), e.a, e.b, emoTxt(e), maxI(e), fisTxt(e), e.cond]));
+  const rows = [['Fecha','Hora','A · Antecedente','B · Pensamientos','C · Emociones (0-10)','Intensidad máxima','C · En el cuerpo','C · Qué hizo','C · Justo después','C · Más adelante']]
+    .concat(list.map(e => [dmy(e.at), hhmm(e.at), e.a, e.b, emoTxt(e), maxI(e), fisTxt(e), e.cond, e.cp, e.lp]));
   shareOrDownload(new Blob(['﻿' + rows.map(r => r.map(csvCell).join(';')).join('\r\n')], {type:'text/csv'}), fileBase() + '.csv');
 }
 async function shareOrDownload(blob, name){
@@ -627,7 +646,8 @@ function renderAjustes(){
   <div class="card">
     <button class="btn danger" style="width:100%" data-act="wipe">Borrar todos los datos</button>
   </div>
-  <div class="muted num" style="text-align:center;font-size:12px">Registro ABC · versión ${VERSION} · ${S.entries.length} registro${S.entries.length === 1 ? '' : 's'}</div>`;
+  <div class="muted num" style="text-align:center;font-size:12px">Registro ABC · versión ${VERSION} · ${S.entries.length} registro${S.entries.length === 1 ? '' : 's'}</div>
+  ${CRISIS}`;
   app.querySelectorAll('[data-s]').forEach(inp => inp.addEventListener('change', () => {
     S.settings[inp.dataset.s] = inp.value.trim(); save(); toast('Guardado');
   }));
@@ -638,7 +658,7 @@ function renderAjustes(){
       if (!data || !Array.isArray(data.entries)) throw 0;
       const valid = data.entries.filter(x => x && typeof x.id === 'string' && typeof x.at === 'number' && typeof x.a === 'string' && typeof x.b === 'string' && Array.isArray(x.emo))
         .map(x => ({id:x.id, at:x.at, a:x.a, b:x.b, emo:x.emo.filter(y => y && typeof y.n === 'string').map(y => ({n:y.n.slice(0, 30), i:Math.max(0, Math.min(10, Math.round(+y.i || 0)))})),
-          fis:Array.isArray(x.fis) ? x.fis.filter(y => typeof y === 'string') : [], fisTxt:String(x.fisTxt || ''), cond:String(x.cond || ''), cre:+x.cre || x.at, upd:+x.upd || x.at}));
+          fis:Array.isArray(x.fis) ? x.fis.filter(y => typeof y === 'string') : [], fisTxt:String(x.fisTxt || ''), cond:String(x.cond || ''), cp:String(x.cp || ''), lp:String(x.lp || ''), cre:+x.cre || x.at, upd:+x.upd || x.at}));
       let added = 0, updated = 0;
       for (const x of valid){
         const i = S.entries.findIndex(y => y.id === x.id);
