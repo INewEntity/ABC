@@ -172,18 +172,16 @@ body.nonav main:has(>.crisis){min-height:calc(100dvh - 24px - env(safe-area-inse
 .scale button.on{background:var(--acc);color:var(--on-acc);border-color:transparent}
 .info p{margin:10px 0 0}
 .br{position:fixed;inset:0;z-index:30;background:var(--bg);display:flex;flex-direction:column;padding:calc(14px + env(safe-area-inset-top)) 16px calc(18px + env(safe-area-inset-bottom))}
-.br.dim{background:#06080b;color:#b9c1cd;--muted:#6f7886;--line:#1b2028;--card2:#12161c}
+.br.dim{background:#06080b;--text:#7f8896;--muted:#555d69;--line:#1b2028;--card2:#12161c;color:var(--text)}
+.br.dim svg circle{stroke-opacity:.55}
 .br-top{display:flex;justify-content:space-between;align-items:center;max-width:560px;width:100%;margin:0 auto}
 .br-top .t{font-weight:700;color:var(--muted);font-size:15px}
-.br-stage{flex:1;position:relative;display:grid;place-items:center;min-height:0}
-.br-ring,.br-ball{position:absolute;width:min(80vw,46vh,360px);aspect-ratio:1;border-radius:50%}
-.br-ring{border:2px dashed var(--line)}
-.br-ball{background:radial-gradient(circle at 50% 38%,color-mix(in srgb,var(--bc,var(--acc)) 60%,transparent),color-mix(in srgb,var(--bc,var(--acc)) 16%,transparent) 72%);transform:scale(.5);will-change:transform}
-.br.dim .br-ball{opacity:.55}
-.br-txt{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:0 20px}
+.br-stage{flex:1;display:grid;place-items:center;min-height:0}
+.br-stage svg{width:min(84vw,50vh,420px);height:auto;overflow:visible}
+.br-stage svg text{font:800 46px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;fill:var(--text);font-variant-numeric:tabular-nums}
+.br-txt{height:84px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:0 20px}
 .br-txt b{font-size:32px;letter-spacing:-.02em}
-.br-txt span{color:var(--muted);font-size:15px;max-width:230px}
-.br-txt .n{font-size:24px;font-weight:800;color:inherit;margin-top:8px;min-height:1.2em}
+.br-txt span{color:var(--muted);font-size:15px}
 .br-bot{max-width:560px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:12px;text-align:center}
 .br-end{max-width:528px;margin:auto;width:100%}
 .crisis{color:var(--muted);font-size:11.5px;text-align:center;margin:auto 8px 0;padding-top:28px;opacity:.85}
@@ -821,13 +819,13 @@ function sheetWipe(){
 // f: fases [tipo, segundos] para cada ritmo (0 más rápido · 1 normal · 2 más lento)
 const PH = {in:['Inhala', 'por la nariz, despacio'], in2:['Un poco más', 'otra pizca de aire por la nariz'], hold:['Mantén', 'sin apretar'], out:['Suelta', 'el aire despacio']};
 const TECS = [
-  {id:'lenta', n:'Respiración lenta', para:'Para bajar la tensión y practicar cada día', col:'lo', min:5,
+  {id:'lenta', n:'Respiración lenta', para:'Para bajar la tensión y practicar cada día', col:'lo', track:'circle', min:5,
     f:[[['in',3],['out',5]], [['in',4],['out',6]], [['in',4.5],['out',6.5]]],
     hint:{in:'por la nariz, llevando el aire al abdomen'},
     ev:'Mucha evidencia', refs:'Laborde y cols., 2022 (revisión de 223 estudios) · Goessl y cols., 2017 (metaanálisis) · Fincham y cols., 2023 (metaanálisis)',
     info:`<p>Respirar despacio, a unas 6 respiraciones por minuto, activa el freno natural del cuerpo ante el estrés: baja el pulso y aumenta la variabilidad de la frecuencia cardiaca, una señal de que el cuerpo se está regulando.</p>
       <p>Es la técnica de respiración más estudiada. Practicada a diario durante varias semanas, ayuda a reducir el estrés y la ansiedad. Funciona mejor como hábito que solo en el peor momento.</p>`},
-  {id:'suspiro', n:'Suspiro cíclico', para:'Para calmarte rápido cuando notas mucha tensión', col:'acc', min:5,
+  {id:'suspiro', n:'Suspiro cíclico', para:'Para calmarte rápido cuando notas mucha tensión', col:'acc', track:'circle', min:5,
     f:[[['in',2],['in2',1],['out',5]], [['in',2.5],['in2',1],['out',6]], [['in',3],['in2',1.2],['out',7]]],
     hint:{out:'largo y lento, por la boca'},
     ev:'Evidencia prometedora', refs:'Balban y cols., 2023, Universidad de Stanford (ensayo con 111 personas)',
@@ -839,7 +837,7 @@ const TECS = [
     ev:'Evidencia moderada', refs:'Van Diest y cols., 2014 · Tsai y cols., 2015',
     info:`<p>Soltar el aire más despacio de lo que se toma ayuda a relajarse: en un estudio, al mismo ritmo, la exhalación larga dio más sensación de calma que la corta.</p>
       <p>Antes de dormir, la respiración lenta mejora el sueño que la persona percibe en varios estudios pequeños, aunque los efectos son modestos. Con el sonido puedes cerrar los ojos: sube al inhalar y baja al soltar.</p>`},
-  {id:'cuadrada', n:'Respiración cuadrada', para:'Para centrarte antes de un momento de presión', col:'hi', min:3,
+  {id:'cuadrada', n:'Respiración cuadrada', para:'Para centrarte antes de un momento de presión', col:'hi', track:'square', min:3,
     f:[[['in',3],['hold',3],['out',3],['hold',3]], [['in',4],['hold',4],['out',4],['hold',4]], [['in',5],['hold',5],['out',5],['hold',5]]],
     ev:'Evidencia limitada', refs:'Balban y cols., 2023',
     info:`<p>Cuatro tiempos iguales: inhalar, mantener, soltar y mantener. La usan militares y equipos de emergencias porque es fácil de recordar bajo presión y ayuda a centrar la atención.</p>
@@ -910,50 +908,100 @@ function sheetBrInfo(id){
 
 let BR = null; // sesión en marcha
 const PREP = 3; // segundos de «Prepárate»
-function brStart(id){
-  const t = TEC(id), f = t.f[ritmoOf(t)], cyc = f.reduce((a, p) => a + p[1], 0), n = Math.max(1, Math.round(durOf(t) * 60 / cyc));
-  closeSheet();
-  // escala de la bola al principio y al final de cada fase
-  const sc = []; let cur = .5;
+// Animación diseñada en motion-lab (respira/respira.html): un círculo plano que se llena y se vacía y, alrededor,
+// el mapa del ciclo con un tramo por fase (cuadrado en la respiración cuadrada); se enciende el de la fase actual.
+function spring(t, zeta = .7, f = 2){ // muelle de motion.js, de 0 a 1
+  if (t <= 0) return 0;
+  const w = 2 * Math.PI * f;
+  if (zeta >= 1) return 1 - Math.exp(-w * t) * (1 + w * t);
+  const wd = w * Math.sqrt(1 - zeta * zeta);
+  return 1 - Math.exp(-zeta * w * t) * (Math.cos(wd * t) + (zeta * w / wd) * Math.sin(wd * t));
+}
+const sine = x => .5 - Math.cos(Math.PI * Math.min(1, Math.max(0, x))) / 2;
+function brModel(f){ // dónde estamos del ciclo y cuánto aire hay (0 vacío · 1 lleno), en función del tiempo
+  const cyc = f.reduce((a, p) => a + p[1], 0), lv = []; let cur = 0;
   f.forEach(([typ], i) => {
-    const to = typ === 'in' ? (f[i + 1] && f[i + 1][0] === 'in2' ? .88 : 1) : typ === 'in2' ? 1 : typ === 'out' ? .5 : cur;
-    sc.push([cur, to]); cur = to;
+    const to = typ === 'in' ? (f[i + 1] && f[i + 1][0] === 'in2' ? .7 : 1) : typ === 'in2' ? 1 : typ === 'out' ? 0 : cur;
+    lv.push([cur, to]); cur = to;
   });
-  BR = {t, f, sc, cyc, total: n * cyc, antes: BRPRE, despues: null, t0: performance.now(), paused: null, pausedMs: 0, phase: -1, el: -PREP, num: null, left: null,
+  function at(e){
+    if (e < 0) return {prep:true, k:-1, pos:0};
+    const ci = Math.floor(e / cyc), pos = e - ci * cyc; let acc = 0, k = 0;
+    while (k < f.length - 1 && pos >= acc + f[k][1]){ acc += f[k][1]; k++; }
+    return {k, ci, typ:f[k][0], d:f[k][1], u:pos - acc, pos};
+  }
+  function level(s){
+    if (s.prep) return 0;
+    const [a, b] = lv[s.k];
+    return a + (b - a) * (s.typ === 'in2' ? spring(s.u, .55, 1.8) : sine(s.u / s.d)); // la pizca de aire entra con un pequeño rebote
+  }
+  return {cyc, at, level};
+}
+const SVGNS = 'http://www.w3.org/2000/svg';
+function svgEl(tag, attrs, parent, style = {}){ const e = document.createElementNS(SVGNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); Object.assign(e.style, style); parent.appendChild(e); return e; }
+function brStage(svg, t, f, M){
+  const C = `var(--${t.col})`, RMIN = 64, RMAX = 148;
+  const disc = svgEl('circle', {cx:0, cy:0, r:RMIN, 'stroke-width':2.5}, svg, {fill:C, fillOpacity:.2, stroke:C});
+  const num = svgEl('text', {x:0, y:2, 'text-anchor':'middle', 'dominant-baseline':'middle'}, svg);
+  let track = null, len = 0, dot = null, segs = [];
+  if (t.track){
+    const d = t.track === 'square'
+      ? 'M -172 172 L -172 -172 L 172 -172 L 172 172 Z'                 // empieza abajo a la izquierda y sube (inhala)
+      : 'M 0 -176 A 176 176 0 1 1 0 176 A 176 176 0 1 1 0 -176';      // empieza arriba, sentido horario
+    track = svgEl('path', {d, fill:'none', stroke:'none'}, svg);
+    len = track.getTotalLength();
+    let a = 0;
+    segs = f.map(([typ, s]) => {
+      const L = s / M.cyc * len, gap = 10;
+      const p = svgEl('path', {d, fill:'none', 'stroke-linecap':'round', 'stroke-dasharray':`0 ${a + gap / 2} ${Math.max(0, L - gap)} ${len}`}, svg,
+        {stroke: typ === 'hold' ? 'var(--muted)' : C});
+      a += L; return p;
+    });
+    dot = svgEl('circle', {r:7, 'stroke-width':4}, svg, {fill:'var(--text)', stroke:'var(--bg)'});
+  }
+  let lastK = null;
+  return function draw(e){
+    const s = M.at(e);
+    disc.setAttribute('r', (RMIN + (RMAX - RMIN) * M.level(s)).toFixed(2));
+    const n = String(s.prep ? Math.ceil(-e) : Math.max(1, Math.ceil(s.d - s.u - 1e-6)));
+    if (num.textContent !== n) num.textContent = n;
+    if (s.k !== lastK){ lastK = s.k; segs.forEach((p, i) => { p.setAttribute('stroke-width', i === s.k ? 6 : 3); p.style.strokeOpacity = i === s.k ? 1 : .28; }); }
+    if (dot){ const p = track.getPointAtLength(s.prep ? 0 : s.pos / M.cyc * len); dot.setAttribute('cx', p.x.toFixed(2)); dot.setAttribute('cy', p.y.toFixed(2)); }
+    return s;
+  };
+}
+function brStart(id){
+  const t = TEC(id), f = t.f[ritmoOf(t)], M = brModel(f), n = Math.max(1, Math.round(durOf(t) * 60 / M.cyc));
+  closeSheet();
+  BR = {t, f, M, total: n * M.cyc, antes: BRPRE, despues: null, t0: performance.now(), paused: null, pausedMs: 0, phase: -1, el: -PREP,
     audio: sonOf(t) ? brAudio() : null, vib: vibOn(), lock: null, ended: false, rec: null};
   if (!(history.state && history.state.br)) history.pushState({app:1, br:1}, '', '#respirar'); // Atrás cierra la sesión
-  const el = document.createElement('div'); el.id = 'br'; el.className = 'br' + (t.dim ? ' dim' : ''); el.style.setProperty('--bc', `var(--${t.col})`);
+  const el = document.createElement('div'); el.id = 'br'; el.className = 'br' + (t.dim ? ' dim' : '');
   el.innerHTML = `<div class="br-top"><span class="t num" id="br-left"></span><button class="btn sm ghost" data-act="br-stop">Terminar</button></div>
-    <div class="br-stage"><div class="br-ring"></div><div class="br-ball" id="br-ball"></div>
-      <div class="br-txt"><b id="br-ph">Prepárate</b><span id="br-hint">busca una postura cómoda</span><span class="n num" id="br-n"></span></div></div>
+    <div class="br-stage"><svg id="br-svg" viewBox="-200 -200 400 400" aria-hidden="true"></svg></div>
+    <div class="br-txt" aria-live="polite"><b id="br-ph">Prepárate</b><span id="br-hint">busca una postura cómoda</span></div>
     <div class="br-bot"><button class="btn" data-act="br-pause" id="br-pause">Pausa</button>
       <div class="muted small">Respira suave, sin forzar. Si te mareas, vuelve a tu respiración normal.</div></div>`;
   document.body.appendChild(el);
+  BR.draw = brStage(document.getElementById('br-svg'), t, f, M);
+  BR.draw(-PREP);
   brWake();
   BR.raf = requestAnimationFrame(brTick);
 }
-const ease = p => .5 - Math.cos(Math.PI * p) / 2;
 const mmss = s => Math.floor(s / 60) + ':' + pad(Math.floor(s % 60));
 function brSet(id, v){ const e = document.getElementById(id); if (e && e.textContent !== v) e.textContent = v; }
 function brTick(now){
   if (!BR || BR.ended) return;
   if (BR.paused == null){
-    const el = BR.el = (now - BR.t0 - BR.pausedMs) / 1000 - PREP;
-    const ball = document.getElementById('br-ball');
-    if (el < 0){
-      brSet('br-n', String(Math.ceil(-el))); brSet('br-left', mmss(Math.ceil(BR.total)));
-    } else if (el >= BR.total){
-      return brFinish();
-    } else {
-      const ci = Math.floor(el / BR.cyc), pos = el - ci * BR.cyc;
-      let acc = 0, k = 0;
-      while (k < BR.f.length - 1 && pos >= acc + BR.f[k][1]){ acc += BR.f[k][1]; k++; }
-      const [typ, d] = BR.f[k], p = Math.min(1, (pos - acc) / d), g = ci * BR.f.length + k;
-      if (g !== BR.phase){ BR.phase = g; brPhase(typ, d); }
-      const [a, b] = BR.sc[k];
-      ball.style.transform = `scale(${(a + (b - a) * ease(p)).toFixed(4)})`;
-      brSet('br-n', String(Math.max(1, Math.ceil(d - (pos - acc) - 1e-6))));
-      brSet('br-left', mmss(Math.ceil(BR.total - el)));
+    const e = BR.el = (now - BR.t0 - BR.pausedMs) / 1000 - PREP;
+    if (e >= BR.total) return brFinish();
+    const s = BR.draw(e);
+    if (s.prep) brSet('br-left', mmss(Math.ceil(BR.total)));
+    else {
+      const g = s.ci * BR.f.length + s.k;
+      if (g !== BR.phase){ BR.phase = g; brPhase(s.typ, s.d); }
+      document.getElementById('br-ph').style.opacity = (.35 + .65 * Math.min(1, s.u / .15)).toFixed(3); // la palabra nueva entra en 150 ms, sin moverse
+      brSet('br-left', mmss(Math.ceil(BR.total - e)));
     }
   }
   BR.raf = requestAnimationFrame(brTick);
@@ -993,7 +1041,7 @@ function brPause(){
   const btn = document.getElementById('br-pause');
   if (BR.paused == null){
     BR.paused = performance.now(); if (BR.audio) BR.audio.ctx.suspend();
-    btn.textContent = 'Seguir'; brSet('br-ph', 'En pausa'); brSet('br-hint', 'toca «Seguir» cuando quieras');
+    btn.textContent = 'Seguir'; brSet('br-ph', 'En pausa'); brSet('br-hint', 'toca «Seguir» cuando quieras'); document.getElementById('br-ph').style.opacity = 1;
   } else {
     BR.pausedMs += performance.now() - BR.paused; BR.paused = null; if (BR.audio) BR.audio.ctx.resume();
     btn.textContent = 'Pausa'; BR.phase = -1; // repinta el texto de la fase
