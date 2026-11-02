@@ -139,6 +139,53 @@ main:has(>.crisis){display:flex;flex-direction:column;min-height:calc(100dvh - 8
 .card.pend .opt{margin-top:6px;flex-direction:column;align-items:flex-start;gap:2px}
 .card.pend .pa{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
 .ecard .falta{margin-top:8px;font-size:12px;font-weight:700;color:var(--hi)}
+.ht{flex:1;min-width:0}
+body.nonav{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+body.nonav nav.tabs{display:none}
+body.nonav main:has(>.crisis){min-height:calc(100dvh - 24px - env(safe-area-inset-bottom))}
+.acc{color:var(--acc)}
+/* inicio */
+.aviso{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;background:var(--card);border:1px solid var(--hi);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.aviso span{color:var(--hi);font-weight:700;font-size:14px;white-space:nowrap}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tool{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;min-height:150px}
+.tool b{font-size:16px;line-height:1.25}
+.tool>span:last-child{color:var(--muted);font-size:13px;line-height:1.35}
+.tool.soon{opacity:.5}
+.ic-abc{font-weight:800;font-size:14px;letter-spacing:.05em;color:var(--on-acc);background:var(--acc);border-radius:12px;padding:9px 10px;margin-bottom:4px}
+.ic-resp{width:40px;height:40px;border-radius:50%;background:color-mix(in srgb,var(--lo) 28%,transparent);display:grid;place-items:center;margin-bottom:4px}
+.ic-resp i{width:20px;height:20px;border-radius:50%;background:var(--lo)}
+.ic-soon{font-size:12px;font-weight:800;color:var(--muted);border:1px dashed var(--line);border-radius:12px;padding:9px 10px;margin-bottom:4px}
+/* respiración */
+.tec{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:8px}
+.tec-ic{flex:0 0 auto;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,currentColor 20%,transparent)}
+.tec-ic i{width:20px;height:20px;border-radius:50%;background:currentColor}
+.tec-t{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tec-t span{color:var(--muted);font-size:13px}
+.tec-t .tec-m{font-size:12px}
+.rrow{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:13px}
+.rrow:first-child{border-top:0}
+.rrow span:first-child{color:var(--muted);white-space:nowrap}
+.rrow span:last-child{text-align:right}
+.scale{display:grid;grid-template-columns:repeat(11,1fr);gap:4px}
+.scale button{padding:10px 0;border-radius:9px;background:var(--card2);border:1px solid var(--line);font-weight:700;font-size:14px}
+.scale button.on{background:var(--acc);color:var(--on-acc);border-color:transparent}
+.info p{margin:10px 0 0}
+.br{position:fixed;inset:0;z-index:30;background:var(--bg);display:flex;flex-direction:column;padding:calc(14px + env(safe-area-inset-top)) 16px calc(18px + env(safe-area-inset-bottom))}
+.br.dim{background:#06080b;color:#b9c1cd;--muted:#6f7886;--line:#1b2028;--card2:#12161c}
+.br-top{display:flex;justify-content:space-between;align-items:center;max-width:560px;width:100%;margin:0 auto}
+.br-top .t{font-weight:700;color:var(--muted);font-size:15px}
+.br-stage{flex:1;position:relative;display:grid;place-items:center;min-height:0}
+.br-ring,.br-ball{position:absolute;width:min(80vw,46vh,360px);aspect-ratio:1;border-radius:50%}
+.br-ring{border:2px dashed var(--line)}
+.br-ball{background:radial-gradient(circle at 50% 38%,color-mix(in srgb,var(--bc,var(--acc)) 60%,transparent),color-mix(in srgb,var(--bc,var(--acc)) 16%,transparent) 72%);transform:scale(.5);will-change:transform}
+.br.dim .br-ball{opacity:.55}
+.br-txt{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:0 20px}
+.br-txt b{font-size:32px;letter-spacing:-.02em}
+.br-txt span{color:var(--muted);font-size:15px;max-width:230px}
+.br-txt .n{font-size:24px;font-weight:800;color:inherit;margin-top:8px;min-height:1.2em}
+.br-bot{max-width:560px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:12px;text-align:center}
+.br-end{max-width:528px;margin:auto;width:100%}
 .crisis{color:var(--muted);font-size:11.5px;text-align:center;margin:auto 8px 0;padding-top:28px;opacity:.85}
 .crisis a{color:inherit;font-weight:700}
 @keyframes up{from{transform:translateY(24px);opacity:0}}
@@ -171,20 +218,20 @@ main:has(>.crisis){display:flex;flex-direction:column;min-height:calc(100dvh - 8
   <button data-tab="registrar"><span class="ic">✍️</span>Registrar</button>
   <button data-tab="historial"><span class="ic">📖</span>Historial</button>
   <button data-tab="resumen"><span class="ic">📊</span>Resumen</button>
-  <button data-tab="ajustes"><span class="ic">⚙️</span>Ajustes</button>
 </div></nav>
 <div id="sheet-root"></div>
 <div id="print"></div>
 <script>
 'use strict';
-const VERSION = 4;
+const VERSION = 5;
 const STORE = 'abc.v1';
 
 /* ===================== Datos ===================== */
 const EMOS = ['Ansiedad','Tristeza','Ira','Miedo','Culpa','Vergüenza','Frustración','Soledad','Celos','Asco','Alegría','Calma'];
 const FIS = ['Tensión muscular','Palpitaciones','Nudo en el estómago','Falta de aire','Llanto','Temblor','Calor o sudor','Mareo','Cansancio','Dolor de cabeza','Inquietud'];
 const PSICO = 'Raúl Triana Guillén'; // psicólogo por defecto: la app es suya
-const DEFAULTS = {settings:{nombre:'', psico:PSICO, consulta:'', theme:'auto'}, entries:[], draft:null};
+const DEFAULTS = {settings:{nombre:'', psico:PSICO, consulta:'', theme:'auto', resp:{dur:{}, ritmo:{}, son:{}, vib:true}}, entries:[], draft:null, resp:[]};
+// Una práctica de respiración: {id, at (ms), tec, seg (segundos hechos), antes, despues (tensión 0–10 o null)}
 // Una entrada: {id, at (ms), a, b, emo:[{n, i 0–10}], fis:[…], fisTxt, cond, cp, lp, cre, upd}
 // cp y lp: qué pasó después de la conducta, a corto y a largo plazo (desde la v2)
 let S;
@@ -193,6 +240,8 @@ function load(){
   S = Object.assign(structuredClone(DEFAULTS), S);
   S.settings = Object.assign(structuredClone(DEFAULTS.settings), S.settings);
   if (!Array.isArray(S.entries)) S.entries = [];
+  if (!Array.isArray(S.resp)) S.resp = [];
+  S.settings.resp = Object.assign(structuredClone(DEFAULTS.settings.resp), S.settings.resp);
   if (!S.settings.psico) S.settings.psico = PSICO; // las versiones 1 y 2 lo dejaban vacío
   for (const e of S.entries.concat(S.draft ? [S.draft.data] : [])){ e.cp = e.cp || ''; e.lp = e.lp || ''; }
 }
@@ -262,27 +311,76 @@ function sheet(html, onMount){
 function closeSheet(){ document.getElementById('sheet-root').innerHTML = ''; }
 
 /* ===================== Navegación ===================== */
-const TABS = ['registrar','historial','resumen','ajustes'];
-let TAB = 'registrar';
+// Pantallas: inicio (menú de herramientas) · abc (con sus pestañas) · respirar · ajustes.
+// Cada pantalla va en el historial (#abc/historial, #respirar…), así el botón Atrás del móvil vuelve al menú.
+const TABS = ['registrar','historial','resumen'];
+let VIEW = 'inicio', TAB = 'registrar';
 let ED = null; // registro que se está escribiendo: {id (null si es nuevo), step, data}
 const app = document.getElementById('app');
+const BACK = `<button class="navb" data-act="back" aria-label="Volver">‹</button>`;
 function render(){
-  document.body.classList.toggle('editing', !!ED);
+  document.body.classList.toggle('editing', VIEW === 'abc' && !!ED);
+  document.body.classList.toggle('nonav', VIEW !== 'abc');
   document.querySelectorAll('nav.tabs button').forEach(b => b.setAttribute('aria-current', !ED && b.dataset.tab === TAB ? 'page' : 'false'));
-  if (ED) return renderEditor();
-  ({registrar:renderRegistrar, historial:renderHistorial, resumen:renderResumen, ajustes:renderAjustes})[TAB]();
+  if (VIEW === 'abc'){
+    if (ED) return renderEditor();
+    return ({registrar:renderRegistrar, historial:renderHistorial, resumen:renderResumen})[TAB]();
+  }
+  ({inicio:renderInicio, respirar:renderRespirar, ajustes:renderAjustes})[VIEW]();
 }
 function applyTheme(){ const t = S.settings.theme; if (t === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', t); }
+function routeFromHash(){
+  const [v, t] = location.hash.slice(1).split('/');
+  if (TABS.includes(v)){ VIEW = 'abc'; TAB = v; }        // enlaces de la versión 4 (#registrar, #historial…)
+  else if (v === 'abc'){ VIEW = 'abc'; TAB = TABS.includes(t) ? t : 'registrar'; }
+  else VIEW = ['respirar','ajustes'].includes(v) ? v : 'inicio';
+}
+function go(hash){
+  history.pushState({app:1}, '', '#' + hash);
+  routeFromHash(); closeSheet(); window.scrollTo(0, 0); render();
+}
+function goBack(){
+  if (history.state && history.state.app) history.back();
+  else { history.replaceState(null, '', '#inicio'); routeFromHash(); closeSheet(); window.scrollTo(0, 0); render(); }
+}
+window.addEventListener('popstate', () => {
+  if (BR) brStop();
+  if (ED && !ED.id && !isBlank(ED.data)) toast('Guardado como borrador');
+  if (ED){ if (!ED.id && isBlank(ED.data)){ S.draft = null; save(); } ED = null; }
+  routeFromHash(); closeSheet(); window.scrollTo(0, 0); render();
+});
 document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('click', () => {
-  closeSheet(); TAB = b.dataset.tab; history.replaceState(null, '', '#' + TAB); window.scrollTo(0, 0); render();
+  closeSheet(); TAB = b.dataset.tab; history.replaceState(history.state, '', '#abc/' + TAB); window.scrollTo(0, 0); render();
 }));
+
+/* ===================== Inicio: menú de herramientas ===================== */
+const TOOLS = [
+  {id:'abc', n:'Autorregistro', d:'Apunta qué pasó, qué pensaste y cómo te sentiste', ic:'<span class="ic-abc">ABC</span>'},
+  {id:'respirar', n:'Respiración guiada', d:'Ejercicios para bajar la tensión, calmarte o dormir', ic:'<span class="ic-resp"><i></i></span>'},
+  {id:null, n:'Anclaje 5-4-3-2-1', d:'Para volver al presente', ic:'<span class="ic-soon">5·4·3</span>'},
+  {id:null, n:'Relajación muscular', d:'Tensar y soltar, paso a paso', ic:'<span class="ic-soon">〰</span>'},
+];
+function renderInicio(){
+  const s = S.settings, h = new Date().getHours(), pend = S.entries.filter(e => lpPending(e)).length;
+  const saludo = h >= 5 && h < 14 ? 'Buenos días' : h >= 5 && h < 21 ? 'Buenas tardes' : 'Buenas noches';
+  const nombre = s.nombre.trim().split(/\s+/)[0];
+  app.innerHTML = `<header class="top"><div class="ht"><h1>${saludo}${nombre ? ', ' + esc(nombre) : ''}</h1><div class="sub">${longDate(Date.now())}</div></div>
+      <button class="navb" data-act="go" data-to="ajustes" aria-label="Ajustes">⚙️</button></header>
+    ${S.draft ? `<button class="aviso" data-act="go" data-to="abc"><b>Tienes un registro a medias</b><span>Seguir ›</span></button>` : ''}
+    ${pend ? `<button class="aviso" data-act="go" data-to="abc"><b>${pend === 1 ? 'Un registro por completar' : pend + ' registros por completar'}</b><span>Ver ›</span></button>` : ''}
+    <h3 class="sec"><span>Tus herramientas</span></h3>
+    <div class="tools">${TOOLS.map(t => t.id
+      ? `<button class="tool" data-act="go" data-to="${t.id}">${t.ic}<b>${t.n}</b><span>${t.d}</span></button>`
+      : `<div class="tool soon" aria-disabled="true">${t.ic}<b>${t.n}</b><span>Próximamente</span></div>`).join('')}</div>
+    ${CRISIS}`;
+}
 
 /* ===================== Registrar ===================== */
 function renderRegistrar(){
   const k = dayKey(), hoy = sorted().filter(e => dayKey(e.at) === k).reverse();
   const semana = S.entries.filter(e => dayKey(e.at) >= weekStart(k)).length;
   const d = S.draft, pend = sorted().filter(e => lpPending(e));
-  app.innerHTML = `<header class="top"><div><h1>Registro ABC</h1><div class="sub">${longDate(Date.now())}</div></div>
+  app.innerHTML = `<header class="top">${BACK}<div class="ht"><h1>Autorregistro ABC</h1><div class="sub">${longDate(Date.now())}</div></div>
     ${semana ? `<span class="chip num">${semana} esta semana</span>` : ''}</header>
   ${pend.length ? `<div class="card pend"><b>${pend.length === 1 ? 'Un registro por completar' : pend.length + ' registros por completar'}</b>
       <div class="muted small" style="margin:2px 0 8px">¿Qué pasó después, horas o días más tarde?</div>
@@ -410,7 +508,6 @@ function saveEntry(){
   else { S.entries.push(e); S.draft = null; }
   if (!save()) return;
   const edited = !!ED.id; ED = null;
-  if (!edited) TAB = TAB === 'ajustes' ? 'registrar' : TAB;
   window.scrollTo(0, 0); render(); toast(edited ? 'Cambios guardados' : 'Registro guardado');
 }
 
@@ -452,7 +549,7 @@ function usedEmos(list){
 function renderHistorial(){
   const emos = usedEmos(S.entries);
   if (FIL.emo && !emos.includes(FIL.emo)) FIL.emo = null;
-  app.innerHTML = `<header class="top"><div><h1>Historial</h1><div class="sub num" id="hcount"></div></div>
+  app.innerHTML = `<header class="top">${BACK}<div class="ht"><h1>Historial</h1><div class="sub num" id="hcount"></div></div>
       ${S.entries.length ? '<button class="btn sm" data-act="export">Exportar</button>' : ''}</header>
     ${S.entries.length ? `<div class="card">
       <div class="seg">${[['7','7 días'],['30','30 días'],['90','3 meses'],['all','Todo']].map(([v, l]) => `<button data-act="fil-per" data-v="${v}" class="${FIL.per === v ? 'on' : ''}">${l}</button>`).join('')}</div>
@@ -499,7 +596,7 @@ function renderResumen(){
   const list = inPeriod(S.entries, RES_PER), st = stats(list);
   const seg = `<div class="seg" style="margin-bottom:12px">${[['7','7 días'],['30','30 días'],['90','3 meses'],['all','Todo']].map(([v, l]) => `<button data-act="res-per" data-v="${v}" class="${RES_PER === v ? 'on' : ''}">${l}</button>`).join('')}</div>`;
   if (!st.n){
-    app.innerHTML = `<header class="top"><div><h1>Resumen</h1></div></header>${S.entries.length ? seg : ''}<div class="empty">${S.entries.length ? 'No hay registros en este periodo.' : 'Cuando tengas algunos registros, aquí verás qué emociones aparecen más y con qué intensidad.'}</div>`;
+    app.innerHTML = `<header class="top">${BACK}<div class="ht"><h1>Resumen</h1></div></header>${S.entries.length ? seg : ''}<div class="empty">${S.entries.length ? 'No hay registros en este periodo.' : 'Cuando tengas algunos registros, aquí verás qué emociones aparecen más y con qué intensidad.'}</div>`;
     return;
   }
   const maxC = st.emos[0].c;
@@ -519,7 +616,7 @@ function renderResumen(){
   }
   const maxCol = Math.max(1, ...cols.map(c => c.c));
   const fr = ['Madrugada','Mañana','Tarde','Noche'], maxF = Math.max(...st.franja);
-  app.innerHTML = `<header class="top"><div><h1>Resumen</h1><div class="sub">${RES_PER === 'all' ? 'Desde el primer registro' : 'Últimos ' + RES_PER + ' días'}</div></div>
+  app.innerHTML = `<header class="top">${BACK}<div class="ht"><h1>Resumen</h1><div class="sub">${RES_PER === 'all' ? 'Desde el primer registro' : 'Últimos ' + RES_PER + ' días'}</div></div>
       <button class="btn sm" data-act="export">Exportar</button></header>
     ${seg}
     <div class="card hero">
@@ -650,7 +747,7 @@ async function shareOrDownload(blob, name){
 /* ===================== Ajustes ===================== */
 function renderAjustes(){
   const s = S.settings;
-  app.innerHTML = `<header class="top"><div><h1>Ajustes</h1></div></header>
+  app.innerHTML = `<header class="top">${BACK}<div class="ht"><h1>Ajustes</h1></div></header>
   <div class="card">
     <label class="f" style="margin-top:0">Tu nombre</label><input data-s="nombre" maxlength="60" autocomplete="name" value="${esc(s.nombre)}" placeholder="Sale en el informe (opcional)">
     <label class="f">Tu psicólogo</label><input data-s="psico" maxlength="60" value="${esc(s.psico)}" placeholder="${PSICO}">
@@ -659,7 +756,7 @@ function renderAjustes(){
   </div>
   <div class="card">
     <label class="f" style="margin-top:0">Para tu psicólogo</label>
-    <button class="btn pri" style="width:100%" data-act="export">Exportar registros (PDF, texto o CSV)</button>
+    <button class="btn pri" style="width:100%" data-act="export">Exportar autorregistros (PDF, texto o CSV)</button>
   </div>
   <div class="card">
     <label class="f" style="margin-top:0">Tema</label>
@@ -699,22 +796,276 @@ function renderAjustes(){
         else if (x.upd > (S.entries[i].upd || 0)){ S.entries[i] = x; updated++; }
       }
       if (data.settings) for (const k of ['nombre','consulta']) if (!S.settings[k] && typeof data.settings[k] === 'string') S.settings[k] = data.settings[k];
+      let addedR = 0; // prácticas de respiración (copias desde la v5)
+      if (Array.isArray(data.resp)) for (const x of data.resp){
+        if (!x || typeof x.id !== 'string' || typeof x.at !== 'number' || !TEC(x.tec) || S.resp.some(y => y.id === x.id)) continue;
+        S.resp.push({id:x.id, at:x.at, tec:x.tec, seg:Math.max(0, Math.round(+x.seg || 0)), antes:tens(x.antes), despues:tens(x.despues)}); addedR++;
+      }
       save(); render();
-      toast(`Importado: ${added} registro${added === 1 ? '' : 's'} nuevo${added === 1 ? '' : 's'}` + (updated ? `, ${updated} actualizado${updated === 1 ? '' : 's'}` : ''));
+      toast(`Importado: ${added} registro${added === 1 ? '' : 's'} nuevo${added === 1 ? '' : 's'}` + (updated ? `, ${updated} actualizado${updated === 1 ? '' : 's'}` : '') + (addedR ? `, ${addedR} práctica${addedR === 1 ? '' : 's'} de respiración` : ''));
     }catch(_){ toast('Ese archivo no es una copia válida'); }
   });
 }
 function backupExport(){
-  const data = {app:'registro-abc', version:VERSION, exportado:new Date().toISOString(), settings:S.settings, entries:S.entries};
+  const data = {app:'registro-abc', version:VERSION, exportado:new Date().toISOString(), settings:S.settings, entries:S.entries, resp:S.resp};
   shareOrDownload(new Blob([JSON.stringify(data, null, 1)], {type:'application/json'}), 'Copia Registro ABC ' + dmy(Date.now()).replace(/\//g, '-') + '.json');
 }
 function sheetWipe(){
-  sheet(`<h2>¿Borrar todos los datos?</h2><div class="sub">Se borrarán ${S.entries.length} registro${S.entries.length === 1 ? '' : 's'} y los ajustes de este móvil. No se puede deshacer; si quieres conservarlos, exporta antes una copia.</div>
+  sheet(`<h2>¿Borrar todos los datos?</h2><div class="sub">Se borrarán ${S.entries.length} registro${S.entries.length === 1 ? '' : 's'}, ${S.resp.length} práctica${S.resp.length === 1 ? '' : 's'} de respiración y los ajustes de este móvil. No se puede deshacer; si quieres conservarlos, exporta antes una copia.</div>
     <div class="actions"><button class="btn" data-act="sheet-close">Cancelar</button><button class="btn danger" data-act="wipe-yes">Borrar todo</button></div>`);
 }
 
+/* ===================== Respiración guiada ===================== */
+// Técnicas elegidas por su respaldo científico (cada una explica el suyo en «¿Por qué funciona?»).
+// Fuera: las de hiperventilación (Wim Hof) y retenciones largas (4-7-8), con menos evidencia y más mareos.
+// f: fases [tipo, segundos] para cada ritmo (0 más rápido · 1 normal · 2 más lento)
+const PH = {in:['Inhala', 'por la nariz, despacio'], in2:['Un poco más', 'otra pizca de aire por la nariz'], hold:['Mantén', 'sin apretar'], out:['Suelta', 'el aire despacio']};
+const TECS = [
+  {id:'lenta', n:'Respiración lenta', para:'Para bajar la tensión y practicar cada día', col:'lo', min:5,
+    f:[[['in',3],['out',5]], [['in',4],['out',6]], [['in',4.5],['out',6.5]]],
+    hint:{in:'por la nariz, llevando el aire al abdomen'},
+    ev:'Mucha evidencia', refs:'Laborde y cols., 2022 (revisión de 223 estudios) · Goessl y cols., 2017 (metaanálisis) · Fincham y cols., 2023 (metaanálisis)',
+    info:`<p>Respirar despacio, a unas 6 respiraciones por minuto, activa el freno natural del cuerpo ante el estrés: baja el pulso y aumenta la variabilidad de la frecuencia cardiaca, una señal de que el cuerpo se está regulando.</p>
+      <p>Es la técnica de respiración más estudiada. Practicada a diario durante varias semanas, ayuda a reducir el estrés y la ansiedad. Funciona mejor como hábito que solo en el peor momento.</p>`},
+  {id:'suspiro', n:'Suspiro cíclico', para:'Para calmarte rápido cuando notas mucha tensión', col:'acc', min:5,
+    f:[[['in',2],['in2',1],['out',5]], [['in',2.5],['in2',1],['out',6]], [['in',3],['in2',1.2],['out',7]]],
+    hint:{out:'largo y lento, por la boca'},
+    ev:'Evidencia prometedora', refs:'Balban y cols., 2023, Universidad de Stanford (ensayo con 111 personas)',
+    info:`<p>Es un suspiro hecho a propósito: dos inhalaciones seguidas por la nariz (la segunda, cortita, para llenar del todo) y una exhalación larga por la boca. Es lo que el cuerpo hace solo para soltar tensión.</p>
+      <p>En un ensayo, 5 minutos al día durante un mes mejoraron el estado de ánimo y bajaron la frecuencia respiratoria más que la meditación. Es un único estudio, pero sus resultados son prometedores.</p>`},
+  {id:'dormir', n:'Para dormir', para:'Exhalación larga para relajarte en la cama', col:'mid', min:10, sonido:true, dim:true,
+    f:[[['in',4],['out',6]], [['in',4],['out',7]], [['in',4],['out',8]]],
+    hint:{in:'por la nariz, suave', out:'muy despacio, sin prisa'},
+    ev:'Evidencia moderada', refs:'Van Diest y cols., 2014 · Tsai y cols., 2015',
+    info:`<p>Soltar el aire más despacio de lo que se toma ayuda a relajarse: en un estudio, al mismo ritmo, la exhalación larga dio más sensación de calma que la corta.</p>
+      <p>Antes de dormir, la respiración lenta mejora el sueño que la persona percibe en varios estudios pequeños, aunque los efectos son modestos. Con el sonido puedes cerrar los ojos: sube al inhalar y baja al soltar.</p>`},
+  {id:'cuadrada', n:'Respiración cuadrada', para:'Para centrarte antes de un momento de presión', col:'hi', min:3,
+    f:[[['in',3],['hold',3],['out',3],['hold',3]], [['in',4],['hold',4],['out',4],['hold',4]], [['in',5],['hold',5],['out',5],['hold',5]]],
+    ev:'Evidencia limitada', refs:'Balban y cols., 2023',
+    info:`<p>Cuatro tiempos iguales: inhalar, mantener, soltar y mantener. La usan militares y equipos de emergencias porque es fácil de recordar bajo presión y ayuda a centrar la atención.</p>
+      <p>Tiene menos estudios que las anteriores: ayuda a corto plazo, pero sus efectos son menos constantes. Si lo que buscas es calmarte, la respiración lenta o el suspiro cíclico tienen más respaldo.</p>`},
+];
+const TEC = id => TECS.find(t => t.id === id);
+const ritmoOf = t => S.settings.resp.ritmo[t.id] ?? 1;
+const durOf = t => S.settings.resp.dur[t.id] ?? t.min;
+const sonOf = t => S.settings.resp.son[t.id] ?? !!t.sonido;
+const vibOn = () => !!navigator.vibrate && S.settings.resp.vib;
+const fmtS = s => String(s).replace('.', ',');
+function patTxt(t, f){
+  const cyc = f.reduce((a, p) => a + p[1], 0), pm = fmtS(Math.round(600 / cyc) / 10) + ' por minuto';
+  if (t.id === 'suspiro') return `Doble inhalación · suelta ${fmtS(f[2][1])} s · ${pm}`;
+  if (t.id === 'cuadrada') return `${f.map(p => fmtS(p[1])).join(' · ')} s`;
+  return `Inhala ${fmtS(f[0][1])} s · suelta ${fmtS(f[1][1])} s · ${pm}`;
+}
+const tens = v => v == null || v === '' || !isFinite(+v) ? null : Math.max(0, Math.min(10, Math.round(+v)));
+
+function renderRespirar(){
+  const k = dayKey(), week = S.resp.filter(r => dayKey(r.at) >= addDays(k, -6)).sort((a, b) => b.at - a.at);
+  const pares = week.filter(r => r.antes != null && r.despues != null), avg = (l, f) => l.reduce((a, r) => a + f(r), 0) / l.length;
+  app.innerHTML = `<header class="top">${BACK}<div class="ht"><h1>Respiración guiada</h1><div class="sub">Elige un ejercicio</div></div></header>
+    ${TECS.map(t => `<button class="tec" data-act="br-open" data-id="${t.id}"><span class="tec-ic ${t.col}"><i></i></span>
+      <span class="tec-t"><b>${t.n}</b><span>${t.para}</span><span class="tec-m num">${patTxt(t, t.f[ritmoOf(t)])} · ${durOf(t)} min</span></span><span class="muted">›</span></button>`).join('')}
+    <details class="card" style="margin-top:12px"><summary>¿Cómo respirar con el abdomen?</summary>
+      <ol class="small" style="margin:10px 0 0;padding-left:20px;display:grid;gap:6px">
+        <li>Pon una mano en el pecho y otra en el abdomen, justo encima del ombligo.</li>
+        <li>Al tomar el aire por la nariz, deja que suba sobre todo la mano del abdomen; la del pecho casi no se mueve.</li>
+        <li>Al soltarlo, el abdomen baja solo. No hace falta empujar.</li>
+        <li>Respira suave: no se trata de coger mucho aire, sino de hacerlo despacio.</li>
+      </ol></details>
+    ${week.length ? `<h3 class="sec"><span>Últimos 7 días</span></h3>
+      <div class="card hero">
+        <div><div class="big num">${week.length}</div><div class="lbl">práctica${week.length === 1 ? '' : 's'}</div></div>
+        <div><div class="big num">${Math.round(week.reduce((a, r) => a + r.seg, 0) / 60)}</div><div class="lbl">minutos</div></div>
+        <div><div class="big num">${pares.length ? `${dec(avg(pares, r => r.antes))}<span class="muted" style="font-size:18px"> → </span>${dec(avg(pares, r => r.despues))}` : '–'}</div><div class="lbl">tensión antes → después</div></div>
+      </div>
+      <div class="card" style="padding:4px 14px">${week.slice(0, 6).map(r => `<div class="rrow"><span>${dayTitle(dayKey(r.at))} · ${hhmm(r.at)}</span><span>${esc((TEC(r.tec) || {n:r.tec}).n)} · ${Math.max(1, Math.round(r.seg / 60))} min${r.antes != null && r.despues != null ? ` · <b class="num">${r.antes} → ${r.despues}</b>` : ''}</span></div>`).join('')}</div>` : ''}
+    ${CRISIS}`;
+}
+
+let BRPRE = null; // tensión antes de empezar (0–10 o null)
+const scaleHtml = (act, id, sel) => `<div class="scale">${[...Array(11).keys()].map(v => `<button data-act="${act}" data-id="${id}" data-v="${v}" class="${sel === v ? 'on' : ''}">${v}</button>`).join('')}</div>`;
+function sheetBr(id){
+  const t = TEC(id), ri = ritmoOf(t), dur = durOf(t);
+  sheet(`<h2>${t.n}</h2><div class="sub">${t.para}</div>
+    <label class="f">Duración</label>
+    <div class="seg">${[1, 3, 5, 10, 15].map(m => `<button data-act="br-dur" data-id="${id}" data-v="${m}" class="${dur === m ? 'on' : ''}">${m} min</button>`).join('')}</div>
+    <label class="f">Ritmo</label>
+    <div class="seg">${['Más rápido', 'Normal', 'Más lento'].map((l, i) => `<button data-act="br-rit" data-id="${id}" data-v="${i}" class="${ri === i ? 'on' : ''}">${l}</button>`).join('')}</div>
+    <div class="muted small num" style="margin-top:6px">${patTxt(t, t.f[ri])}</div>
+    <div class="chips" style="margin-top:12px"><button class="chip ${sonOf(t) ? 'on' : ''}" data-act="br-son" data-id="${id}">🔊 Sonido</button>
+      ${navigator.vibrate ? `<button class="chip ${vibOn() ? 'on' : ''}" data-act="br-vib" data-id="${id}">📳 Vibración</button>` : ''}</div>
+    <label class="f">¿Cuánta tensión notas ahora? <span style="font-weight:400">(opcional)</span></label>
+    ${scaleHtml('br-antes', id, BRPRE)}
+    <div class="actions"><button class="btn ghost" data-act="br-info" data-id="${id}">¿Por qué funciona?</button><button class="btn pri" data-act="br-start" data-id="${id}">Empezar</button></div>
+    <div class="muted small" style="margin-top:12px">Respira suave, sin forzar. Si te mareas o notas molestias, vuelve a tu respiración normal.</div>`);
+}
+function sheetBrInfo(id){
+  const t = TEC(id);
+  sheet(`<h2>¿Por qué funciona?</h2><div class="sub">${t.n} · <b>${t.ev}</b></div>
+    <div class="info">${t.info}</div>
+    <div class="muted small" style="margin-top:10px">Estudios: ${t.refs}.</div>
+    <div class="muted small" style="margin-top:8px">Es un complemento de la terapia, no la sustituye. Coméntalo con tu psicólogo si tienes dudas sobre cuándo usarla.</div>
+    <div class="actions"><button class="btn" data-act="br-open" data-id="${id}" data-keep="1">Volver</button></div>`);
+}
+
+let BR = null; // sesión en marcha
+const PREP = 3; // segundos de «Prepárate»
+function brStart(id){
+  const t = TEC(id), f = t.f[ritmoOf(t)], cyc = f.reduce((a, p) => a + p[1], 0), n = Math.max(1, Math.round(durOf(t) * 60 / cyc));
+  closeSheet();
+  // escala de la bola al principio y al final de cada fase
+  const sc = []; let cur = .5;
+  f.forEach(([typ], i) => {
+    const to = typ === 'in' ? (f[i + 1] && f[i + 1][0] === 'in2' ? .88 : 1) : typ === 'in2' ? 1 : typ === 'out' ? .5 : cur;
+    sc.push([cur, to]); cur = to;
+  });
+  BR = {t, f, sc, cyc, total: n * cyc, antes: BRPRE, despues: null, t0: performance.now(), paused: null, pausedMs: 0, phase: -1, el: -PREP, num: null, left: null,
+    audio: sonOf(t) ? brAudio() : null, vib: vibOn(), lock: null, ended: false, rec: null};
+  if (!(history.state && history.state.br)) history.pushState({app:1, br:1}, '', '#respirar'); // Atrás cierra la sesión
+  const el = document.createElement('div'); el.id = 'br'; el.className = 'br' + (t.dim ? ' dim' : ''); el.style.setProperty('--bc', `var(--${t.col})`);
+  el.innerHTML = `<div class="br-top"><span class="t num" id="br-left"></span><button class="btn sm ghost" data-act="br-stop">Terminar</button></div>
+    <div class="br-stage"><div class="br-ring"></div><div class="br-ball" id="br-ball"></div>
+      <div class="br-txt"><b id="br-ph">Prepárate</b><span id="br-hint">busca una postura cómoda</span><span class="n num" id="br-n"></span></div></div>
+    <div class="br-bot"><button class="btn" data-act="br-pause" id="br-pause">Pausa</button>
+      <div class="muted small">Respira suave, sin forzar. Si te mareas, vuelve a tu respiración normal.</div></div>`;
+  document.body.appendChild(el);
+  brWake();
+  BR.raf = requestAnimationFrame(brTick);
+}
+const ease = p => .5 - Math.cos(Math.PI * p) / 2;
+const mmss = s => Math.floor(s / 60) + ':' + pad(Math.floor(s % 60));
+function brSet(id, v){ const e = document.getElementById(id); if (e && e.textContent !== v) e.textContent = v; }
+function brTick(now){
+  if (!BR || BR.ended) return;
+  if (BR.paused == null){
+    const el = BR.el = (now - BR.t0 - BR.pausedMs) / 1000 - PREP;
+    const ball = document.getElementById('br-ball');
+    if (el < 0){
+      brSet('br-n', String(Math.ceil(-el))); brSet('br-left', mmss(Math.ceil(BR.total)));
+    } else if (el >= BR.total){
+      return brFinish();
+    } else {
+      const ci = Math.floor(el / BR.cyc), pos = el - ci * BR.cyc;
+      let acc = 0, k = 0;
+      while (k < BR.f.length - 1 && pos >= acc + BR.f[k][1]){ acc += BR.f[k][1]; k++; }
+      const [typ, d] = BR.f[k], p = Math.min(1, (pos - acc) / d), g = ci * BR.f.length + k;
+      if (g !== BR.phase){ BR.phase = g; brPhase(typ, d); }
+      const [a, b] = BR.sc[k];
+      ball.style.transform = `scale(${(a + (b - a) * ease(p)).toFixed(4)})`;
+      brSet('br-n', String(Math.max(1, Math.ceil(d - (pos - acc) - 1e-6))));
+      brSet('br-left', mmss(Math.ceil(BR.total - el)));
+    }
+  }
+  BR.raf = requestAnimationFrame(brTick);
+}
+function brPhase(typ, d){
+  const [ph, hint] = PH[typ];
+  brSet('br-ph', ph); brSet('br-hint', (BR.t.hint && BR.t.hint[typ]) || hint);
+  if (BR.vib) navigator.vibrate(typ === 'hold' ? 15 : 30);
+  brSound(typ, d);
+}
+// Sonido: ruido suave (como el aire) que sube al inhalar y baja al soltar; en silencio al mantener
+function brAudio(){
+  const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+  try{
+    const ctx = new AC(), len = ctx.sampleRate * 2, buf = ctx.createBuffer(1, len, ctx.sampleRate), d = buf.getChannelData(0);
+    let b0 = 0, b1 = 0, b2 = 0; // ruido rosa aproximado, más suave que el blanco
+    for (let i = 0; i < len; i++){ const w = Math.random() * 2 - 1; b0 = .99765 * b0 + w * .099046; b1 = .963 * b1 + w * .2965164; b2 = .57 * b2 + w * 1.0526913; d[i] = (b0 + b1 + b2 + w * .1848) * .18; }
+    const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
+    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 260; lp.Q.value = .7;
+    const g = ctx.createGain(); g.gain.value = .0001;
+    src.connect(lp).connect(g).connect(ctx.destination); src.start();
+    return {ctx, g, lp};
+  }catch(_){ return null; }
+}
+function brSound(typ, d){
+  const A = BR.audio; if (!A) return;
+  const t = A.ctx.currentTime, g = A.g.gain, f = A.lp.frequency;
+  g.cancelScheduledValues(t); f.cancelScheduledValues(t); g.setValueAtTime(Math.max(g.value, .0001), t); f.setValueAtTime(f.value, t);
+  if (typ === 'in'){ g.linearRampToValueAtTime(.5, t + d); f.exponentialRampToValueAtTime(1300, t + d); }
+  else if (typ === 'in2'){ g.linearRampToValueAtTime(.6, t + d); f.exponentialRampToValueAtTime(1700, t + d); }
+  else if (typ === 'out'){ g.linearRampToValueAtTime(.45, t + .3); g.linearRampToValueAtTime(.0001, t + d); f.exponentialRampToValueAtTime(240, t + d); }
+  else g.linearRampToValueAtTime(.0001, t + .4);
+}
+async function brWake(){ try{ if ('wakeLock' in navigator && BR && !BR.ended) BR.lock = await navigator.wakeLock.request('screen'); }catch(_){} }
+function brPause(){
+  if (!BR || BR.ended) return;
+  const btn = document.getElementById('br-pause');
+  if (BR.paused == null){
+    BR.paused = performance.now(); if (BR.audio) BR.audio.ctx.suspend();
+    btn.textContent = 'Seguir'; brSet('br-ph', 'En pausa'); brSet('br-hint', 'toca «Seguir» cuando quieras');
+  } else {
+    BR.pausedMs += performance.now() - BR.paused; BR.paused = null; if (BR.audio) BR.audio.ctx.resume();
+    btn.textContent = 'Pausa'; BR.phase = -1; // repinta el texto de la fase
+  }
+}
+function brRecord(){
+  if (!BR || BR.rec) return;
+  const el = BR.ended && BR.el >= BR.total ? BR.total : ((BR.paused ?? performance.now()) - BR.t0 - BR.pausedMs) / 1000 - PREP; // al momento, no el del último fotograma
+  const seg = Math.round(Math.max(0, Math.min(el, BR.total)));
+  if (seg < 30) return; // menos de medio minuto no cuenta como práctica
+  BR.rec = {id: uid(), at: Date.now(), tec: BR.t.id, seg, antes: BR.antes, despues: null};
+  S.resp.push(BR.rec); save();
+}
+function brQuiet(){ // para animación, sonido y bloqueo de pantalla
+  cancelAnimationFrame(BR.raf);
+  if (BR.audio){ const A = BR.audio; try{ A.g.gain.cancelScheduledValues(A.ctx.currentTime); A.g.gain.setTargetAtTime(.0001, A.ctx.currentTime, .15); }catch(_){} setTimeout(() => A.ctx.close().catch(() => {}), 800); BR.audio = null; }
+  if (BR.lock){ BR.lock.release().catch(() => {}); BR.lock = null; }
+}
+function brFinish(){
+  if (!BR || BR.ended) return;
+  BR.ended = true; brQuiet(); brRecord();
+  if (!BR.rec){ brClose(); toast('Práctica cancelada: dura menos de medio minuto'); return; }
+  brEndScreen();
+}
+function brEndScreen(){
+  const r = BR.rec, el = document.getElementById('br');
+  el.classList.remove('dim');
+  el.innerHTML = `<div class="br-end"><h2 style="font-size:24px;margin:0 0 4px">Bien hecho</h2>
+    <div class="muted">Has practicado ${Math.max(1, Math.round(r.seg / 60))} min de ${BR.t.n.toLowerCase()}.</div>
+    <label class="f" style="margin-top:22px">¿Y ahora, cuánta tensión notas? <span style="font-weight:400">(opcional)</span></label>
+    ${scaleHtml('br-despues', '', BR.despues)}
+    ${BR.antes != null ? `<div class="muted small num" style="margin-top:8px">Antes: ${BR.antes}${BR.despues != null ? ` · ahora: <b>${BR.despues}</b>` : ''}</div>` : ''}
+    <div class="actions" style="margin-top:20px"><button class="btn" data-act="br-again">Repetir</button><button class="btn pri" data-act="br-done">Hecho</button></div></div>`;
+}
+function brClose(){ // quita la sesión de la pantalla y del historial
+  if (!BR) return;
+  if (!BR.ended){ BR.ended = true; brQuiet(); }
+  document.getElementById('br')?.remove(); BR = null;
+  if (history.state && history.state.br) history.back(); else render();
+}
+function brStop(){ // Atrás del móvil durante la sesión (el historial ya ha vuelto)
+  if (!BR) return;
+  if (!BR.ended){ BR.ended = true; brQuiet(); brRecord(); }
+  document.getElementById('br')?.remove(); BR = null;
+}
+document.addEventListener('visibilitychange', () => {
+  if (!BR || BR.ended) return;
+  if (document.hidden){ if (BR.paused == null) brPause(); }
+  else brWake(); // el bloqueo de pantalla se suelta al salir de la app
+});
+
 /* ===================== Acciones ===================== */
 const ACT = {
+  'go': b => go(b.dataset.to),
+  'back': goBack,
+  'br-open': b => { if (!b.dataset.keep) BRPRE = null; sheetBr(b.dataset.id); },
+  'br-dur': b => { S.settings.resp.dur[b.dataset.id] = +b.dataset.v; save(); keepScroll(render); sheetBr(b.dataset.id); },
+  'br-rit': b => { S.settings.resp.ritmo[b.dataset.id] = +b.dataset.v; save(); keepScroll(render); sheetBr(b.dataset.id); },
+  'br-son': b => { const t = TEC(b.dataset.id); S.settings.resp.son[t.id] = !sonOf(t); save(); sheetBr(t.id); },
+  'br-vib': b => { S.settings.resp.vib = !S.settings.resp.vib; save(); sheetBr(b.dataset.id); },
+  'br-antes': b => { BRPRE = BRPRE === +b.dataset.v ? null : +b.dataset.v; sheetBr(b.dataset.id); },
+  'br-info': b => sheetBrInfo(b.dataset.id),
+  'br-start': b => brStart(b.dataset.id),
+  'br-pause': brPause,
+  'br-stop': brFinish,
+  'br-despues': b => {
+    BR.despues = BR.despues === +b.dataset.v ? null : +b.dataset.v;
+    if (BR.rec){ BR.rec.despues = BR.despues; save(); }
+    brEndScreen();
+  },
+  'br-again': () => { const id = BR.t.id, d = BR.despues; document.getElementById('br')?.remove(); BR = null; BRPRE = d; brStart(id); },
+  'br-done': () => { const a = BR.antes, d = BR.despues; brClose(); if (a != null && d != null) toast(`Tensión: ${a} → ${d}`); },
   'new': () => openEditor(null),
   'discard': () => { const d = S.draft; S.draft = null; save(); render(); toast('Borrador descartado', () => { S.draft = d; save(); render(); }); },
   'ed-close': closeEditor,
@@ -762,7 +1113,7 @@ const ACT = {
   'exp-csv': exportCSV,
   'bk-export': backupExport,
   'wipe': sheetWipe,
-  'wipe-yes': () => { S = structuredClone(DEFAULTS); save(); applyTheme(); closeSheet(); ED = null; TAB = 'registrar'; render(); toast('Datos borrados'); },
+  'wipe-yes': () => { S = structuredClone(DEFAULTS); save(); applyTheme(); closeSheet(); ED = null; history.replaceState(null, '', '#inicio'); routeFromHash(); render(); toast('Datos borrados'); },
   'sheet-close': closeSheet,
 };
 function keepScroll(fn){ const y = window.scrollY; fn(); window.scrollTo(0, y); }
@@ -786,10 +1137,10 @@ app.addEventListener('change', e => {
 app.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'ed-otra'){ e.preventDefault(); ACT['emo-add'](); } });
 
 // El día cambia a las 05:00: al volver a la app se repinta «Hoy»
-document.addEventListener('visibilitychange', () => { if (!document.hidden && !ED && !document.querySelector('.sheet') && TAB === 'registrar') render(); });
-function tabFromHash(){ const h = location.hash.slice(1); if (TABS.includes(h)) TAB = h; }
-window.addEventListener('hashchange', () => { tabFromHash(); render(); });
-tabFromHash();
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && !ED && !BR && !document.querySelector('.sheet') && (VIEW === 'inicio' || (VIEW === 'abc' && TAB === 'registrar'))) render();
+});
+routeFromHash();
 applyTheme();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 render();
