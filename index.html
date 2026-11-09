@@ -186,6 +186,21 @@ body.nonav main:has(>.crisis){min-height:calc(100dvh - 24px - env(safe-area-inse
 .br-end{max-width:528px;margin:auto;width:100%}
 .crisis{color:var(--muted);font-size:11.5px;text-align:center;margin:auto 8px 0;padding-top:28px;opacity:.85}
 .crisis a{color:inherit;font-weight:700}
+/* anclaje */
+.ic-anc{width:40px;height:40px;border-radius:50%;background:color-mix(in srgb,var(--hi) 24%,transparent);display:grid;place-items:center;margin-bottom:4px;font-size:20px;line-height:1}
+.linkb{color:var(--acc-ink);font-weight:700;text-decoration:underline;padding:0}
+.btn.an-sim{flex-direction:column;gap:2px;margin-top:8px;padding:14px 18px}
+.btn.an-sim span{font-size:13px;font-weight:500;color:var(--muted)}
+.an-pie{text-align:center;font-size:14px;font-style:italic;color:var(--muted);margin:18px 8px 0;overflow-wrap:anywhere}
+.an-stage{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;max-width:560px;width:100%;margin:0 auto;padding:0 8px}
+.an-dots{display:flex;gap:8px}
+.an-dots i{width:30px;height:5px;border-radius:9px;background:var(--line)}
+.an-dots i.on{background:var(--hi)}
+.an-paso{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--hi)}
+.an-fr{font-size:26px;font-weight:700;line-height:1.35;letter-spacing:-.01em;min-height:5.2em;width:100%;overflow-wrap:anywhere}
+.an-fr .w{display:inline-block;white-space:nowrap}
+.an-fr .ch{display:inline-block;transform-origin:50% 60%;animation:an-ola .9s ease-in-out both}
+@keyframes an-ola{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
 @keyframes up{from{transform:translateY(24px);opacity:0}}
 .toast{animation-name:tup} @keyframes tup{from{transform:translate(-50%,24px);opacity:0}}
 @keyframes fade{from{opacity:0}}
@@ -221,14 +236,14 @@ body.nonav main:has(>.crisis){min-height:calc(100dvh - 24px - env(safe-area-inse
 <div id="print"></div>
 <script>
 'use strict';
-const VERSION = 5;
+const VERSION = 6;
 const STORE = 'abc.v1';
 
 /* ===================== Datos ===================== */
 const EMOS = ['Ansiedad','Tristeza','Ira','Miedo','Culpa','Vergüenza','Frustración','Soledad','Celos','Asco','Alegría','Calma'];
 const FIS = ['Tensión muscular','Palpitaciones','Nudo en el estómago','Falta de aire','Llanto','Temblor','Calor o sudor','Mareo','Cansancio','Dolor de cabeza','Inquietud'];
 const PSICO = 'Raúl Triana Guillén'; // psicólogo por defecto: la app es suya
-const DEFAULTS = {settings:{nombre:'', psico:PSICO, consulta:'', theme:'auto', resp:{dur:{}, ritmo:{}, son:{}, vib:true}}, entries:[], draft:null, resp:[]};
+const DEFAULTS = {settings:{nombre:'', psico:PSICO, consulta:'', theme:'auto', resp:{dur:{}, ritmo:{}, son:{}, vib:true}, anc:{nombre:'', vib:true, preg:false}}, entries:[], draft:null, resp:[], anc:[]};
 // Una práctica de respiración: {id, at (ms), tec, seg (segundos hechos), antes, despues (tensión 0–10 o null)}
 // Una entrada: {id, at (ms), a, b, emo:[{n, i 0–10}], fis:[…], fisTxt, cond, cp, lp, cre, upd}
 // cp y lp: qué pasó después de la conducta, a corto y a largo plazo (desde la v2)
@@ -239,6 +254,8 @@ function load(){
   S.settings = Object.assign(structuredClone(DEFAULTS.settings), S.settings);
   if (!Array.isArray(S.entries)) S.entries = [];
   if (!Array.isArray(S.resp)) S.resp = [];
+  if (!Array.isArray(S.anc)) S.anc = [];
+  S.settings.anc = Object.assign(structuredClone(DEFAULTS.settings.anc), S.settings.anc);
   S.settings.resp = Object.assign(structuredClone(DEFAULTS.settings.resp), S.settings.resp);
   if (!S.settings.psico) S.settings.psico = PSICO; // las versiones 1 y 2 lo dejaban vacío
   for (const e of S.entries.concat(S.draft ? [S.draft.data] : [])){ e.cp = e.cp || ''; e.lp = e.lp || ''; }
@@ -309,7 +326,7 @@ function sheet(html, onMount){
 function closeSheet(){ document.getElementById('sheet-root').innerHTML = ''; }
 
 /* ===================== Navegación ===================== */
-// Pantallas: inicio (menú de herramientas) · abc (con sus pestañas) · respirar · ajustes.
+// Pantallas: inicio (menú de herramientas) · abc (con sus pestañas) · respirar · anclaje · ajustes.
 // Cada pantalla va en el historial (#abc/historial, #respirar…), así el botón Atrás del móvil vuelve al menú.
 const TABS = ['registrar','historial','resumen'];
 let VIEW = 'inicio', TAB = 'registrar';
@@ -324,14 +341,14 @@ function render(){
     if (ED) return renderEditor();
     return ({registrar:renderRegistrar, historial:renderHistorial, resumen:renderResumen})[TAB]();
   }
-  ({inicio:renderInicio, respirar:renderRespirar, ajustes:renderAjustes})[VIEW]();
+  ({inicio:renderInicio, respirar:renderRespirar, anclaje:renderAnclaje, ajustes:renderAjustes})[VIEW]();
 }
 function applyTheme(){ const t = S.settings.theme; if (t === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', t); }
 function routeFromHash(){
   const [v, t] = location.hash.slice(1).split('/');
   if (TABS.includes(v)){ VIEW = 'abc'; TAB = v; }        // enlaces de la versión 4 (#registrar, #historial…)
   else if (v === 'abc'){ VIEW = 'abc'; TAB = TABS.includes(t) ? t : 'registrar'; }
-  else VIEW = ['respirar','ajustes'].includes(v) ? v : 'inicio';
+  else VIEW = ['respirar','anclaje','ajustes'].includes(v) ? v : 'inicio';
 }
 function go(hash){
   history.pushState({app:1}, '', '#' + hash);
@@ -343,9 +360,11 @@ function goBack(){
 }
 window.addEventListener('popstate', () => {
   if (BR) brStop();
+  if (AN) anStop();
   if (ED && !ED.id && !isBlank(ED.data)) toast('Guardado como borrador');
   if (ED){ if (!ED.id && isBlank(ED.data)){ S.draft = null; save(); } ED = null; }
   routeFromHash(); closeSheet(); window.scrollTo(0, 0); render();
+  if (AFTER){ const f = AFTER; AFTER = null; f(); }
 });
 document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('click', () => {
   closeSheet(); TAB = b.dataset.tab; history.replaceState(history.state, '', '#abc/' + TAB); window.scrollTo(0, 0); render();
@@ -355,7 +374,7 @@ document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('cl
 const TOOLS = [
   {id:'abc', n:'Autorregistro', d:'Apunta qué pasó, qué pensaste y cómo te sentiste', ic:'<span class="ic-abc">ABC</span>'},
   {id:'respirar', n:'Respiración guiada', d:'Ejercicios para bajar la tensión, calmarte o dormir', ic:'<span class="ic-resp"><i></i></span>'},
-  {id:null, n:'Anclaje 5-4-3-2-1', d:'Para volver al presente', ic:'<span class="ic-soon">5·4·3</span>'},
+  {id:'anclaje', n:'Anclaje', d:'Para mantenerte en pie cuando aprieta y elegir qué hacer', ic:'<span class="ic-anc">⚓</span>'},
   {id:null, n:'Relajación muscular', d:'Tensar y soltar, paso a paso', ic:'<span class="ic-soon">〰</span>'},
 ];
 function renderInicio(){
@@ -502,6 +521,7 @@ function saveEntry(){
   const now = Date.now();
   const e = {id: ED.id || uid(), at: d.at, a: d.a.trim(), b: d.b.trim(), emo: d.emo, fis: d.fis, fisTxt: d.fisTxt.trim(), cond: d.cond.trim(), cp: d.cp.trim(), lp: d.lp.trim(), cre: d.cre || now, upd: now};
   if (d.lpNo && !e.lp) e.lpNo = true;
+  if (d.anc){ e.anc = d.anc; const r = S.anc.find(x => x.id === d.anc); if (r) r.abc = e.id; } // viene de una sesión de Anclaje
   if (ED.id){ const i = S.entries.findIndex(x => x.id === ED.id); if (i >= 0) S.entries[i] = e; else S.entries.push(e); }
   else { S.entries.push(e); S.draft = null; }
   if (!save()) return;
@@ -512,7 +532,7 @@ function saveEntry(){
 /* ===================== Detalle ===================== */
 function sheetEntry(id){
   const e = S.entries.find(x => x.id === id); if (!e) return;
-  sheet(`<h2>${dayTitle(dayKey(e.at))} · ${hhmm(e.at)}</h2><div class="sub">${longDate(e.at)}</div>
+  sheet(`<h2>${dayTitle(dayKey(e.at))} · ${hhmm(e.at)}</h2><div class="sub">${longDate(e.at)}${e.anc ? ' · ⚓ desde Anclaje' : ''}</div>
     <div class="dsec"><div class="dl"><span class="L">A</span>Antecedente</div><p>${nl(e.a)}</p></div>
     <div class="dsec"><div class="dl"><span class="L">B</span>Pensamientos</div><p>${nl(e.b)}</p></div>
     <div class="dsec"><div class="dl"><span class="L">C</span>Consecuencias</div>
@@ -680,6 +700,11 @@ function sheetExport(){
     if (f){ f.addEventListener('change', () => { EXP.from = f.value; upd(); }); t.addEventListener('change', () => { EXP.to = t.value; upd(); }); }
   });
 }
+function ancLine(){ // anclajes del periodo, sin el nombre elegido
+  const {from, to} = expRange(), lo = EXP.per === 'all' ? 0 : from; // «Todo» empieza en el primer registro ABC: aquí cuenta también lo anterior
+  const l = S.anc.filter(r => r.at >= lo && r.at <= to), re = l.filter(r => r.modo === 'real').length, si = l.length - re;
+  return l.length ? `Anclaje en el periodo: ${re} en un momento real · ${si} simulacro${si === 1 ? '' : 's'}.` : '';
+}
 function reportHtml(list){
   const {from, to} = expRange(), s = S.settings, st = stats(list), now = Date.now();
   return `<h1>Autorregistro ABC</h1>
@@ -688,7 +713,7 @@ function reportHtml(list){
     <table class="rs"><tr><th>Emoción</th><th>Veces</th><th>Intensidad media</th><th>Máxima</th></tr>
       ${st.emos.map(e => `<tr><td>${esc(e.n)}</td><td class="n">${e.c}</td><td class="n">${dec(e.sum / e.c)}</td><td class="n">${e.max}</td></tr>`).join('')}</table>
     <p>Intensidad de cada registro (la emoción más intensa): baja (0–3) ${st.buckets.lo} · media (4–6) ${st.buckets.mid} · alta (7–10) ${st.buckets.hi}.
-      ${st.fis.length ? `<br>En el cuerpo, lo más frecuente: ${st.fis.slice(0, 5).map(([n, c]) => esc(n) + ' (' + c + ')').join(', ')}.` : ''}</p>
+      ${st.fis.length ? `<br>En el cuerpo, lo más frecuente: ${st.fis.slice(0, 5).map(([n, c]) => esc(n) + ' (' + c + ')').join(', ')}.` : ''}${ancLine() ? '<br>' + ancLine() : ''}</p>
     <h2>Registros</h2>
     <table class="rg"><thead><tr><th style="width:9%">Fecha</th><th style="width:18%">A · Antecedente</th><th style="width:18%">B · Pensamientos</th><th style="width:12%">C · Emociones (0–10)</th><th style="width:11%">C · En el cuerpo</th><th style="width:15%">C · Qué hizo</th><th style="width:17%">C · Después (corto / largo plazo)</th></tr></thead>
       <tbody>${list.map(e => `<tr><td>${cap(DAYS_LONG[new Date(e.at).getDay()]).slice(0, 3)} ${dmy(e.at)}<br>${hhmm(e.at)}</td><td>${esc(e.a)}</td><td>${esc(e.b)}</td><td>${esc(emoTxt(e))}</td><td>${esc(fisTxt(e))}</td><td>${esc(e.cond)}</td><td>${e.cp ? '<b>Corto:</b> ' + esc(e.cp) : ''}${e.cp && e.lp ? '<br>' : ''}${e.lp ? '<b>Largo:</b> ' + esc(e.lp) : ''}</td></tr>`).join('')}</tbody></table>
@@ -704,7 +729,7 @@ function exportPDF(){
 }
 function reportText(list){
   const {from, to} = expRange(), s = S.settings;
-  const lines = ['Autorregistro ABC' + (s.nombre ? ' · ' + s.nombre : ''), `Periodo: ${dmy(from)} – ${dmy(to)} · ${list.length} registros`, ''];
+  const lines = ['Autorregistro ABC' + (s.nombre ? ' · ' + s.nombre : ''), `Periodo: ${dmy(from)} – ${dmy(to)} · ${list.length} registros`, ...(ancLine() ? [ancLine()] : []), ''];
   for (const e of list){
     lines.push(`— ${cap(DAYS_LONG[new Date(e.at).getDay()])} ${dmy(e.at)}, ${hhmm(e.at)}`, `A · Antecedente: ${e.a}`, `B · Pensamientos: ${e.b}`, `C · Emociones: ${emoTxt(e)}`);
     if (e.fis.length || e.fisTxt) lines.push(`C · En el cuerpo: ${fisTxt(e)}`);
@@ -757,6 +782,10 @@ function renderAjustes(){
     <button class="btn pri" style="width:100%" data-act="export">Exportar autorregistros (PDF, texto o CSV)</button>
   </div>
   <div class="card">
+    <label class="f" style="margin-top:0">Anclaje</label>
+    <div class="row" style="justify-content:space-between"><span>Lo llamas <b>«${esc(anN())}»</b></span><button class="btn sm" data-act="an-nom">Cambiar</button></div>
+  </div>
+  <div class="card">
     <label class="f" style="margin-top:0">Tema</label>
     <div class="seg">${[['auto','Auto'],['dark','Oscuro'],['light','Claro']].map(([v, l]) => `<button data-act="theme" data-v="${v}" class="${s.theme === v ? 'on' : ''}">${l}</button>`).join('')}</div>
   </div>
@@ -786,7 +815,7 @@ function renderAjustes(){
       if (!data || !Array.isArray(data.entries)) throw 0;
       const valid = data.entries.filter(x => x && typeof x.id === 'string' && typeof x.at === 'number' && typeof x.a === 'string' && typeof x.b === 'string' && Array.isArray(x.emo))
         .map(x => ({id:x.id, at:x.at, a:x.a, b:x.b, emo:x.emo.filter(y => y && typeof y.n === 'string').map(y => ({n:y.n.slice(0, 30), i:Math.max(0, Math.min(10, Math.round(+y.i || 0)))})),
-          fis:Array.isArray(x.fis) ? x.fis.filter(y => typeof y === 'string') : [], fisTxt:String(x.fisTxt || ''), cond:String(x.cond || ''), cp:String(x.cp || ''), lp:String(x.lp || ''), ...(x.lpNo ? {lpNo:true} : {}), cre:+x.cre || x.at, upd:+x.upd || x.at}));
+          fis:Array.isArray(x.fis) ? x.fis.filter(y => typeof y === 'string') : [], fisTxt:String(x.fisTxt || ''), cond:String(x.cond || ''), cp:String(x.cp || ''), lp:String(x.lp || ''), ...(x.lpNo ? {lpNo:true} : {}), ...(typeof x.anc === 'string' ? {anc:x.anc} : {}), cre:+x.cre || x.at, upd:+x.upd || x.at}));
       let added = 0, updated = 0;
       for (const x of valid){
         const i = S.entries.findIndex(y => y.id === x.id);
@@ -799,17 +828,23 @@ function renderAjustes(){
         if (!x || typeof x.id !== 'string' || typeof x.at !== 'number' || !TEC(x.tec) || S.resp.some(y => y.id === x.id)) continue;
         S.resp.push({id:x.id, at:x.at, tec:x.tec, seg:Math.max(0, Math.round(+x.seg || 0)), antes:tens(x.antes), despues:tens(x.despues)}); addedR++;
       }
+      let addedA = 0; // sesiones de anclaje (copias desde la v6)
+      if (Array.isArray(data.anc)) for (const x of data.anc){
+        if (!x || typeof x.id !== 'string' || typeof x.at !== 'number' || !['real','sim'].includes(x.modo) || S.anc.some(y => y.id === x.id)) continue;
+        S.anc.push({id:x.id, at:x.at, modo:x.modo, seg:Math.max(0, Math.round(+x.seg || 0)), fin:!!x.fin, hacer:String(x.hacer || '').slice(0, 500), abc:typeof x.abc === 'string' ? x.abc : null}); addedA++;
+      }
+      if (data.settings && data.settings.anc && !S.settings.anc.nombre && typeof data.settings.anc.nombre === 'string') S.settings.anc.nombre = anClean(data.settings.anc.nombre);
       save(); render();
-      toast(`Importado: ${added} registro${added === 1 ? '' : 's'} nuevo${added === 1 ? '' : 's'}` + (updated ? `, ${updated} actualizado${updated === 1 ? '' : 's'}` : '') + (addedR ? `, ${addedR} práctica${addedR === 1 ? '' : 's'} de respiración` : ''));
+      toast(`Importado: ${added} registro${added === 1 ? '' : 's'} nuevo${added === 1 ? '' : 's'}` + (updated ? `, ${updated} actualizado${updated === 1 ? '' : 's'}` : '') + (addedR ? `, ${addedR} práctica${addedR === 1 ? '' : 's'} de respiración` : '') + (addedA ? `, ${addedA} anclaje${addedA === 1 ? '' : 's'}` : ''));
     }catch(_){ toast('Ese archivo no es una copia válida'); }
   });
 }
 function backupExport(){
-  const data = {app:'registro-abc', version:VERSION, exportado:new Date().toISOString(), settings:S.settings, entries:S.entries, resp:S.resp};
+  const data = {app:'registro-abc', version:VERSION, exportado:new Date().toISOString(), settings:S.settings, entries:S.entries, resp:S.resp, anc:S.anc};
   shareOrDownload(new Blob([JSON.stringify(data, null, 1)], {type:'application/json'}), 'Copia Registro ABC ' + dmy(Date.now()).replace(/\//g, '-') + '.json');
 }
 function sheetWipe(){
-  sheet(`<h2>¿Borrar todos los datos?</h2><div class="sub">Se borrarán ${S.entries.length} registro${S.entries.length === 1 ? '' : 's'}, ${S.resp.length} práctica${S.resp.length === 1 ? '' : 's'} de respiración y los ajustes de este móvil. No se puede deshacer; si quieres conservarlos, exporta antes una copia.</div>
+  sheet(`<h2>¿Borrar todos los datos?</h2><div class="sub">Se borrarán ${S.entries.length} registro${S.entries.length === 1 ? '' : 's'}, ${S.resp.length} práctica${S.resp.length === 1 ? '' : 's'} de respiración, ${S.anc.length} anclaje${S.anc.length === 1 ? '' : 's'} y los ajustes de este móvil. No se puede deshacer; si quieres conservarlos, exporta antes una copia.</div>
     <div class="actions"><button class="btn" data-act="sheet-close">Cancelar</button><button class="btn danger" data-act="wipe-yes">Borrar todo</button></div>`);
 }
 
@@ -1093,6 +1128,178 @@ document.addEventListener('visibilitychange', () => {
   else brWake(); // el bloqueo de pantalla se suelta al salir de la app
 });
 
+/* ===================== Anclaje ===================== */
+// No busca calmar: sirve para mantenerse en pie mientras el malestar está y elegir qué hacer.
+// Ningún texto promete que la emoción se vaya, y por eso aquí no se mide la tensión antes y después.
+// Solo texto: cada frase se lee letra a letra, con una ola de zoom que pasa de izquierda a derecha.
+// Una sesión: {id, at (ms), modo ('real' | 'sim'), seg, fin (llegó al final), hacer, abc (id del registro enlazado o null)}
+const AN_DEF = 'la alarma';
+const AN_SUG = ['la alarma', 'la tormenta', 'la ola', 'el nudo', 'el ruido', 'la visita', 'el pasajero'];
+const AN_PASOS = [
+  {t:'Nota y nombra', f:['Ahí está {n}.', '¿En qué parte del cuerpo se nota?', 'Si aparece una frase, di por dentro: estoy teniendo el pensamiento de que…']},
+  {t:'Conecta con el cuerpo', f:['Pies en el suelo.', 'Peso en la silla.', 'Suelta el aire despacio, más largo de lo que lo coges.']},
+  {t:'Vuelve a lo que haces', f:['{N} puede seguir aquí.', 'Mira dónde estás y con quién.', 'Si {n} no existiera ahora mismo, ¿qué estarías haciendo?']},
+];
+const AN_SIM = 'Esto es un ensayo. Imagina que {n} acaba de aparecer.';
+const AN_LETRA = 65;          // ms por letra: el ritmo de una lectura tranquila (unas 150 palabras por minuto)
+const AN_HOLD = 1400;         // ms con la frase ya completa antes de pasar a la siguiente
+const AN_GAP = 7, AN_GAP_FIN = 3; // segundos de silencio tras cada frase y tras la última
+let AN = null;      // sesión en marcha
+let AFTER = null;   // lo que hay que hacer cuando el historial termine de volver (ver popstate)
+const anN = () => S.settings.anc.nombre || AN_DEF;
+const anTxt = x => x.replace('{n}', anN()).replace('{N}', cap(anN()));
+const anPie = () => `<div class="an-pie">No es para que ${esc(anN())} se vaya. Es para que no decida por ti.</div>`;
+function anClean(v){ // «La alarma» → «la alarma», para que encaje en mitad de una frase; los nombres propios se quedan como están
+  v = String(v || '').trim().replace(/\s+/g, ' ').slice(0, 30);
+  return /^(El|La|Los|Las|Mi|Mis|Un|Una|Ese|Esa|Eso|Este|Esta|Esto)\s/.test(v) ? v[0].toLowerCase() + v.slice(1) : v;
+}
+
+function renderAnclaje(){
+  const a = S.settings.anc, k = dayKey(), week = S.anc.filter(r => dayKey(r.at) >= addDays(k, -6)).sort((x, y) => y.at - x.at);
+  const re = week.filter(r => r.modo === 'real').length;
+  app.innerHTML = `<header class="top">${BACK}<div class="ht"><h1>Anclaje</h1><div class="sub">Para cuando aprieta</div></div></header>
+    <div class="card"><b>No busca calmarte ni que el malestar desaparezca.</b> Sirve para mantenerte en pie mientras está y elegir qué hacer.
+      <div class="muted small" style="margin-top:8px">¿Lo que quieres es bajar la tensión? Para eso está la <button class="linkb" data-act="go" data-to="respirar">Respiración guiada</button>.</div></div>
+    <button class="btn pri big" data-act="an-start" data-m="real">Ahora lo necesito</button>
+    <button class="btn big an-sim" data-act="an-start" data-m="sim"><b>Simulacro</b><span>Práctica diaria en calma, para entrenarlo antes de necesitarlo</span></button>
+    <div class="card" style="margin-top:12px">
+      <div class="row" style="justify-content:space-between"><span>${a.nombre ? 'Lo llamas' : 'Aún sin nombre. Se usará'} <b>«${esc(anN())}»</b></span>
+        <button class="btn sm" data-act="an-nom">${a.nombre ? 'Cambiar' : 'Ponerle nombre'}</button></div>
+      ${a.nombre ? '' : '<div class="muted small" style="margin-top:6px">Ponerle nombre ayuda a verlo desde fuera.</div>'}
+      <div class="chips" style="margin-top:12px">${navigator.vibrate ? `<button class="chip ${a.vib ? 'on' : ''}" data-act="an-vib">📳 Vibración</button>` : ''}</div>
+    </div>
+    <details class="card"><summary>¿Cómo es la sesión?</summary>
+      <ol class="small" style="margin:10px 0 0;padding-left:20px;display:grid;gap:6px">${AN_PASOS.map(p => `<li><b>${p.t}.</b> ${esc(p.f.map(anTxt).join(' '))}</li>`).join('')}</ol>
+      <div class="muted small" style="margin-top:10px">Dura en torno a un minuto y medio, con pausas entre frases. Solo texto, sin voz.</div></details>
+    ${week.length ? `<h3 class="sec"><span>Últimos 7 días</span></h3>
+      <div class="card hero">
+        <div><div class="big num">${re}</div><div class="lbl">en un momento real</div></div>
+        <div><div class="big num">${week.length - re}</div><div class="lbl">simulacro${week.length - re === 1 ? '' : 's'}</div></div>
+        <div><div class="big num">${new Set(week.map(r => dayKey(r.at))).size}</div><div class="lbl">días</div></div>
+      </div>
+      <div class="card" style="padding:4px 14px">${week.slice(0, 6).map(r => `<div class="rrow"><span>${dayTitle(dayKey(r.at))} · ${hhmm(r.at)}</span><span>${r.modo === 'sim' ? 'Simulacro' : 'Momento real'}${r.hacer ? ` · <b>${esc(r.hacer.length > 60 ? r.hacer.slice(0, 60) + '…' : r.hacer)}</b>` : ''}</span></div>`).join('')}</div>` : ''}
+    ${anPie()}${CRISIS}`;
+}
+function sheetAnNombre(modo){ // modo: si viene de «Simulacro» la primera vez, al cerrar empieza la sesión
+  const a = S.settings.anc, m = modo ? ` data-m="${modo}"` : '';
+  sheet(`<h2>¿Cómo lo llamas?</h2><div class="sub">Eso que te aparece cuando hay ansiedad, enfado o malestar intenso. Ponerle nombre ayuda a verlo desde fuera.</div>
+    <div class="chips" style="margin-top:10px">${AN_SUG.map(n => `<button class="chip ${a.nombre === n ? 'on' : ''}" data-act="an-sug" data-n="${esc(n)}">${esc(n)}</button>`).join('')}</div>
+    <label class="f">O escribe el tuyo</label>
+    <input id="an-nom" maxlength="30" autocomplete="off" value="${esc(a.nombre)}" placeholder="Una palabra, un personaje, un nombre propio">
+    <div class="muted small" style="margin-top:8px">Escríbelo como lo dirías en una frase: «la alarma», «el pesado de Paco», «Paco». Mejor un nombre curioso o neutro que uno de enemigo: no se trata de pelear con ello.</div>
+    <div class="actions"><button class="btn ghost" data-act="an-nom-no"${m}>${a.nombre ? 'Cancelar' : `Usar «${AN_DEF}»`}</button><button class="btn pri" data-act="an-nom-ok"${m}>Guardar</button></div>
+    <div class="muted small" style="margin-top:12px">Puedes cambiarlo cuando quieras.</div>`);
+}
+function anNomSet(v, modo){
+  const a = S.settings.anc, antes = a.nombre;
+  if (v != null) a.nombre = anClean(v);
+  a.preg = true; save(); closeSheet(); render();
+  if (modo) anStart(modo);
+  else if (v != null && a.nombre !== antes) toast(`Ahora se llama «${anN()}»`);
+}
+
+function anStart(modo){
+  closeSheet();
+  const a = S.settings.anc, seq = modo === 'sim' ? [{p:-1, x:AN_SIM}] : [];
+  AN_PASOS.forEach((s, i) => s.f.forEach(x => seq.push({p:i, x})));
+  AN = {modo, seq, i:-1, at:Date.now(), pAt:null, pausedMs:0, tok:0, tm:[], lock:null, ended:false, rec:null, conf:false,
+    vib: !!navigator.vibrate && a.vib};
+  if (!(history.state && history.state.an)) history.pushState({app:1, an:1}, '', '#anclaje'); // Atrás cierra la sesión
+  const el = document.createElement('div'); el.id = 'an'; el.className = 'br';
+  el.innerHTML = `<div class="br-top"><span class="t">${modo === 'sim' ? 'Simulacro' : 'Anclaje'}</span><button class="btn sm ghost" data-act="an-stop">Terminar</button></div>
+    <div class="an-stage"><div class="an-dots">${AN_PASOS.map((_, i) => `<i id="an-d${i}"></i>`).join('')}</div>
+      <div class="an-paso" id="an-paso"></div><div class="an-fr" id="an-fr" aria-live="polite"></div></div>
+    <div class="br-bot"><button class="btn" data-act="an-pause" id="an-pause">Pausa</button>${anPie()}</div>`;
+  document.body.appendChild(el);
+  anWake(); anNext();
+}
+function anNext(){
+  if (!AN || AN.ended) return;
+  if (++AN.i >= AN.seq.length) return anFinish(true);
+  anSay();
+}
+function anSay(){ // la frase se lee letra a letra (una ola de zoom de izquierda a derecha) y, al acabar, queda un silencio antes de la siguiente
+  const it = AN.seq[AN.i], txt = anTxt(it.x), tok = ++AN.tok, last = AN.i === AN.seq.length - 1;
+  document.getElementById('an-paso').textContent = it.p < 0 ? 'Antes de empezar' : `Paso ${it.p + 1} de ${AN_PASOS.length} · ${AN_PASOS[it.p].t}`;
+  AN_PASOS.forEach((_, i) => document.getElementById('an-d' + i).classList.toggle('on', i <= it.p));
+  const fr = document.getElementById('an-fr'); let k = 0;
+  fr.setAttribute('aria-label', txt); // para lectores de pantalla, la frase entera y no letra a letra
+  fr.innerHTML = txt.split(' ').map((w, i) => (i ? (k++, ' ') : '') + `<span class="w" aria-hidden="true">${[...w].map(c => `<span class="ch" style="animation-delay:${k++ * AN_LETRA}ms">${esc(c)}</span>`).join('')}</span>`).join('');
+  if (AN.vib) navigator.vibrate(20);
+  const later = (fn, s) => AN.tm.push(setTimeout(() => { if (AN && AN.tok === tok && !AN.ended) fn(); }, s * 1000));
+  later(() => later(anNext, last ? AN_GAP_FIN : AN_GAP), (txt.length * AN_LETRA + AN_HOLD) / 1000);
+}
+function anHush(){ // corta lo que estuviera programado
+  AN.tok++; AN.tm.forEach(clearTimeout); AN.tm = [];
+}
+async function anWake(){ try{ if ('wakeLock' in navigator && AN && !AN.ended) AN.lock = await navigator.wakeLock.request('screen'); }catch(_){} }
+function anPause(){
+  if (!AN || AN.ended) return;
+  const btn = document.getElementById('an-pause');
+  if (AN.pAt == null){ AN.pAt = Date.now(); anHush(); btn.textContent = 'Seguir'; }
+  else { AN.pausedMs += Date.now() - AN.pAt; AN.pAt = null; btn.textContent = 'Pausa'; anSay(); } // vuelve a leer la frase en la que estaba
+}
+function anQuiet(){ anHush(); if (AN.lock){ AN.lock.release().catch(() => {}); AN.lock = null; } }
+function anRecord(done){ // cuenta si se llegó al final o, al menos, al segundo paso
+  const it = AN.seq[Math.min(Math.max(0, AN.i), AN.seq.length - 1)];
+  if (AN.rec || !(done || it.p >= 1)) return;
+  const seg = Math.max(0, Math.round(((AN.pAt ?? Date.now()) - AN.at - AN.pausedMs) / 1000));
+  AN.rec = {id: uid(), at: AN.at, modo: AN.modo, seg, fin: !!done, hacer: '', abc: null};
+  S.anc.push(AN.rec); save();
+}
+function anFinish(done){
+  if (!AN || AN.ended) return;
+  AN.ended = true; anQuiet(); anRecord(done);
+  if (AN.rec) anEndScreen(); else anClose();
+}
+function anEndScreen(){
+  document.getElementById('an').innerHTML = `<div class="br-end"><h2 style="font-size:24px;margin:0 0 4px">¿Qué quieres hacer ahora?</h2>
+    <div class="muted">Algo pequeño que vaya en la dirección de esa pregunta vale. Si no quieres escribir nada, toca «Hecho».</div>
+    <textarea id="an-hacer" rows="3" maxlength="500" style="margin-top:14px;min-height:96px" placeholder="Ej.: Llamar a mi hermana.">${esc(AN.rec.hacer)}</textarea>
+    ${AN.conf ? `<div class="note">Ya tienes un registro ABC a medias. ¿Lo añado a ese?</div>
+        <div class="actions"><button class="btn" data-act="an-abc-solo">Dejarlo solo aquí</button><button class="btn pri" data-act="an-abc-add">Añadirlo</button></div>`
+      : `<div class="actions" style="margin-top:14px"><button class="btn" data-act="an-abc">Guardar en el registro ABC</button><button class="btn pri" data-act="an-done">Hecho</button></div>`}
+    ${anPie()}</div>`;
+}
+function anHacer(){ // guarda lo escrito en la sesión
+  const t = document.getElementById('an-hacer');
+  if (t && AN && AN.rec){ AN.rec.hacer = t.value.trim(); save(); }
+  return t;
+}
+function anDone(){
+  anHacer();
+  const ask = !S.settings.anc.nombre && !S.settings.anc.preg; // tras la primera vez, invita a ponerle nombre
+  anClose(ask ? () => sheetAnNombre(null) : null);
+}
+function anToAbc(mode){ // lo escrito pasa al registro ABC como registro a medias (el ABC pide antecedente, pensamiento y emoción)
+  const t = anHacer(), r = AN.rec;
+  if (!r.hacer){ t.placeholder = 'Escribe aquí qué quieres hacer para poder guardarlo'; return t.focus(); }
+  const has = S.draft && !isBlank(S.draft.data);
+  if (has && !mode){ AN.conf = true; return anEndScreen(); }
+  if (mode === 'solo') return anClose();
+  if (has){ const d = S.draft.data; d.cond = (d.cond.trim() ? d.cond.trim() + '\n' : '') + r.hacer; if (!d.anc) d.anc = r.id; }
+  else S.draft = {id: null, step: 0, data: {...blank(), cond: r.hacer, anc: r.id}};
+  save();
+  anClose(() => toast(has ? 'Añadido a tu registro a medias' : 'Guardado como registro a medias: complétalo cuando puedas'));
+}
+function anClose(after){ // quita la sesión de la pantalla y del historial
+  if (!AN) return;
+  if (!AN.ended){ AN.ended = true; anQuiet(); }
+  document.getElementById('an')?.remove(); AN = null;
+  if (history.state && history.state.an){ AFTER = after || null; history.back(); }
+  else { render(); if (after) after(); }
+}
+function anStop(){ // Atrás del móvil durante la sesión (el historial ya ha vuelto)
+  if (!AN) return;
+  if (!AN.ended){ AN.ended = true; anQuiet(); anRecord(false); } else anHacer();
+  document.getElementById('an')?.remove(); AN = null;
+}
+document.addEventListener('visibilitychange', () => {
+  if (!AN || AN.ended) return;
+  if (document.hidden){ if (AN.pAt == null) anPause(); }
+  else anWake();
+});
+
 /* ===================== Acciones ===================== */
 const ACT = {
   'go': b => go(b.dataset.to),
@@ -1114,6 +1321,18 @@ const ACT = {
   },
   'br-again': () => { const id = BR.t.id, d = BR.despues; document.getElementById('br')?.remove(); BR = null; BRPRE = d; brStart(id); },
   'br-done': () => { const a = BR.antes, d = BR.despues; brClose(); if (a != null && d != null) toast(`Tensión: ${a} → ${d}`); },
+  'an-start': b => { const m = b.dataset.m; if (m === 'sim' && !S.settings.anc.nombre && !S.settings.anc.preg) return sheetAnNombre(m); anStart(m); },
+  'an-nom': () => sheetAnNombre(null),
+  'an-sug': b => { document.getElementById('an-nom').value = b.dataset.n; b.parentNode.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === b)); },
+  'an-nom-ok': b => anNomSet(document.getElementById('an-nom').value, b.dataset.m),
+  'an-nom-no': b => anNomSet(null, b.dataset.m),
+  'an-vib': () => { S.settings.anc.vib = !S.settings.anc.vib; save(); keepScroll(render); },
+  'an-pause': anPause,
+  'an-stop': () => anFinish(false),
+  'an-done': anDone,
+  'an-abc': () => anToAbc(null),
+  'an-abc-add': () => anToAbc('add'),
+  'an-abc-solo': () => anToAbc('solo'),
   'new': () => openEditor(null),
   'discard': () => { const d = S.draft; S.draft = null; save(); render(); toast('Borrador descartado', () => { S.draft = d; save(); render(); }); },
   'ed-close': closeEditor,
@@ -1186,7 +1405,7 @@ app.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 
 
 // El día cambia a las 05:00: al volver a la app se repinta «Hoy»
 document.addEventListener('visibilitychange', () => {
-  if (!document.hidden && !ED && !BR && !document.querySelector('.sheet') && (VIEW === 'inicio' || (VIEW === 'abc' && TAB === 'registrar'))) render();
+  if (!document.hidden && !ED && !BR && !AN && !document.querySelector('.sheet') && (VIEW === 'inicio' || (VIEW === 'abc' && TAB === 'registrar'))) render();
 });
 routeFromHash();
 applyTheme();
