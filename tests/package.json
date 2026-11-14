@@ -1,0 +1,15 @@
+{
+  "name": "app-abc-pruebas",
+  "private": true,
+  "type": "module",
+  "description": "Pruebas automáticas y montaje de la app. Solo en local; no se publican con la app.",
+  "scripts": {
+    "construir": "node ../src/construir.mjs",
+    "test": "node run.mjs",
+    "comprobar": "node ../src/construir.mjs --comprobar && node run.mjs",
+    "muestra": "node muestra.mjs .. informe-ejemplo.html"
+  },
+  "devDependencies": {
+    "jsdom": "^31.0.1"
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "name": "Registro ABC",
-  "short_name": "Registro ABC",
-  "description": "Autorregistro ABC: antecedente, pensamientos y consecuencias, para revisarlo con tu psicólogo.",
+  "name": "Kit emocional",
+  "short_name": "Kit emocional",
+  "description": "Kit emocional: autorregistro ABC, respiración guiada, anclaje y lo que importa. Para usar con tu psicólogo; los datos se quedan en tu móvil.",
   "lang": "es",
   "id": "./index.html",
   "start_url": "./index.html",

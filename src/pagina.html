@@ -1,0 +1,30 @@
+<!doctype html>
+<!-- No editar este archivo: se monta desde src/ con «node src/construir.mjs». -->
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#11141a">
+<meta name="description" content="Kit emocional: autorregistro ABC, respiración guiada, anclaje y lo que importa. Para usar con tu psicólogo; los datos se quedan en tu móvil.">
+<title>Kit emocional</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+@@ESTILOS@@
+</style>
+</head>
+<body>
+<main id="app" aria-live="polite"></main>
+<nav class="tabs" aria-label="Secciones"><div class="in">
+  <button data-tab="registrar"><span class="ic"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>Registrar</button>
+  <button data-tab="historial"><span class="ic"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></svg></span>Historial</button>
+  <button data-tab="resumen"><span class="ic"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="M8 17v-4"/><path d="M13 17V7"/><path d="M18 17v-7"/></svg></span>Resumen</button>
+</div></nav>
+<div id="sheet-root"></div>
+<div id="print"></div>
+<script>
+@@CODIGO@@
+</script>
+</body>
+</html>

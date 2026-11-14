@@ -1,11 +1,12 @@
 <!doctype html>
+<!-- No editar este archivo: se monta desde src/ con «node src/construir.mjs». -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#11141a">
-<meta name="description" content="Autorregistro ABC: antecedente, pensamientos y consecuencias, para revisarlo con tu psicólogo.">
-<title>Registro ABC</title>
+<meta name="description" content="Kit emocional: autorregistro ABC, respiración guiada, anclaje y lo que importa. Para usar con tu psicólogo; los datos se quedan en tu móvil.">
+<title>Kit emocional</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -34,178 +35,207 @@ body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
 body.editing{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
 body.editing nav.tabs{display:none}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
-input,select,textarea{font:inherit;color:var(--text);background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
+input,select,textarea{font:inherit;color:var(--text);background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px 12px;width:100%}
 textarea{resize:vertical;min-height:120px;line-height:1.45}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
 input[type=range]{padding:0;border:0;background:none;height:34px;accent-color:var(--acc)}
 input[type=range]:focus{outline:none}
 .num{font-variant-numeric:tabular-nums}
 main{max-width:560px;margin:0 auto;padding:16px 16px 24px}
-header.top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:4px 0 14px}
-header.top h1{font-size:22px;margin:0;letter-spacing:-.02em}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:4px 0 16px}
+header.top h1{font-size:24px;margin:0;}
 header.top .sub{color:var(--muted);font-size:14px}
-.navb{width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:20px;font-weight:800;line-height:1;display:grid;place-items:center;flex:0 0 auto}
+.navb{width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:20px;font-weight:600;line-height:1;display:grid;place-items:center;flex:0 0 auto}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:12px}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:999px;background:var(--card2);border:1px solid var(--line);font-size:14px;font-weight:600}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:var(--card2);border:1px solid var(--line);font-size:14px;font-weight:600}
 .chip.on{background:var(--acc);color:var(--on-acc);border-color:transparent}
-.ich{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;border:1px solid currentColor;font-size:13px;font-weight:600;white-space:nowrap}
-.ich b{font-weight:800}
+.ich{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;border:1px solid currentColor;font-size:13px;font-weight:600;white-space:nowrap}
+.ich b{font-weight:600}
 .lo{color:var(--lo)} .mid{color:var(--mid)} .hi{color:var(--hi)}
-.btn{flex:1;padding:12px 14px;border-radius:14px;background:var(--card2);border:1px solid var(--line);font-weight:700;text-align:center}
+.btn{flex:1;padding:12px 16px;border-radius:14px;background:var(--card2);border:1px solid var(--line);font-weight:600;text-align:center}
 .btn.pri{background:var(--acc);color:var(--on-acc);border-color:transparent}
 .btn.ghost{background:transparent}
 .btn.danger{color:var(--danger);border-color:var(--danger);background:transparent}
-.btn.sm{flex:0 0 auto;padding:9px 12px;font-size:14px}
-.btn.big{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:18px;font-size:18px;border-radius:18px}
+.btn.sm{flex:0 0 auto;padding:8px 12px;font-size:14px}
+.btn.big{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:12px;width:100%;padding:20px;font-size:18px;border-radius:18px}
 .actions{display:flex;gap:8px;margin-top:12px}
 .row{display:flex;gap:8px;align-items:center}
 .row>*{min-width:0}
 .muted{color:var(--muted)}
 .small{font-size:13px}
-label.f{display:block;font-size:13px;color:var(--muted);font-weight:600;margin:12px 0 6px}
-.seg{display:flex;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:3px;gap:3px}
-.seg button{flex:1;padding:8px 4px;border-radius:9px;font-weight:700;font-size:14px;color:var(--muted)}
+label.f{display:block;font-size:13px;color:var(--muted);font-weight:600;margin:12px 0 8px}
+.seg{display:flex;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px}
+.seg button{flex:1;padding:8px 4px;border-radius:9px;font-weight:600;font-size:14px;color:var(--muted)}
 .seg button.on{background:var(--acc);color:var(--on-acc)}
-h3.sec{display:flex;justify-content:space-between;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:18px 2px 8px}
-.empty{color:var(--muted);text-align:center;padding:22px 10px;font-size:14px}
+h3.sec{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin:20px 2px 8px}
+.empty{color:var(--muted);text-align:center;padding:24px 12px;font-size:14px}
 /* tarjetas de registro */
-.ecard{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:8px}
-.ecard .eh{display:flex;gap:10px;align-items:flex-start}
-.ecard .et{font-weight:800;font-size:16px;min-width:46px;padding-top:1px}
-.ecard .emos{display:flex;gap:6px;flex-wrap:wrap}
+.ecard{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 16px;margin-bottom:8px}
+.ecard .eh{display:flex;gap:12px;align-items:flex-start}
+.ecard .et{font-weight:600;font-size:16px;min-width:46px;padding-top:1px}
+.ecard .emos{display:flex;gap:8px;flex-wrap:wrap}
 .ecard .ea{margin-top:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.ecard .eb{margin-top:4px;color:var(--muted);font-style:italic;font-size:14px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
-.L{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:10px;background:var(--acc);color:var(--on-acc);font-weight:800;font-size:16px;margin-right:8px;flex:0 0 auto}
-.abc{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.ecard .eb{margin-top:4px;color:var(--muted);font-size:14px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.L{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:10px;background:var(--acc);color:var(--on-acc);font-weight:600;font-size:16px;margin-right:8px;flex:0 0 auto}
+.abc{display:grid;gap:12px;margin:0;padding:0;list-style:none}
 .abc li{display:flex;align-items:flex-start;font-size:14px}
 /* editor */
-.steps{display:flex;gap:6px;margin:0 0 16px}
-.steps button{flex:1;padding:8px 4px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:13px;font-weight:700;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px}
+.steps{display:flex;gap:8px;margin:0 0 16px}
+.steps button{flex:1;padding:8px 4px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px}
 .steps button b{font-size:18px;color:var(--text)}
 .steps button.on{border-color:var(--acc);color:var(--text);box-shadow:inset 0 -3px 0 var(--acc)}
 .steps button.ok b::after{content:" ✓";color:var(--acc-ink);font-size:14px}
-h2.q{display:flex;align-items:center;font-size:20px;margin:18px 0 4px;letter-spacing:-.01em}
+h2.q{display:flex;align-items:center;font-size:20px;margin:20px 0 4px;}
 h2.q:first-child{margin-top:4px}
-.hint{color:var(--muted);font-size:14px;margin:0 0 10px}
-.sl{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px 4px;margin-top:8px}
+.hint{color:var(--muted);font-size:14px;margin:0 0 12px}
+.sl{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 12px 4px;margin-top:8px}
 .sl .row{justify-content:space-between}
-.sl .v{font-size:22px;font-weight:800}
-.sl .ticks{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:-4px;padding-bottom:4px}
-.sl .rm{color:var(--muted);font-size:13px;font-weight:700;padding:4px 0}
-.edfoot{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:5}
+.sl .v{font-size:24px;font-weight:600}
+.sl .ticks{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-top:-4px;padding-bottom:4px}
+.sl .rm{color:var(--muted);font-size:13px;font-weight:600;padding:4px 0}
+.edfoot{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom));z-index:5}
 .edfoot .in{max-width:528px;margin:0 auto;display:flex;gap:8px}
 /* detalle */
-.dsec{margin-top:14px}
-.dsec .dl{display:flex;align-items:center;font-weight:700;margin-bottom:6px}
+.dsec{margin-top:16px}
+.dsec .dl{display:flex;align-items:center;font-weight:600;margin-bottom:8px}
 .dsec p{margin:0 0 0 38px;white-space:pre-wrap;overflow-wrap:anywhere}
 .dsec .chips{margin-left:38px}
-.dsec .ttl{margin:8px 0 4px 38px;color:var(--muted);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.dsec .ttl{margin:8px 0 4px 38px;color:var(--muted);font-size:12px;font-weight:600;}
 /* resumen */
-.hero{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center}
-.hero .big{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.hero{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
+.hero .big{font-size:32px;font-weight:600;line-height:1.1}
 .hero .lbl{color:var(--muted);font-size:12px;font-weight:600;margin-top:2px}
-.hb{display:grid;grid-template-columns:minmax(80px,auto) 1fr auto;gap:6px 10px;align-items:center;font-size:14px}
+.hb{display:grid;grid-template-columns:minmax(80px,auto) 1fr auto;gap:8px 12px;align-items:center;font-size:14px}
 .hb .bar{height:10px;border-radius:99px;background:var(--card2);overflow:hidden}
 .hb .bar i{display:block;height:100%;border-radius:99px;background:var(--acc)}
 .hb .bar i.lo{background:var(--lo)} .hb .bar i.mid{background:var(--mid)} .hb .bar i.hi{background:var(--hi)}
 .hb .r{color:var(--muted);font-size:13px;text-align:right;white-space:nowrap}
-.vbars{display:flex;align-items:flex-end;gap:6px;height:120px;margin-top:6px}
+.vbars{display:flex;align-items:flex-end;gap:8px;height:120px;margin-top:8px}
 .vbars>div{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;min-width:0}
 .vbars i{display:block;width:100%;max-width:34px;background:var(--acc);border-radius:6px 6px 2px 2px;min-height:2px}
-.vbars span{font-size:10px;color:var(--muted);white-space:nowrap}
-.vbars em{font-style:normal;font-size:11px;font-weight:700}
+.vbars span{font-size:12px;color:var(--muted);white-space:nowrap}
+.vbars em{font-style:normal;font-size:12px;font-weight:600}
 /* hojas, pestañas, avisos */
 nav.tabs{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:5}
 nav.tabs .in{display:flex;max-width:560px;width:100%}
-nav.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;font-size:12px;font-weight:700;color:var(--muted);border-radius:12px}
+nav.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;font-size:12px;font-weight:600;color:var(--muted);border-radius:12px}
 nav.tabs button .ic{font-size:20px;line-height:1}
 nav.tabs button[aria-current="page"]{color:var(--text);background:var(--card)}
 .sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10;display:flex;align-items:flex-end;justify-content:center;animation:fade .15s}
-.sheet{background:var(--card);width:100%;max-width:560px;max-height:90vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom));box-shadow:var(--shadow);animation:up .18s ease}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:90vh;overflow:auto;border-radius:22px 22px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom));box-shadow:var(--shadow);animation:up .18s ease}
 .sheet h2{margin:0 0 4px;font-size:20px}
-.sheet .sub{color:var(--muted);font-size:14px;margin-bottom:6px}
+.sheet .sub{color:var(--muted);font-size:14px;margin-bottom:8px}
 .sheet .grab{width:40px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 12px}
 .stack{display:flex;flex-direction:column;gap:8px}
-.opt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;padding:13px 14px;border-radius:14px;background:var(--card2);border:1px solid var(--line)}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 16px;border-radius:14px;background:var(--card2);border:1px solid var(--line)}
 .opt .d{color:var(--muted);font-size:13px}
 .opt.sel{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
-.note{border-left:4px solid var(--hi);background:var(--card2);border-radius:12px;padding:10px 12px;font-size:13px;margin-top:12px}
-.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:99px;font-weight:700;font-size:14px;z-index:20;box-shadow:var(--shadow);animation:up .2s;width:max-content;max-width:calc(100vw - 32px);text-align:center}
-.toast button{color:var(--toast-link);font-weight:800;margin-left:10px}
-details summary{cursor:pointer;font-weight:700}
+.note{border-left:4px solid var(--hi);background:var(--card2);border-radius:12px;padding:12px 12px;font-size:13px;margin-top:12px}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--text);color:var(--bg);padding:12px 16px;border-radius:99px;font-weight:600;font-size:14px;z-index:20;box-shadow:var(--shadow);animation:up .2s;width:max-content;max-width:calc(100vw - 32px);text-align:center}
+.toast button{color:var(--toast-link);font-weight:600;margin-left:12px}
+details summary{cursor:pointer;font-weight:600}
 main:has(>.crisis){display:flex;flex-direction:column;min-height:calc(100dvh - 84px - env(safe-area-inset-bottom))}
 .card.pend{border-color:var(--hi)}
-.card.pend .opt{margin-top:6px;flex-direction:column;align-items:flex-start;gap:2px}
+.card.pend .opt{margin-top:8px;flex-direction:column;align-items:flex-start;gap:2px}
 .card.pend .pa{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
-.ecard .falta{margin-top:8px;font-size:12px;font-weight:700;color:var(--hi)}
+.ecard .falta{margin-top:8px;font-size:12px;font-weight:600;color:var(--hi)}
 .ht{flex:1;min-width:0}
 body.nonav{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
 body.nonav nav.tabs{display:none}
 body.nonav main:has(>.crisis){min-height:calc(100dvh - 24px - env(safe-area-inset-bottom))}
 .acc{color:var(--acc)}
 /* inicio */
-.aviso{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;background:var(--card);border:1px solid var(--hi);border-radius:14px;padding:12px 14px;margin-bottom:8px}
-.aviso span{color:var(--hi);font-weight:700;font-size:14px;white-space:nowrap}
-.tools{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tool{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;min-height:150px}
+.aviso{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border:1px solid var(--hi);border-radius:14px;padding:12px 16px;margin-bottom:8px}
+.aviso span{color:var(--hi);font-weight:600;font-size:14px;white-space:nowrap}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tool{display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;min-height:150px}
 .tool b{font-size:16px;line-height:1.25}
 .tool>span:last-child{color:var(--muted);font-size:13px;line-height:1.35}
 .tool.soon{opacity:.5}
-.ic-abc{font-weight:800;font-size:14px;letter-spacing:.05em;color:var(--on-acc);background:var(--acc);border-radius:12px;padding:9px 10px;margin-bottom:4px}
+.ic-abc{font-weight:600;font-size:14px;color:var(--on-acc);background:var(--acc);border-radius:12px;padding:8px 12px;margin-bottom:4px}
 .ic-resp{width:40px;height:40px;border-radius:50%;background:color-mix(in srgb,var(--lo) 28%,transparent);display:grid;place-items:center;margin-bottom:4px}
 .ic-resp i{width:20px;height:20px;border-radius:50%;background:var(--lo)}
-.ic-soon{font-size:12px;font-weight:800;color:var(--muted);border:1px dashed var(--line);border-radius:12px;padding:9px 10px;margin-bottom:4px}
+.ic-soon{font-size:12px;font-weight:600;color:var(--muted);border:1px dashed var(--line);border-radius:12px;padding:8px 12px;margin-bottom:4px}
 /* respiración */
-.tec{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:8px}
+.tec{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:8px}
 .tec-ic{flex:0 0 auto;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,currentColor 20%,transparent)}
 .tec-ic i{width:20px;height:20px;border-radius:50%;background:currentColor}
 .tec-t{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
 .tec-t span{color:var(--muted);font-size:13px}
 .tec-t .tec-m{font-size:12px}
-.rrow{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:13px}
+.rrow{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:13px}
 .rrow:first-child{border-top:0}
 .rrow span:first-child{color:var(--muted);white-space:nowrap}
 .rrow span:last-child{text-align:right}
 .scale{display:grid;grid-template-columns:repeat(11,1fr);gap:4px}
-.scale button{padding:10px 0;border-radius:9px;background:var(--card2);border:1px solid var(--line);font-weight:700;font-size:14px}
+.scale button{padding:12px 0;border-radius:9px;background:var(--card2);border:1px solid var(--line);font-weight:600;font-size:14px}
 .scale button.on{background:var(--acc);color:var(--on-acc);border-color:transparent}
-.info p{margin:10px 0 0}
-.br{position:fixed;inset:0;z-index:30;background:var(--bg);display:flex;flex-direction:column;padding:calc(14px + env(safe-area-inset-top)) 16px calc(18px + env(safe-area-inset-bottom))}
+.info p{margin:12px 0 0}
+.br{position:fixed;inset:0;z-index:30;background:var(--bg);display:flex;flex-direction:column;padding:calc(16px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom))}
 .br.dim{background:#06080b;--text:#7f8896;--muted:#555d69;--line:#1b2028;--card2:#12161c;color:var(--text)}
 .br.dim svg circle{stroke-opacity:.55}
 .br-top{display:flex;justify-content:space-between;align-items:center;max-width:560px;width:100%;margin:0 auto}
-.br-top .t{font-weight:700;color:var(--muted);font-size:15px}
+.br-top .t{font-weight:600;color:var(--muted);font-size:16px}
 .br-stage{flex:1;display:grid;place-items:center;min-height:0}
 .br-stage svg{width:min(84vw,50vh,420px);height:auto;overflow:visible}
-.br-stage svg text{font:800 46px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;fill:var(--text);font-variant-numeric:tabular-nums}
+.br-stage svg text{font:600 46px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;fill:var(--text);font-variant-numeric:tabular-nums}
 .br-txt{height:84px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:0 20px}
-.br-txt b{font-size:32px;letter-spacing:-.02em}
-.br-txt span{color:var(--muted);font-size:15px}
+.br-txt b{font-size:32px;}
+.br-txt span{color:var(--muted);font-size:16px}
 .br-bot{max-width:560px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:12px;text-align:center}
 .br-end{max-width:528px;margin:auto;width:100%}
-.crisis{color:var(--muted);font-size:11.5px;text-align:center;margin:auto 8px 0;padding-top:28px;opacity:.85}
-.crisis a{color:inherit;font-weight:700}
+.crisis{color:var(--muted);font-size:12px;text-align:center;margin:auto 8px 0;padding-top:28px;opacity:.85}
+.crisis a{color:inherit;font-weight:600}
 /* anclaje */
 .ic-anc{width:40px;height:40px;border-radius:50%;background:color-mix(in srgb,var(--hi) 24%,transparent);display:grid;place-items:center;margin-bottom:4px;font-size:20px;line-height:1}
-.linkb{color:var(--acc-ink);font-weight:700;text-decoration:underline;padding:0}
-.btn.an-sim{flex-direction:column;gap:2px;margin-top:8px;padding:14px 18px}
+.linkb{color:var(--acc-ink);font-weight:600;text-decoration:underline;padding:0}
+.btn.an-sim{flex-direction:column;gap:2px;margin-top:8px;padding:16px 20px}
 .btn.an-sim span{font-size:13px;font-weight:500;color:var(--muted)}
-.an-pie{text-align:center;font-size:14px;font-style:italic;color:var(--muted);margin:18px 8px 0;overflow-wrap:anywhere}
+.an-pie{text-align:center;font-size:14px;color:var(--muted);margin:20px 8px 0;overflow-wrap:anywhere}
 .an-stage{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;max-width:560px;width:100%;margin:0 auto;padding:0 8px}
 .an-dots{display:flex;gap:8px}
 .an-dots i{width:30px;height:5px;border-radius:9px;background:var(--line)}
 .an-dots i.on{background:var(--hi)}
-.an-paso{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--hi)}
-.an-fr{font-size:26px;font-weight:700;line-height:1.35;letter-spacing:-.01em;min-height:5.2em;width:100%;overflow-wrap:anywhere}
+.an-paso{font-size:13px;font-weight:600;color:var(--hi)}
+.an-fr{font-size:28px;font-weight:600;line-height:1.35;min-height:5.2em;width:100%;overflow-wrap:anywhere}
 .an-fr .w{display:inline-block;white-space:nowrap}
 .an-fr .ch{display:inline-block;transform-origin:50% 60%;animation:an-ola .9s ease-in-out both}
 @keyframes an-ola{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
+.an-sos{text-align:center;font-size:12px;color:var(--muted);margin:12px 8px 0}
+.an-sos a{color:inherit;font-weight:600}
+/* inicio por momentos */
+.hola{font-size:18px;margin:4px 2px 12px;}
+.moms{display:grid;gap:8px}
+.mom{display:flex;flex-direction:column;align-items:flex-start;gap:4px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-left:5px solid currentColor;border-radius:16px;padding:16px 16px;min-height:64px}
+.mom b{font-size:18px;color:var(--text);line-height:1.25}
+.mom span{color:var(--muted);font-size:13px;line-height:1.35}
+.mom.neu{color:var(--muted)}
 .ic-val{width:40px;height:40px;border-radius:50%;background:color-mix(in srgb,var(--mid) 24%,transparent);color:var(--mid);display:grid;place-items:center;margin-bottom:4px;font-size:18px;line-height:1}
 @keyframes up{from{transform:translateY(24px);opacity:0}}
 .toast{animation-name:tup} @keyframes tup{from{transform:translate(-50%,24px);opacity:0}}
 @keyframes fade{from{opacity:0}}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+/* iconos, pantallas finales y tamaños táctiles (fase 3) */
+.ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.ico.inl{vertical-align:-4px;margin-right:8px}
+.navb .ico{width:20px;height:20px}
+.opt>span:first-child:has(>.ico){display:flex;align-items:center;white-space:nowrap}
+nav.tabs button .ic{display:grid;place-items:center;height:24px}
+nav.tabs button .ic .ico{width:22px;height:22px}
+.ic-anc,.ic-val,.ic-soon{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;margin-bottom:4px;padding:0}
+.ic-anc{color:var(--hi)}
+.ic-soon{border:1px dashed var(--line);color:var(--muted)}
+.ic-anc .ico,.ic-val .ico,.ic-soon .ico{width:20px;height:20px}
+.btn{min-height:48px}
+.btn.sm{min-height:40px}
+.chip{min-height:40px}
+.navb{width:44px;height:44px}
+.opt{min-height:56px}
+.scale button{min-height:44px}
+h3.sec{font-size:14px;font-weight:600}
+.fin h2{font-size:24px;font-weight:600;margin:0 0 4px}
+.fin .actions{margin-top:20px}
 /* informe para imprimir / guardar como PDF */
 #print{display:none}
 @media print{
@@ -229,34 +259,52 @@ body.nonav main:has(>.crisis){min-height:calc(100dvh - 24px - env(safe-area-inse
 <body>
 <main id="app" aria-live="polite"></main>
 <nav class="tabs" aria-label="Secciones"><div class="in">
-  <button data-tab="registrar"><span class="ic">✍️</span>Registrar</button>
-  <button data-tab="historial"><span class="ic">📖</span>Historial</button>
-  <button data-tab="resumen"><span class="ic">📊</span>Resumen</button>
+  <button data-tab="registrar"><span class="ic"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span>Registrar</button>
+  <button data-tab="historial"><span class="ic"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></svg></span>Historial</button>
+  <button data-tab="resumen"><span class="ic"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="M8 17v-4"/><path d="M13 17V7"/><path d="M18 17v-7"/></svg></span>Resumen</button>
 </div></nav>
 <div id="sheet-root"></div>
 <div id="print"></div>
 <script>
 'use strict';
-const VERSION = 6;
+const VERSION = 7;
+const APP_NOMBRE = 'Kit emocional'; // nombre visible de la app; cambiarlo también en <title> y en manifest.webmanifest
 const STORE = 'abc.v1';
 
 /* ===================== Datos ===================== */
 const EMOS = ['Ansiedad','Tristeza','Ira','Miedo','Culpa','Vergüenza','Frustración','Soledad','Celos','Asco','Alegría','Calma'];
 const FIS = ['Tensión muscular','Palpitaciones','Nudo en el estómago','Falta de aire','Llanto','Temblor','Calor o sudor','Mareo','Cansancio','Dolor de cabeza','Inquietud'];
 const PSICO = 'Raúl Triana Guillén'; // psicólogo por defecto: la app es suya
-const DEFAULTS = {settings:{nombre:'', psico:PSICO, consulta:'', theme:'auto', resp:{dur:{}, ritmo:{}, son:{}, vib:true}, anc:{nombre:'', vib:true, preg:false}}, entries:[], draft:null, resp:[], anc:[], val:{areas:[], notas:{}, pal:[], top:[], frases:[], usar:true, informe:false}};
+const DEFAULTS = {settings:{nombre:'', psico:PSICO, consulta:'', theme:'auto', resp:{dur:{}, ritmo:{}, son:{}, vib:true}, anc:{nombre:'', vib:true, preg:false}, bk:{last:null, snooze:null}}, entries:[], draft:null, resp:[], anc:[], val:{areas:[], notas:{}, pal:[], top:[], frases:[], usar:true, informe:false}};
 // Una práctica de respiración: {id, at (ms), tec, seg (segundos hechos), antes, despues (tensión 0–10 o null)}
 // Una entrada: {id, at (ms), a, b, emo:[{n, i 0–10}], fis:[…], fisTxt, cond, cp, lp, cre, upd}
 // cp y lp: qué pasó después de la conducta, a corto y a largo plazo (desde la v2)
+// Versión de la forma de los datos guardados (S.v). Si un cambio futuro necesita transformar datos antiguos:
+// sube DATA_V y añade en MIGRAR el paso de la versión anterior a la nueva. Antes de migrar se guarda una copia
+// intacta de lo que había en STORE + '.antes-vN', y si los datos no se pueden leer se apartan en STORE + '.danado'.
+const DATA_V = 1;
+const MIGRAR = {
+  1: () => {}, // v0 → v1: solo se añade el número de versión; los campos nuevos los rellena load()
+};
 let S;
 function load(){
-  try{ S = JSON.parse(localStorage.getItem(STORE)) || {}; }catch(e){ S = {}; }
+  let raw = null;
+  try{ raw = localStorage.getItem(STORE); }catch(_){}
+  try{ S = JSON.parse(raw) || {}; }
+  catch(e){ S = {}; try{ localStorage.setItem(STORE + '.danado', raw); }catch(_){} } // ilegibles: se apartan en vez de perderlos
+  if (!S || typeof S !== 'object' || Array.isArray(S)) S = {};
+  const v0 = Math.max(0, Math.floor(+S.v) || 0);
+  if (raw && v0 < DATA_V){
+    try{ localStorage.setItem(STORE + '.antes-v' + DATA_V, raw); }catch(_){} // copia intacta antes de migrar
+    for (let v = v0 + 1; v <= DATA_V; v++) if (MIGRAR[v]) MIGRAR[v](S);
+  }
   S = Object.assign(structuredClone(DEFAULTS), S);
   S.settings = Object.assign(structuredClone(DEFAULTS.settings), S.settings);
   if (!Array.isArray(S.entries)) S.entries = [];
   if (!Array.isArray(S.resp)) S.resp = [];
   if (!Array.isArray(S.anc)) S.anc = [];
   S.settings.anc = Object.assign(structuredClone(DEFAULTS.settings.anc), S.settings.anc);
+  S.settings.bk = Object.assign(structuredClone(DEFAULTS.settings.bk), S.settings.bk && typeof S.settings.bk === 'object' ? S.settings.bk : {});
   S.val = Object.assign(structuredClone(DEFAULTS.val), S.val);
   for (const k of ['areas', 'pal', 'top', 'frases']) if (!Array.isArray(S.val[k])) S.val[k] = [];
   if (!S.val.notas || typeof S.val.notas !== 'object') S.val.notas = {};
@@ -264,6 +312,7 @@ function load(){
   if (!S.settings.psico) S.settings.psico = PSICO; // las versiones 1 y 2 lo dejaban vacío
   if (S.settings.onb === undefined) S.settings.onb = !!(S.entries.length || S.resp.length || S.anc.length || S.settings.nombre); // quien ya usaba la app no ve la bienvenida
   for (const e of S.entries.concat(S.draft ? [S.draft.data] : [])){ e.cp = e.cp || ''; e.lp = e.lp || ''; }
+  S.v = Math.max(v0, DATA_V); // nunca se baja: si los datos vienen de una versión más nueva, se respetan
 }
 function save(){
   try{ localStorage.setItem(STORE, JSON.stringify(S)); return true; }
@@ -273,6 +322,22 @@ load();
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(()=>{});
 
 /* ===================== Utilidades ===================== */
+// Iconos de línea propios (sin emojis ni librerías de fuera): 24×24, trazo redondeado, del color del texto
+const IC = {
+  registrar:'<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  historial:'<path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/>',
+  resumen:'<path d="M3 3v18h18"/><path d="M8 17v-4"/><path d="M13 17V7"/><path d="M18 17v-7"/>',
+  ajustes:'<path d="M20 7h-9"/><path d="M14 17H4"/><circle cx="7" cy="7" r="3"/><circle cx="17" cy="17" r="3"/>',
+  cerrar:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  candado:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  ancla:'<circle cx="12" cy="5" r="2.5"/><path d="M12 7.5V21"/><path d="M5 12H3a9 9 0 0 0 18 0h-2"/>',
+  brujula:'<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>',
+  olas:'<path d="M2 7c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 12c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/><path d="M2 17c2-2 4-2 6 0s4 2 6 0 4-2 6 0"/>',
+  archivo:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 17h6"/>',
+  sonido:'<path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/>',
+  vibrar:'<rect x="8" y="4" width="8" height="16" rx="1.5"/><path d="m4 9-1.5 1.5L4 12l-1.5 1.5L4 15"/><path d="m20 9 1.5 1.5L20 12l1.5 1.5L20 15"/>',
+};
+const ico = (n, cls = '') => `<svg class="ico${cls ? ' ' + cls : ''}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const nl = s => esc(s).replace(/\n/g, '<br>');
 const pad = n => String(n).padStart(2, '0');
@@ -379,34 +444,62 @@ document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('cl
 /* ===================== Bienvenida (primera vez) ===================== */
 function renderBienvenida(){
   document.body.classList.remove('editing'); document.body.classList.add('nonav');
-  app.innerHTML = `<header class="top"><div class="ht"><h1>Bienvenida</h1><div class="sub">Antes de empezar</div></div></header>
+  app.innerHTML = `<header class="top"><div class="ht"><h1>Bienvenida</h1><div class="sub">${esc(APP_NOMBRE)} · antes de empezar</div></div></header>
     <div class="card"><label class="f" style="margin-top:0">¿Cómo te llamas? <span style="font-weight:400">(opcional)</span></label>
       <input id="onb-nom" maxlength="60" autocomplete="name" value="${esc(S.settings.nombre)}" placeholder="Tu nombre, o cómo quieres que te saluden">
       <div class="muted small" style="margin-top:8px">Sirve para saludarte y para salir en los informes.</div></div>
-    <div class="card"><b>🔒 Tus datos se quedan solo en este móvil.</b>
-      <div class="muted small" style="margin-top:6px">No hay servidor ni cuentas, y no se envía nada a ningún sitio. Solo sale lo que tú decides exportar y mandar.</div></div>
+    <div class="card"><b>${ico('candado', 'inl')}Tus datos se quedan solo en este móvil</b>
+      <div class="muted small" style="margin-top:8px">No hay servidor ni cuentas, y no se envía nada a ningún sitio. Solo sale lo que tú decides exportar y mandar.</div></div>
     <div class="actions"><button class="btn" data-act="onb-skip">Saltar</button><button class="btn pri" data-act="onb-ok">Empezar</button></div>
     ${CRISIS}`;
 }
 
-/* ===================== Inicio: menú de herramientas ===================== */
+/* ===================== Inicio: por momentos ===================== */
+// Primero «¿Cómo estás ahora?», que lleva a lo adecuado sin tener que saber qué herramienta toca;
+// debajo, lo pendiente en un solo bloque y, al final, todas las herramientas.
+const MOMENTOS = [
+  {id:'ahora', t:'Me está pasando ahora', d:'Ansiedad, enfado o malestar fuerte en este momento', c:'hi'},
+  {id:'tension', t:'Estoy en tensión', d:'Quiero bajar un poco la tensión', c:'lo'},
+  {id:'paso', t:'Ha pasado algo', d:'Quiero apuntarlo mientras lo recuerdo', c:'neu'},
+  {id:'calma', t:'Estoy en calma', d:'Quiero practicar o pensar en lo que me importa', c:'mid'},
+];
+function momento(id){
+  if (id === 'ahora') return anStart('real');            // directo, sin pasos previos
+  if (id === 'tension') return go('respirar');
+  if (id === 'paso'){ go('abc'); return openEditor(null); }
+  sheetCalma();
+}
+function sheetCalma(){
+  const op = (attrs, t, d) => `<button class="opt" ${attrs}><span><b>${t}</b><br><span class="d">${d}</span></span><span class="muted">›</span></button>`;
+  sheet(`<h2>Estás en calma</h2><div class="sub">Buen momento para entrenar o para pensar en lo que te importa.</div>
+    <div class="stack" style="margin-top:12px">
+      ${op('data-act="an-start" data-m="sim"', 'Simulacro del Anclaje', 'Practicarlo antes de necesitarlo · unos 2 minutos')}
+      ${op('data-act="go" data-to="valores"', 'Lo que importa', S.val.frases.length ? 'Repasar tu brújula' : 'Explorar qué es importante para ti')}
+      ${op('data-act="br-open" data-id="lenta"', 'Respiración lenta', 'La práctica diaria con más respaldo')}
+    </div>`);
+}
+
+/* ===================== Herramientas ===================== */
 const TOOLS = [
   {id:'abc', n:'Autorregistro', d:'Apunta qué pasó, qué pensaste y cómo te sentiste', ic:'<span class="ic-abc">ABC</span>'},
   {id:'respirar', n:'Respiración guiada', d:'Ejercicios para bajar la tensión, calmarte o dormir', ic:'<span class="ic-resp"><i></i></span>'},
-  {id:'anclaje', n:'Anclaje', d:'Para mantenerte en pie cuando aprieta y elegir qué hacer', ic:'<span class="ic-anc">⚓</span>'},
-  {id:'valores', n:'Lo que importa', d:'Explora qué es importante para ti', ic:'<span class="ic-val">◆</span>'},
-  {id:null, n:'Relajación muscular', d:'Tensar y soltar, paso a paso', ic:'<span class="ic-soon">〰</span>'},
+  {id:'anclaje', n:'Anclaje', d:'Para mantenerte en pie cuando aprieta y elegir qué hacer', ic:`<span class="ic-anc">${ico('ancla')}</span>`},
+  {id:'valores', n:'Lo que importa', d:'Explora qué es importante para ti', ic:`<span class="ic-val">${ico('brujula')}</span>`},
+  {id:null, n:'Relajación muscular', d:'Tensar y soltar, paso a paso', ic:`<span class="ic-soon">${ico('olas')}</span>`},
 ];
 function renderInicio(){
   const s = S.settings, h = new Date().getHours(), pend = S.entries.filter(e => lpPending(e)).length;
   const saludo = h >= 5 && h < 14 ? 'Buenos días' : h >= 5 && h < 21 ? 'Buenas tardes' : 'Buenas noches';
   const nombre = s.nombre.trim().split(/\s+/)[0];
+  const avisos = (S.draft ? `<button class="aviso" data-act="go" data-to="abc"><b>Tienes un registro a medias</b><span>Seguir ›</span></button>` : '')
+    + (pend ? `<button class="aviso" data-act="go" data-to="abc"><b>${pend === 1 ? 'Un registro por completar' : pend + ' registros por completar'}</b><span>Ver ›</span></button>` : '')
+    + revCard() + bkCard();
   app.innerHTML = `<header class="top"><div class="ht"><h1>${saludo}${nombre ? ', ' + esc(nombre) : ''}</h1><div class="sub">${longDate(Date.now())}</div></div>
-      <button class="navb" data-act="go" data-to="ajustes" aria-label="Ajustes">⚙️</button></header>
-    ${S.draft ? `<button class="aviso" data-act="go" data-to="abc"><b>Tienes un registro a medias</b><span>Seguir ›</span></button>` : ''}
-    ${pend ? `<button class="aviso" data-act="go" data-to="abc"><b>${pend === 1 ? 'Un registro por completar' : pend + ' registros por completar'}</b><span>Ver ›</span></button>` : ''}
-    ${revCard()}
-    <h3 class="sec"><span>Tus herramientas</span></h3>
+      <button class="navb" data-act="go" data-to="ajustes" aria-label="Ajustes">${ico('ajustes')}</button></header>
+    <h2 class="hola">¿Cómo estás ahora?</h2>
+    <div class="moms">${MOMENTOS.map(m => `<button class="mom ${m.c}" data-act="mom" data-m="${m.id}"><b>${m.t}</b><span>${m.d}</span></button>`).join('')}</div>
+    ${avisos ? `<h3 class="sec"><span>Pendiente</span></h3>${avisos}` : ''}
+    <h3 class="sec"><span>Todas las herramientas</span></h3>
     <div class="tools">${TOOLS.map(t => t.id
       ? `<button class="tool" data-act="go" data-to="${t.id}">${t.ic}<b>${t.n}</b><span>${t.d}</span></button>`
       : `<div class="tool soon" aria-disabled="true">${t.ic}<b>${t.n}</b><span>Próximamente</span></div>`).join('')}</div>
@@ -423,7 +516,7 @@ function renderRegistrar(){
   ${pend.length ? `<div class="card pend"><b>${pend.length === 1 ? 'Un registro por completar' : pend.length + ' registros por completar'}</b>
       <div class="muted small" style="margin:2px 0 8px">¿Qué pasó después, horas o días más tarde?</div>
       ${pend.slice(0, 5).map(e => `<button class="opt" data-act="lp" data-id="${esc(e.id)}"><span class="pa">${esc(e.a)}</span><span class="d num">${dayTitle(dayKey(e.at))} · ${hhmm(e.at)}</span></button>`).join('')}
-      ${pend.length > 5 ? `<div class="muted small" style="margin-top:6px">y ${pend.length - 5} más en el Historial</div>` : ''}</div>` : ''}
+      ${pend.length > 5 ? `<div class="muted small" style="margin-top:8px">y ${pend.length - 5} más en el Historial</div>` : ''}</div>` : ''}
   ${d ? `<div class="card"><b>Tienes un registro a medias</b><div class="muted small" style="margin-top:4px">${esc((d.data.a || d.data.b || 'Sin texto todavía').slice(0, 90))}</div>
       <div class="actions"><button class="btn pri" data-act="new">Seguir</button><button class="btn ghost" data-act="discard">Descartar</button></div></div>`
     : `<button class="btn pri big" data-act="new"><span style="font-size:24px">＋</span> Nuevo registro</button>`}
@@ -433,7 +526,7 @@ function renderRegistrar(){
       <li><span class="L">B</span><span><b>Pensamientos:</b> lo que te pasó por la cabeza en ese momento, tal cual, en frases.</span></li>
       <li><span class="L">C</span><span><b>Consecuencias:</b> qué sentiste y con qué intensidad (0–10), qué notaste en el cuerpo, qué hiciste y qué pasó después.</span></li>
     </ul>
-    <div class="muted small" style="margin-top:10px">Mejor apuntarlo cuanto antes, cuando aún recuerdas lo que pensaste. No hace falta escribir mucho.</div>
+    <div class="muted small" style="margin-top:12px">Mejor apuntarlo cuanto antes, cuando aún recuerdas lo que pensaste. No hace falta escribir mucho.</div>
   </details>
   <h3 class="sec"><span>Hoy</span><span class="num">${hoy.length || ''}</span></h3>
   ${hoy.length ? hoy.map(entryCard).join('') : `<div class="empty">Aún no hay registros hoy.</div>`}
@@ -526,7 +619,7 @@ function renderEditor(){
     <label class="f">Más adelante <span style="font-weight:400">· horas o días después; si aún no lo sabes, déjalo: te lo recordaré pasadas 12 h</span></label>
     <textarea data-f="lp" rows="2" style="min-height:60px" placeholder="Ej.: No pude explicar los errores y al día siguiente me daba más miedo hablar con ella.">${esc(d.lp)}</textarea>`;
   }
-  app.innerHTML = `<header class="top"><button class="navb" data-act="ed-close" aria-label="Cerrar">✕</button>
+  app.innerHTML = `<header class="top"><button class="navb" data-act="ed-close" aria-label="Cerrar">${ico('cerrar')}</button>
       <h1 style="flex:1">${ED.id ? 'Editar registro' : 'Nuevo registro'}</h1></header>
     <div class="steps">${STEPS.map(([l, n], i) => `<button data-act="ed-step" data-s="${i}" class="${i === st ? 'on' : ''} ${stepOk(i, d) ? 'ok' : ''}"><b>${l}</b>${n}</button>`).join('')}</div>
     ${body}
@@ -556,7 +649,7 @@ function saveEntry(){
 /* ===================== Detalle ===================== */
 function sheetEntry(id){
   const e = S.entries.find(x => x.id === id); if (!e) return;
-  sheet(`<h2>${dayTitle(dayKey(e.at))} · ${hhmm(e.at)}</h2><div class="sub">${longDate(e.at)}${e.anc ? ' · ⚓ desde Anclaje' : ''}</div>
+  sheet(`<h2>${dayTitle(dayKey(e.at))} · ${hhmm(e.at)}</h2><div class="sub">${longDate(e.at)}${e.anc ? ' · desde Anclaje' : ''}</div>
     <div class="dsec"><div class="dl"><span class="L">A</span>Antecedente</div><p>${nl(e.a)}</p></div>
     <div class="dsec"><div class="dl"><span class="L">B</span>Pensamientos</div><p>${nl(e.b)}</p></div>
     <div class="dsec"><div class="dl"><span class="L">C</span>Consecuencias</div>
@@ -566,7 +659,7 @@ function sheetEntry(id){
       ${e.cp ? `<div class="ttl">Justo después</div><p>${nl(e.cp)}</p>` : ''}
       ${e.lp ? `<div class="ttl">Más adelante</div><p>${nl(e.lp)}</p>` : ''}
       ${e.val && valPal(e.val) ? `<div class="ttl">Lo que me importaba</div><p>«${esc(valPal(e.val))}»</p>` : ''}</div>
-    <div class="actions" style="margin-top:18px"><button class="btn" data-act="edit" data-id="${esc(e.id)}">Editar</button><button class="btn danger" data-act="del" data-id="${esc(e.id)}">Borrar</button></div>`);
+    <div class="actions" style="margin-top:20px"><button class="btn" data-act="edit" data-id="${esc(e.id)}">Editar</button><button class="btn danger" data-act="del" data-id="${esc(e.id)}">Borrar</button></div>`);
 }
 function delEntry(id){
   const i = S.entries.findIndex(x => x.id === id); if (i < 0) return;
@@ -611,7 +704,7 @@ function renderHList(){
   const el = document.getElementById('hlist'), list = filtered();
   document.getElementById('hcount').textContent = S.entries.length ? `${list.length} registro${list.length === 1 ? '' : 's'}` : '';
   if (!S.entries.length){ el.innerHTML = `<div class="empty">Aquí irán apareciendo tus registros.</div>`; return; }
-  if (!list.length){ el.innerHTML = `<div class="empty">Ningún registro con estos filtros.<div style="margin-top:10px"><button class="btn sm" data-act="fil-clear">Quitar filtros</button></div></div>`; return; }
+  if (!list.length){ el.innerHTML = `<div class="empty">Ningún registro con estos filtros.<div style="margin-top:12px"><button class="btn sm" data-act="fil-clear">Quitar filtros</button></div></div>`; return; }
   let h = '', groups = {};
   list.forEach(e => { const k = dayKey(e.at); (groups[k] = groups[k] || []).push(e); });
   for (const k of Object.keys(groups)){
@@ -686,127 +779,117 @@ function renderResumen(){
 }
 
 /* ===================== Exportar para el psicólogo ===================== */
-let EXP = {per: null, from:'', to:''};
+// Se exporta siempre todo (desde el primer dato hasta hoy) y solo en PDF
 function expRange(){
-  const now = Date.now(), first = S.entries.reduce((a, e) => Math.min(a, e.at), now);
-  switch (EXP.per){
-    case 'consulta': return {from: fromDateVal(S.settings.consulta) ?? first, to: now};
-    case '14': return {from: fromDateVal(addDays(dayKey(), -13)), to: now};
-    case '30': return {from: fromDateVal(addDays(dayKey(), -29)), to: now};
-    case 'custom': return {from: fromDateVal(EXP.from) ?? first, to: fromDateVal(EXP.to, true) ?? now};
-    default: return {from: first, to: now};
-  }
+  const now = Date.now();
+  return {from: Math.min(now, ...S.entries.map(e => e.at), ...S.anc.map(r => r.at), ...S.resp.map(r => r.at)), to: now};
 }
 function expList(){ const {from, to} = expRange(); return S.entries.filter(e => e.at >= from && e.at <= to).sort((a, b) => a.at - b.at); }
 function fileBase(){
   const {from, to} = expRange(), f = ms => dmy(ms).replace(/\//g, '-');
-  return ('Registro ABC ' + (S.settings.nombre ? S.settings.nombre + ' ' : '') + f(from) + ' a ' + f(to)).replace(/[\\/:*?"<>|]/g, '');
+  return (APP_NOMBRE + ' ' + (S.settings.nombre ? S.settings.nombre + ' ' : '') + f(from) + ' a ' + f(to)).replace(/[\\/:*?"<>|]/g, '');
 }
 function sheetExport(){
-  if (!EXP.per) EXP.per = S.settings.consulta ? 'consulta' : '14';
-  if (!EXP.from) EXP.from = dateVal(Date.now() - 13 * DAY_MS);
-  if (!EXP.to) EXP.to = dateVal(Date.now());
-  const opts = [];
-  if (S.settings.consulta) opts.push(['consulta', 'Desde la última consulta', dmy(fromDateVal(S.settings.consulta))]);
-  opts.push(['14', 'Últimas 2 semanas', ''], ['30', 'Último mes', ''], ['all', 'Todo', ''], ['custom', 'Elegir fechas', '']);
-  const n = expList().length;
-  sheet(`<h2>Exportar para tu psicólogo</h2><div class="sub">Elige el periodo y cómo quieres mandarlo.</div>
-    <div class="stack">${opts.map(([v, l, d]) => `<button class="opt ${EXP.per === v ? 'sel' : ''}" data-act="exp-per" data-v="${v}"><span>${l}</span><span class="d">${d}</span></button>`).join('')}</div>
-    ${EXP.per === 'custom' ? `<div class="row" style="margin-top:8px"><div style="flex:1"><label class="f">Desde</label><input type="date" id="exp-from" value="${EXP.from}"></div><div style="flex:1"><label class="f">Hasta</label><input type="date" id="exp-to" value="${EXP.to}"></div></div>` : ''}
-    <div class="muted num" style="margin:12px 2px" id="exp-n">${n} registro${n === 1 ? '' : 's'} en este periodo</div>
-    <div class="stack">
-      <button class="opt" data-act="exp-pdf"><span>📄 PDF</span><span class="d">Se abre el diálogo de imprimir: elige «Guardar como PDF»</span></button>
-      <button class="opt" data-act="exp-txt"><span>💬 Texto</span><span class="d">Para pegarlo en un mensaje</span></button>
-      <button class="opt" data-act="exp-csv"><span>📊 CSV</span><span class="d">Se abre en Excel</span></button>
-    </div>
-    <div class="note">El informe lleva datos de salud. Cuando lo envíes, quedará también donde lo mandes (el chat o el correo): mándalo solo a tu psicólogo.</div>`, el => {
-    const upd = () => { const n = expList().length; el.querySelector('#exp-n').textContent = `${n} registro${n === 1 ? '' : 's'} en este periodo`; };
-    const f = el.querySelector('#exp-from'), t = el.querySelector('#exp-to');
-    if (f){ f.addEventListener('change', () => { EXP.from = f.value; upd(); }); t.addEventListener('change', () => { EXP.to = t.value; upd(); }); }
-  });
+  sheet(`<h2>Exportar para tu psicólogo</h2><div class="sub">Se crea un PDF con todo lo que has registrado.</div>
+    <div class="muted num" style="margin:12px 4px" id="exp-n">${expCuenta()}</div>
+    <button class="btn pri big" data-act="exp-pdf">${ico('archivo')}Crear PDF</button>
+    <div class="muted small" style="margin-top:8px">Se abre la ventana de imprimir: elige «Guardar como PDF» y después compártelo.</div>
+    <div class="note">El informe lleva datos de salud. Cuando lo envíes, quedará también donde lo mandes (el chat o el correo): mándalo solo a tu psicólogo.</div>`);
 }
-function ancList(){ // sesiones de Anclaje del periodo; «Todo» empieza en el primer registro ABC, pero aquí cuenta también lo anterior
-  const {from, to} = expRange(), lo = EXP.per === 'all' ? 0 : from;
-  return S.anc.filter(r => r.at >= lo && r.at <= to);
-}
-function ancLine(){ // anclajes del periodo, sin el nombre elegido
+// El informe es para el psicólogo: lleva todo lo del periodo (registros ABC, anclajes y acciones, respiración y valores).
+function ancList(){ const {from, to} = expRange(); return S.anc.filter(r => r.at >= from && r.at <= to).sort((a, b) => a.at - b.at); }
+function ancLine(){
   const l = ancList(), re = l.filter(r => r.modo === 'real').length, si = l.length - re;
-  return l.length ? `Anclaje en el periodo: ${re} en un momento real · ${si} simulacro${si === 1 ? '' : 's'}.` : '';
+  return l.length ? `Anclaje: ${re} en un momento real · ${si} simulacro${si === 1 ? '' : 's'}.` : 'Anclaje: ninguno.';
 }
-function accList(){ return ancList().filter(r => r.hacer).sort((a, b) => a.at - b.at); }
+function accList(){ return ancList().filter(r => r.hacer); }
 function accLine(){ // acciones que la persona se propuso al terminar el Anclaje y cómo salieron
   const l = accList(); if (!l.length) return '';
   const c = v => l.filter(r => r.rev === v).length, sin = l.filter(r => !r.rev).length;
   return `Acciones propuestas: ${l.length} · hechas: ${c('si')} · intentadas: ${c('intento')} · no hechas: ${c('no')}${sin ? ' · sin revisar: ' + sin : ''}.`;
 }
+function respList(){ const {from, to} = expRange(); return S.resp.filter(r => r.at >= from && r.at <= to).sort((a, b) => a.at - b.at); }
+function respLine(){
+  const l = respList(); if (!l.length) return 'Respiración: ninguna práctica.';
+  const min = Math.round(l.reduce((a, r) => a + r.seg, 0) / 60), p = l.filter(r => r.antes != null && r.despues != null), m = f => dec(p.reduce((a, r) => a + f(r), 0) / p.length);
+  return `Respiración: ${l.length} práctica${l.length === 1 ? '' : 's'}, ${min} min en total` + (p.length ? ` · tensión media antes → después: ${m(r => r.antes)} → ${m(r => r.despues)} (en ${p.length})` : '') + '.';
+}
+const respTec = r => (TEC(r.tec) || {n: r.tec}).n;
+const respTens = r => r.antes != null || r.despues != null ? `${r.antes ?? '—'} → ${r.despues ?? '—'}` : '';
+const ancTipo = r => (r.modo === 'sim' ? 'Simulacro' : 'Momento real') + (r.fin ? '' : ' (paró antes del final)');
+const ancNombreTxt = () => `Llama «${anN()}» a lo que le aparece${S.settings.anc.nombre ? '' : ' (el nombre por defecto)'}.`;
+function expVacio(){ return !expList().length && !ancList().length && !respList().length; }
+function expCuenta(){
+  const n = expList().length, a = ancList().length, r = respList().length;
+  return `${n} registro${n === 1 ? '' : 's'} · ${a} anclaje${a === 1 ? '' : 's'} · ${r} práctica${r === 1 ? '' : 's'} de respiración`;
+}
 function reportHtml(list){
-  const {from, to} = expRange(), s = S.settings, st = stats(list), now = Date.now();
-  return `<h1>Autorregistro ABC</h1>
-    <div class="meta">${s.nombre ? `<b>Paciente:</b> ${esc(s.nombre)} · ` : ''}${s.psico ? `<b>Psicólogo:</b> ${esc(s.psico)} · ` : ''}<b>Periodo:</b> ${dmy(from)} – ${dmy(to)} · <b>Registros:</b> ${st.n} en ${st.dias} día${st.dias === 1 ? '' : 's'}</div>
-    <h2>Resumen</h2>
-    <table class="rs"><tr><th>Emoción</th><th>Veces</th><th>Intensidad media</th><th>Máxima</th></tr>
+  const {from, to} = expRange(), s = S.settings, st = stats(list), now = Date.now(), an = ancList(), rs = respList();
+  return `<h1>${esc(APP_NOMBRE)} · informe</h1>
+    <div class="meta">${s.nombre ? `<b>Paciente:</b> ${esc(s.nombre)} · ` : ''}${s.psico ? `<b>Psicólogo:</b> ${esc(s.psico)} · ` : ''}<b>Periodo:</b> ${dmy(from)} – ${dmy(to)}</div>
+    <h2>Resumen del periodo</h2>
+    <p>Registros ABC: ${st.n}${st.n ? ` en ${st.dias} día${st.dias === 1 ? '' : 's'}` : ''}.<br>${esc(ancLine())}${accLine() ? '<br>' + esc(accLine()) : ''}<br>${esc(respLine())}</p>
+    ${st.n ? `<table class="rs"><tr><th>Emoción</th><th>Veces</th><th>Intensidad media</th><th>Máxima</th></tr>
       ${st.emos.map(e => `<tr><td>${esc(e.n)}</td><td class="n">${e.c}</td><td class="n">${dec(e.sum / e.c)}</td><td class="n">${e.max}</td></tr>`).join('')}</table>
     <p>Intensidad de cada registro (la emoción más intensa): baja (0–3) ${st.buckets.lo} · media (4–6) ${st.buckets.mid} · alta (7–10) ${st.buckets.hi}.
-      ${st.fis.length ? `<br>En el cuerpo, lo más frecuente: ${st.fis.slice(0, 5).map(([n, c]) => esc(n) + ' (' + c + ')').join(', ')}.` : ''}${ancLine() ? '<br>' + ancLine() : ''}${accLine() ? '<br>' + accLine() : ''}</p>
+      ${st.fis.length ? `<br>En el cuerpo, lo más frecuente: ${st.fis.slice(0, 5).map(([n, c]) => esc(n) + ' (' + c + ')').join(', ')}.` : ''}</p>` : ''}
     ${valHtml()}
-    <h2>Registros</h2>
-    <table class="rg"><thead><tr><th style="width:9%">Fecha</th><th style="width:18%">A · Antecedente</th><th style="width:18%">B · Pensamientos</th><th style="width:12%">C · Emociones (0–10)</th><th style="width:11%">C · En el cuerpo</th><th style="width:15%">C · Qué hizo</th><th style="width:17%">C · Después (corto / largo plazo)</th></tr></thead>
-      <tbody>${list.map(e => `<tr><td>${cap(DAYS_LONG[new Date(e.at).getDay()]).slice(0, 3)} ${dmy(e.at)}<br>${hhmm(e.at)}</td><td>${esc(e.a)}</td><td>${esc(e.b)}</td><td>${esc(emoTxt(e))}</td><td>${esc(fisTxt(e))}</td><td>${esc(e.cond)}</td><td>${e.cp ? '<b>Corto:</b> ' + esc(e.cp) : ''}${e.cp && e.lp ? '<br>' : ''}${e.lp ? '<b>Largo:</b> ' + esc(e.lp) : ''}</td></tr>`).join('')}</tbody></table>
-    ${accList().length ? `<h2>Acciones tras el Anclaje</h2>
-    <table class="rg"><thead><tr><th style="width:12%">Fecha</th><th style="width:44%">Acción propuesta</th><th style="width:14%">Resultado</th><th style="width:30%">Qué lo puso difícil</th></tr></thead>
-      <tbody>${accList().map(r => `<tr><td>${dmy(r.at)}<br>${hhmm(r.at)}</td><td>${esc(r.hacer)}${accVal(r) ? '<br><i>' + esc(accVal(r)) + '</i>' : ''}</td><td>${esc(accRes(r))}</td><td>${esc(r.dif || '')}</td></tr>`).join('')}</tbody></table>` : ''}
-    <div class="foot">Generado con Registro ABC el ${dmy(now)} a las ${hhmm(now)}. Contiene datos de salud: confidencial.</div>`;
+    <h2>Registros ABC</h2>
+    ${list.length ? `<table class="rg"><thead><tr><th style="width:9%">Fecha</th><th style="width:18%">A · Antecedente</th><th style="width:18%">B · Pensamientos</th><th style="width:12%">C · Emociones (0–10)</th><th style="width:11%">C · En el cuerpo</th><th style="width:15%">C · Qué hizo</th><th style="width:17%">C · Después (corto / largo plazo)</th></tr></thead>
+      <tbody>${list.map(e => `<tr><td>${cap(DAYS_LONG[new Date(e.at).getDay()]).slice(0, 3)} ${dmy(e.at)}<br>${hhmm(e.at)}</td><td>${esc(e.a)}</td><td>${esc(e.b)}${e.val && valPal(e.val) ? `<br><i>Le importaba: «${esc(valPal(e.val))}»</i>` : ''}</td><td>${esc(emoTxt(e))}</td><td>${esc(fisTxt(e))}</td><td>${esc(e.cond)}</td><td>${e.cp ? '<b>Corto:</b> ' + esc(e.cp) : ''}${e.cp && e.lp ? '<br>' : ''}${e.lp ? '<b>Largo:</b> ' + esc(e.lp) : ''}</td></tr>`).join('')}</tbody></table>` : '<p>Sin registros ABC en el periodo.</p>'}
+    <h2>Anclaje y acciones</h2>
+    ${an.length ? `<p>${esc(ancNombreTxt())}</p>
+    <table class="rg"><thead><tr><th style="width:10%">Fecha</th><th style="width:13%">Tipo</th><th style="width:24%">Acción propuesta</th><th style="width:12%">Valor</th><th style="width:16%">Resultado</th><th style="width:25%">Qué lo puso difícil</th></tr></thead>
+      <tbody>${an.map(r => `<tr><td>${dmy(r.at)}<br>${hhmm(r.at)}</td><td>${esc(ancTipo(r))}</td><td>${esc(r.hacer || '—')}</td><td>${r.valor && valPal(r.valor) ? '«' + esc(valPal(r.valor)) + '»' : ''}</td><td>${r.hacer ? esc(accRes(r)) : ''}</td><td>${esc(r.dif || '')}</td></tr>`).join('')}</tbody></table>` : '<p>Sin sesiones de Anclaje en el periodo.</p>'}
+    <h2>Respiración</h2>
+    ${rs.length ? `<table class="rg"><thead><tr><th style="width:16%">Fecha</th><th style="width:34%">Técnica</th><th style="width:14%">Minutos</th><th style="width:36%">Tensión antes → después (0–10)</th></tr></thead>
+      <tbody>${rs.map(r => `<tr><td>${dmy(r.at)}<br>${hhmm(r.at)}</td><td>${esc(respTec(r))}</td><td>${Math.max(1, Math.round(r.seg / 60))}</td><td>${respTens(r)}</td></tr>`).join('')}</tbody></table>` : '<p>Sin prácticas de respiración en el periodo.</p>'}
+    <div class="foot">Generado con ${esc(APP_NOMBRE)} el ${dmy(now)} a las ${hhmm(now)}. Contiene datos de salud: confidencial.</div>`;
 }
 function exportPDF(){
-  const list = expList(); if (!list.length) return toast('No hay registros en ese periodo');
-  document.getElementById('print').innerHTML = reportHtml(list);
+  if (expVacio()) return toast('No hay nada en ese periodo');
+  document.getElementById('print').innerHTML = reportHtml(expList());
   const t = document.title; document.title = fileBase();
   const done = () => { document.title = t; document.getElementById('print').innerHTML = ''; window.removeEventListener('afterprint', done); };
   window.addEventListener('afterprint', done);
   setTimeout(() => window.print(), 50);
 }
+// Versión en texto del informe: no se exporta; las pruebas automáticas la usan para leer el contenido
 function reportText(list){
-  const {from, to} = expRange(), s = S.settings;
-  const lines = ['Autorregistro ABC' + (s.nombre ? ' · ' + s.nombre : ''), `Periodo: ${dmy(from)} – ${dmy(to)} · ${list.length} registros`, ...(ancLine() ? [ancLine()] : []), ...(accLine() ? [accLine()] : []), '', ...valText()];
+  const {from, to} = expRange(), s = S.settings, an = ancList(), rs = respList();
+  const lines = [`${APP_NOMBRE} · informe` + (s.nombre ? ' · ' + s.nombre : ''), `Periodo: ${dmy(from)} – ${dmy(to)}`, '',
+    `Registros ABC: ${list.length}.`, ancLine(), ...(accLine() ? [accLine()] : []), respLine(), '', ...valText()];
+  if (list.length) lines.push('REGISTROS ABC', '');
   for (const e of list){
     lines.push(`— ${cap(DAYS_LONG[new Date(e.at).getDay()])} ${dmy(e.at)}, ${hhmm(e.at)}`, `A · Antecedente: ${e.a}`, `B · Pensamientos: ${e.b}`, `C · Emociones: ${emoTxt(e)}`);
     if (e.fis.length || e.fisTxt) lines.push(`C · En el cuerpo: ${fisTxt(e)}`);
     if (e.cond) lines.push(`C · Qué hice: ${e.cond}`);
     if (e.cp) lines.push(`C · Justo después: ${e.cp}`);
     if (e.lp) lines.push(`C · Más adelante: ${e.lp}`);
+    if (e.val && valPal(e.val)) lines.push(`Le importaba: «${valPal(e.val)}»`);
     lines.push('');
   }
-  if (accList().length){
-    lines.push('Acciones tras el Anclaje:');
-    for (const r of accList()) lines.push(`— ${dmy(r.at)}: ${r.hacer} (${accRes(r)})` + (accVal(r) ? ' · ' + accVal(r) : '') + (r.dif ? ` · Qué lo puso difícil: ${r.dif}` : ''));
+  if (an.length){
+    lines.push('ANCLAJE Y ACCIONES', ancNombreTxt());
+    for (const r of an) lines.push(`— ${dmy(r.at)}, ${hhmm(r.at)} · ${ancTipo(r)}` + (r.hacer ? ` · Acción: ${r.hacer} (${accRes(r)})` : '')
+      + (r.valor && valPal(r.valor) ? ` · Valor: «${valPal(r.valor)}»` : '') + (r.dif ? ` · Qué lo puso difícil: ${r.dif}` : ''));
+    lines.push('');
+  }
+  if (rs.length){
+    lines.push('RESPIRACIÓN');
+    for (const r of rs) lines.push(`— ${dmy(r.at)}, ${hhmm(r.at)} · ${respTec(r)} · ${Math.max(1, Math.round(r.seg / 60))} min` + (respTens(r) ? ` · tensión ${respTens(r)}` : ''));
   }
   return lines.join('\n').trim();
 }
-async function exportText(){
-  const list = expList(); if (!list.length) return toast('No hay registros en ese periodo');
-  const text = reportText(list);
-  if (navigator.share){ try{ await navigator.share({title: 'Registro ABC', text}); return; }catch(e){ if (e.name === 'AbortError') return; } }
-  try{ await navigator.clipboard.writeText(text); toast('Copiado: pégalo en el mensaje'); }catch(_){ toast('No se ha podido copiar'); }
-}
-function csvCell(v){
-  v = String(v ?? '');
-  if (/^[=+@\t\r]/.test(v)) v = "'" + v; // que Excel no lo tome como fórmula
-  return /[;"\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
-}
-function exportCSV(){
-  const list = expList(); if (!list.length) return toast('No hay registros en ese periodo');
-  const rows = [['Fecha','Hora','A · Antecedente','B · Pensamientos','C · Emociones (0-10)','Intensidad máxima','C · En el cuerpo','C · Qué hizo','C · Justo después','C · Más adelante']]
-    .concat(list.map(e => [dmy(e.at), hhmm(e.at), e.a, e.b, emoTxt(e), maxI(e), fisTxt(e), e.cond, e.cp, e.lp]));
-  shareOrDownload(new Blob(['﻿' + rows.map(r => r.map(csvCell).join(';')).join('\r\n')], {type:'text/csv'}), fileBase() + '.csv');
-}
-async function shareOrDownload(blob, name){
+async function shareOrDownload(blob, name){ // true si se compartió o se descargó; false si la persona canceló
   const f = new File([blob], name, {type: blob.type});
   if (navigator.canShare && navigator.canShare({files:[f]})){
-    try{ await navigator.share({files:[f], title:name}); return; }catch(e){ if (e.name === 'AbortError') return; }
+    try{ await navigator.share({files:[f], title:name}); return true; }catch(e){ if (e.name === 'AbortError') return false; }
   }
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
   toast('Archivo guardado en Descargas');
+  return true;
 }
 
 /* ===================== Ajustes ===================== */
@@ -816,12 +899,10 @@ function renderAjustes(){
   <div class="card">
     <label class="f" style="margin-top:0">Tu nombre</label><input data-s="nombre" maxlength="60" autocomplete="name" value="${esc(s.nombre)}" placeholder="Sale en el informe (opcional)">
     <label class="f">Tu psicólogo</label><input data-s="psico" maxlength="60" value="${esc(s.psico)}" placeholder="${PSICO}">
-    <label class="f">Última consulta</label><input type="date" data-s="consulta" value="${esc(s.consulta)}">
-    <div class="muted small" style="margin-top:6px">Sirve para exportar «desde la última consulta».</div>
   </div>
   <div class="card">
     <label class="f" style="margin-top:0">Para tu psicólogo</label>
-    <button class="btn pri" style="width:100%" data-act="export">Exportar autorregistros (PDF, texto o CSV)</button>
+    <button class="btn pri" style="width:100%" data-act="export">Exportar informe en PDF</button>
   </div>
   <div class="card">
     <label class="f" style="margin-top:0">Anclaje</label>
@@ -832,18 +913,19 @@ function renderAjustes(){
     <div class="seg">${[['auto','Auto'],['dark','Oscuro'],['light','Claro']].map(([v, l]) => `<button data-act="theme" data-v="${v}" class="${s.theme === v ? 'on' : ''}">${l}</button>`).join('')}</div>
   </div>
   <div class="card">
-    <label class="f" style="margin-top:0">🔒 Privacidad</label>
+    <label class="f" style="margin-top:0">${ico('candado', 'inl')}Privacidad</label>
     <div class="muted small">Tus registros se guardan <b>solo en este móvil</b>. La app no tiene servidor ni cuentas y no envía nada a ningún sitio: solo sale lo que tú exportas y mandas. Si desinstalas la app o borras los datos de Chrome, se pierden; para no perderlos, guarda una copia de seguridad de vez en cuando.</div>
   </div>
   <div class="card">
     <label class="f" style="margin-top:0">Copia de seguridad</label>
     <div class="actions" style="margin-top:0"><button class="btn" data-act="bk-export">Exportar</button><label class="btn" style="cursor:pointer">Importar<input type="file" accept="application/json,.json" id="imp" hidden></label></div>
+    <div class="muted small num" style="margin-top:8px">Última copia: ${S.settings.bk.last ? dmy(S.settings.bk.last) : 'nunca'}.</div>
     <div class="muted small" style="margin-top:8px">La copia lleva todos tus registros: guárdala en un sitio privado. Al importar se añaden los registros que falten; no se borra nada.</div>
   </div>
   <div class="card">
     <button class="btn danger" style="width:100%" data-act="wipe">Borrar todos los datos</button>
   </div>
-  <div class="muted num" style="text-align:center;font-size:12px">Registro ABC · versión ${VERSION} · ${S.entries.length} registro${S.entries.length === 1 ? '' : 's'}</div>
+  <div class="muted num" style="text-align:center;font-size:12px">${esc(APP_NOMBRE)} · versión ${VERSION} · ${S.entries.length} registro${S.entries.length === 1 ? '' : 's'}</div>
   ${CRISIS}`;
   app.querySelectorAll('[data-s]').forEach(inp => inp.addEventListener('change', () => {
     S.settings[inp.dataset.s] = inp.value.trim();
@@ -897,9 +979,31 @@ function renderAjustes(){
     }catch(_){ toast('Ese archivo no es una copia válida'); }
   });
 }
-function backupExport(){
+async function backupExport(){
   const data = {app:'registro-abc', version:VERSION, exportado:new Date().toISOString(), settings:S.settings, entries:S.entries, resp:S.resp, anc:S.anc, val:S.val};
-  shareOrDownload(new Blob([JSON.stringify(data, null, 1)], {type:'application/json'}), 'Copia Registro ABC ' + dmy(Date.now()).replace(/\//g, '-') + '.json');
+  const ok = await shareOrDownload(new Blob([JSON.stringify(data, null, 1)], {type:'application/json'}), 'Copia ' + APP_NOMBRE + ' ' + dmy(Date.now()).replace(/\//g, '-') + '.json');
+  if (ok){ S.settings.bk.last = Date.now(); S.settings.bk.snooze = null; save(); if (VIEW === 'inicio' || VIEW === 'ajustes') keepScroll(render); }
+}
+// Recordatorio de copia: los datos solo viven en este móvil. Sale en Inicio si hay cambios sin copiar y hace un mes
+// de la última copia (o, si nunca se hizo, cuando el primer dato tiene dos semanas). «Ahora no» lo aparta dos semanas.
+const BK_CADA = 30 * DAY_MS, BK_PRIMERA = 14 * DAY_MS, BK_POSPONER = 14 * DAY_MS;
+function bkUltimoCambio(){
+  let t = 0;
+  for (const e of S.entries) t = Math.max(t, e.upd || e.at);
+  for (const r of S.anc) t = Math.max(t, r.at, r.revAt || 0);
+  for (const r of S.resp) t = Math.max(t, r.at);
+  return Math.max(t, S.val.upd || 0);
+}
+function bkPrimerDato(){ return Math.min(Infinity, ...S.entries.map(e => e.at), ...S.anc.map(r => r.at), ...S.resp.map(r => r.at)); }
+function bkPendiente(now = Date.now()){
+  const b = S.settings.bk, ult = bkUltimoCambio();
+  if (!ult || (b.snooze && now < b.snooze)) return false;
+  return b.last ? ult > b.last && now - b.last >= BK_CADA : now - bkPrimerDato() >= BK_PRIMERA;
+}
+function bkCard(){
+  return bkPendiente() ? `<div class="card pend"><b>Guarda una copia de tus datos</b>
+    <div class="muted small" style="margin-top:4px">Solo están en este móvil. Si se borran los datos del navegador o cambias de móvil, se perderían.</div>
+    <div class="actions"><button class="btn" data-act="bk-later">Ahora no</button><button class="btn pri" data-act="bk-export">Guardar copia</button></div></div>` : '';
 }
 function sheetWipe(){
   sheet(`<h2>¿Borrar todos los datos?</h2><div class="sub">Se borrarán ${S.entries.length} registro${S.entries.length === 1 ? '' : 's'}, ${S.resp.length} práctica${S.resp.length === 1 ? '' : 's'} de respiración, ${S.anc.length} anclaje${S.anc.length === 1 ? '' : 's'} y los ajustes de este móvil. No se puede deshacer; si quieres conservarlos, exporta antes una copia.</div>
@@ -957,7 +1061,7 @@ function renderRespirar(){
     ${TECS.map(t => `<button class="tec" data-act="br-open" data-id="${t.id}"><span class="tec-ic ${t.col}"><i></i></span>
       <span class="tec-t"><b>${t.n}</b><span>${t.para}</span><span class="tec-m num">${patTxt(t, t.f[ritmoOf(t)])} · ${durOf(t)} min</span></span><span class="muted">›</span></button>`).join('')}
     <details class="card" style="margin-top:12px"><summary>¿Cómo respirar con el abdomen?</summary>
-      <ol class="small" style="margin:10px 0 0;padding-left:20px;display:grid;gap:6px">
+      <ol class="small" style="margin:12px 0 0;padding-left:20px;display:grid;gap:8px">
         <li>Pon una mano en el pecho y otra en el abdomen, justo encima del ombligo.</li>
         <li>Al tomar el aire por la nariz, deja que suba sobre todo la mano del abdomen; la del pecho casi no se mueve.</li>
         <li>Al soltarlo, el abdomen baja solo. No hace falta empujar.</li>
@@ -969,7 +1073,7 @@ function renderRespirar(){
         <div><div class="big num">${Math.round(week.reduce((a, r) => a + r.seg, 0) / 60)}</div><div class="lbl">minutos</div></div>
         <div><div class="big num">${pares.length ? `${dec(avg(pares, r => r.antes))}<span class="muted" style="font-size:18px"> → </span>${dec(avg(pares, r => r.despues))}` : '–'}</div><div class="lbl">tensión antes → después</div></div>
       </div>
-      <div class="card" style="padding:4px 14px">${week.slice(0, 6).map(r => `<div class="rrow"><span>${dayTitle(dayKey(r.at))} · ${hhmm(r.at)}</span><span>${esc((TEC(r.tec) || {n:r.tec}).n)} · ${Math.max(1, Math.round(r.seg / 60))} min${r.antes != null && r.despues != null ? ` · <b class="num">${r.antes} → ${r.despues}</b>` : ''}</span></div>`).join('')}</div>` : ''}
+      <div class="card" style="padding:4px 16px">${week.slice(0, 6).map(r => `<div class="rrow"><span>${dayTitle(dayKey(r.at))} · ${hhmm(r.at)}</span><span>${esc((TEC(r.tec) || {n:r.tec}).n)} · ${Math.max(1, Math.round(r.seg / 60))} min${r.antes != null && r.despues != null ? ` · <b class="num">${r.antes} → ${r.despues}</b>` : ''}</span></div>`).join('')}</div>` : ''}
     ${CRISIS}`;
 }
 
@@ -982,9 +1086,9 @@ function sheetBr(id){
     <div class="seg">${[1, 3, 5, 10, 15].map(m => `<button data-act="br-dur" data-id="${id}" data-v="${m}" class="${dur === m ? 'on' : ''}">${m} min</button>`).join('')}</div>
     <label class="f">Ritmo</label>
     <div class="seg">${['Más rápido', 'Normal', 'Más lento'].map((l, i) => `<button data-act="br-rit" data-id="${id}" data-v="${i}" class="${ri === i ? 'on' : ''}">${l}</button>`).join('')}</div>
-    <div class="muted small num" style="margin-top:6px">${patTxt(t, t.f[ri])}</div>
-    <div class="chips" style="margin-top:12px"><button class="chip ${sonOf(t) ? 'on' : ''}" data-act="br-son" data-id="${id}">🔊 Sonido</button>
-      ${navigator.vibrate ? `<button class="chip ${vibOn() ? 'on' : ''}" data-act="br-vib" data-id="${id}">📳 Vibración</button>` : ''}</div>
+    <div class="muted small num" style="margin-top:8px">${patTxt(t, t.f[ri])}</div>
+    <div class="chips" style="margin-top:12px"><button class="chip ${sonOf(t) ? 'on' : ''}" data-act="br-son" data-id="${id}">${ico('sonido', 'inl')}Sonido</button>
+      ${navigator.vibrate ? `<button class="chip ${vibOn() ? 'on' : ''}" data-act="br-vib" data-id="${id}">${ico('vibrar', 'inl')}Vibración</button>` : ''}</div>
     <label class="f">¿Cuánta tensión notas ahora? <span style="font-weight:400">(opcional)</span></label>
     ${scaleHtml('br-antes', id, BRPRE)}
     <div class="actions"><button class="btn ghost" data-act="br-info" data-id="${id}">¿Por qué funciona?</button><button class="btn pri" data-act="br-start" data-id="${id}">Empezar</button></div>
@@ -1161,12 +1265,13 @@ function brFinish(){
 function brEndScreen(){
   const r = BR.rec, el = document.getElementById('br');
   el.classList.remove('dim');
-  el.innerHTML = `<div class="br-end"><h2 style="font-size:24px;margin:0 0 4px">Bien hecho</h2>
-    <div class="muted">Has practicado ${Math.max(1, Math.round(r.seg / 60))} min de ${BR.t.n.toLowerCase()}.</div>
-    <label class="f" style="margin-top:22px">¿Y ahora, cuánta tensión notas? <span style="font-weight:400">(opcional)</span></label>
+  el.innerHTML = `<div class="br-end fin"><h2>Has terminado</h2>
+    <div class="muted">${Math.max(1, Math.round(r.seg / 60))} min de ${BR.t.n.toLowerCase()}</div>
+    <label class="f" style="margin-top:24px">¿Y ahora, cuánta tensión notas? <span style="font-weight:400">(opcional)</span></label>
     ${scaleHtml('br-despues', '', BR.despues)}
     ${BR.antes != null ? `<div class="muted small num" style="margin-top:8px">Antes: ${BR.antes}${BR.despues != null ? ` · ahora: <b>${BR.despues}</b>` : ''}</div>` : ''}
-    <div class="actions" style="margin-top:20px"><button class="btn" data-act="br-again">Repetir</button><button class="btn pri" data-act="br-done">Hecho</button></div></div>`;
+    <div class="actions"><button class="btn" data-act="br-again">Repetir</button><button class="btn pri" data-act="br-done">Hecho</button></div>
+    ${anSos(true)}</div>`;
 }
 function brClose(){ // quita la sesión de la pantalla y del historial
   if (!BR) return;
@@ -1207,6 +1312,8 @@ let AFTER = null;   // lo que hay que hacer cuando el historial termine de volve
 const anN = () => S.settings.anc.nombre || AN_DEF;
 const anTxt = x => x.replace('{n}', anN()).replace('{N}', cap(anN()));
 const anPie = () => `<div class="an-pie">No es para que ${esc(anN())} se vaya. Es para que no decida por ti.</div>`;
+// Siempre a mano durante la sesión y al terminar: se puede parar, y la línea de crisis
+const anSos = fin => `<div class="an-sos">${fin ? '' : 'Si se hace demasiado fuerte, puedes parar cuando quieras. '}¿En crisis? Llama al <a href="tel:024">024</a> (gratis, 24 h) o al <a href="tel:112">112</a>.</div>`;
 function anClean(v){ // «La alarma» → «la alarma», para que encaje en mitad de una frase; los nombres propios se quedan como están
   v = String(v || '').trim().replace(/\s+/g, ' ').slice(0, 30);
   return /^(El|La|Los|Las|Mi|Mis|Un|Una|Ese|Esa|Eso|Este|Esta|Esto)\s/.test(v) ? v[0].toLowerCase() + v.slice(1) : v;
@@ -1218,33 +1325,34 @@ function renderAnclaje(){
   app.innerHTML = `<header class="top">${BACK}<div class="ht"><h1>Anclaje</h1><div class="sub">Para cuando aprieta</div></div></header>
     ${revCard()}
     <div class="card"><b>No busca calmarte ni que el malestar desaparezca.</b> Sirve para mantenerte en pie mientras está y elegir qué hacer.
+      <div class="muted small" style="margin-top:8px">Si en algún momento las sensaciones se hacen demasiado fuertes, para y busca apoyo: no hace falta aguantar hasta el final.</div>
       <div class="muted small" style="margin-top:8px">¿Lo que quieres es bajar la tensión? Para eso está la <button class="linkb" data-act="go" data-to="respirar">Respiración guiada</button>.</div></div>
     <button class="btn pri big" data-act="an-start" data-m="real">Ahora lo necesito</button>
     <button class="btn big an-sim" data-act="an-start" data-m="sim"><b>Simulacro</b><span>Práctica diaria en calma, para entrenarlo antes de necesitarlo</span></button>
     <div class="card" style="margin-top:12px">
       <div class="row" style="justify-content:space-between"><span>${a.nombre ? 'Lo llamas' : 'Aún sin nombre. Se usará'} <b>«${esc(anN())}»</b></span>
         <button class="btn sm" data-act="an-nom">${a.nombre ? 'Cambiar' : 'Ponerle nombre'}</button></div>
-      ${a.nombre ? '' : '<div class="muted small" style="margin-top:6px">Ponerle nombre ayuda a verlo desde fuera.</div>'}
-      <div class="chips" style="margin-top:12px">${navigator.vibrate ? `<button class="chip ${a.vib ? 'on' : ''}" data-act="an-vib">📳 Vibración</button>` : ''}</div>
+      ${a.nombre ? '' : '<div class="muted small" style="margin-top:8px">Ponerle nombre ayuda a verlo desde fuera.</div>'}
+      <div class="chips" style="margin-top:12px">${navigator.vibrate ? `<button class="chip ${a.vib ? 'on' : ''}" data-act="an-vib">${ico('vibrar', 'inl')}Vibración</button>` : ''}</div>
     </div>
     ${S.val.frases.length ? '' : `<div class="card"><b>¿Qué te importa?</b><div class="muted small" style="margin-top:4px">Si lo exploras, la pregunta final del Anclaje y tus acciones podrán usarlo.</div>
-      <button class="btn sm" style="margin-top:10px" data-act="go" data-to="valores">Explorar lo que importa</button></div>`}
+      <button class="btn sm" style="margin-top:12px" data-act="go" data-to="valores">Explorar lo que importa</button></div>`}
     <details class="card"><summary>¿Cómo es la sesión?</summary>
-      <ol class="small" style="margin:10px 0 0;padding-left:20px;display:grid;gap:6px">${AN_PASOS.map(p => `<li><b>${p.t}.</b> ${esc(p.f.map(anTxt).join(' '))}</li>`).join('')}</ol>
-      <div class="muted small" style="margin-top:10px">Dura unos dos minutos, con pausas entre frases. Solo texto, sin voz.</div></details>
+      <ol class="small" style="margin:12px 0 0;padding-left:20px;display:grid;gap:8px">${AN_PASOS.map(p => `<li><b>${p.t}.</b> ${esc(p.f.map(anTxt).join(' '))}</li>`).join('')}</ol>
+      <div class="muted small" style="margin-top:12px">Dura unos dos minutos, con pausas entre frases. Solo texto, sin voz.</div></details>
     ${week.length ? `<h3 class="sec"><span>Últimos 7 días</span></h3>
       <div class="card hero">
         <div><div class="big num">${re}</div><div class="lbl">en un momento real</div></div>
         <div><div class="big num">${week.length - re}</div><div class="lbl">simulacro${week.length - re === 1 ? '' : 's'}</div></div>
         <div><div class="big num">${new Set(week.map(r => dayKey(r.at))).size}</div><div class="lbl">días</div></div>
       </div>
-      <div class="card" style="padding:4px 14px">${week.slice(0, 6).map(r => `<div class="rrow"><span>${dayTitle(dayKey(r.at))} · ${hhmm(r.at)}</span><span>${r.modo === 'sim' ? 'Simulacro' : 'Momento real'}${r.hacer ? ` · <b>${esc(r.hacer.length > 60 ? r.hacer.slice(0, 60) + '…' : r.hacer)}</b>` : ''}${r.rev ? ' · ' + REV_TXT[r.rev] : ''}</span></div>`).join('')}</div>` : ''}
+      <div class="card" style="padding:4px 16px">${week.slice(0, 6).map(r => `<div class="rrow"><span>${dayTitle(dayKey(r.at))} · ${hhmm(r.at)}</span><span>${r.modo === 'sim' ? 'Simulacro' : 'Momento real'}${r.hacer ? ` · <b>${esc(r.hacer.length > 60 ? r.hacer.slice(0, 60) + '…' : r.hacer)}</b>` : ''}${r.rev ? ' · ' + REV_TXT[r.rev] : ''}</span></div>`).join('')}</div>` : ''}
     ${anPie()}${CRISIS}`;
 }
 function sheetAnNombre(modo){ // modo: si viene de «Simulacro» la primera vez, al cerrar empieza la sesión
   const a = S.settings.anc, m = modo ? ` data-m="${modo}"` : '';
   sheet(`<h2>¿Cómo lo llamas?</h2><div class="sub">Eso que te aparece cuando hay ansiedad, enfado o malestar intenso. Ponerle nombre ayuda a verlo desde fuera.</div>
-    <div class="chips" style="margin-top:10px">${AN_SUG.map(n => `<button class="chip ${a.nombre === n ? 'on' : ''}" data-act="an-sug" data-n="${esc(n)}">${esc(n)}</button>`).join('')}</div>
+    <div class="chips" style="margin-top:12px">${AN_SUG.map(n => `<button class="chip ${a.nombre === n ? 'on' : ''}" data-act="an-sug" data-n="${esc(n)}">${esc(n)}</button>`).join('')}</div>
     <label class="f">O escribe el tuyo</label>
     <input id="an-nom" maxlength="30" autocomplete="off" value="${esc(a.nombre)}" placeholder="Una palabra, un personaje, un nombre propio">
     <div class="muted small" style="margin-top:8px">Escríbelo como lo dirías en una frase: «la alarma», «el pesado de Paco», «Paco». Mejor un nombre curioso o neutro que uno de enemigo: no se trata de pelear con ello.</div>
@@ -1271,7 +1379,7 @@ function anStart(modo){
   el.innerHTML = `<div class="br-top"><span class="t">${modo === 'sim' ? 'Simulacro' : 'Anclaje'}</span><button class="btn sm ghost" data-act="an-stop">Terminar</button></div>
     <div class="an-stage"><div class="an-dots">${AN_PASOS.map((_, i) => `<i id="an-d${i}"></i>`).join('')}</div>
       <div class="an-paso" id="an-paso"></div><div class="an-fr" id="an-fr" aria-live="polite"></div></div>
-    <div class="br-bot"><button class="btn" data-act="an-pause" id="an-pause">Pausa</button>${anPie()}</div>`;
+    <div class="br-bot"><button class="btn" data-act="an-pause" id="an-pause">Pausa</button>${anPie()}${anSos()}</div>`;
   document.body.appendChild(el);
   anWake(); anNext();
 }
@@ -1315,15 +1423,15 @@ function anFinish(done){
   if (AN.rec) anEndScreen(); else anClose();
 }
 function anEndScreen(){
-  document.getElementById('an').innerHTML = `<div class="br-end"><h2 style="font-size:24px;margin:0 0 4px">¿Qué quieres hacer ahora?</h2>
+  document.getElementById('an').innerHTML = `<div class="br-end fin"><h2>¿Qué quieres hacer ahora?</h2>
     <div class="muted">Algo pequeño y concreto, que vaya en la dirección de esa pregunta. Si no quieres escribir nada, toca «Hecho».</div>
     ${anIdeas()}
-    <textarea id="an-hacer" rows="3" maxlength="500" style="margin-top:14px;min-height:96px" placeholder="Ej.: Llamar a mi hermana, aunque no me apetezca.">${esc(AN.rec.hacer)}</textarea>
-    <div class="muted small" style="margin-top:6px">Si escribes algo, mañana te preguntaré cómo fue. Sin juicio.</div>
+    <textarea id="an-hacer" rows="3" maxlength="500" style="margin-top:16px;min-height:96px" placeholder="Ej.: Llamar a mi hermana, aunque no me apetezca.">${esc(AN.rec.hacer)}</textarea>
+    <div class="muted small" style="margin-top:8px">Si escribes algo, mañana te preguntaré cómo fue. Sin juicio.</div>
     ${AN.conf ? `<div class="note">Ya tienes un registro ABC a medias. ¿Lo añado a ese?</div>
         <div class="actions"><button class="btn" data-act="an-abc-solo">Dejarlo solo aquí</button><button class="btn pri" data-act="an-abc-add">Añadirlo</button></div>`
-      : `<div class="actions" style="margin-top:14px"><button class="btn" data-act="an-abc">Guardar en el registro ABC</button><button class="btn pri" data-act="an-done">Hecho</button></div>`}
-    ${anPie()}</div>`;
+      : `<div class="actions"><button class="btn" data-act="an-abc">Guardar en el registro ABC</button><button class="btn pri" data-act="an-done">Hecho</button></div>`}
+    ${anPie()}${anSos(true)}</div>`;
 }
 function anHacer(){ // guarda lo escrito en la sesión
   const t = document.getElementById('an-hacer');
@@ -1390,17 +1498,16 @@ function renderValHome(){
   const v = S.val, hay = v.frases.length;
   app.innerHTML = `<header class="top">${BACK}<div class="ht"><h1>Lo que importa</h1><div class="sub">${hay ? 'Tu brújula' : 'Para explorar con calma'}</div></div></header>
     ${hay ? `${v.frases.map(f => { const a = valArea(f.area); return a ? `<div class="card"><div class="muted small">${esc(cap(a.en))}</div>
-        <div style="font-size:19px;font-weight:700;margin-top:2px">«${esc(f.palabra)}»</div>${f.ej ? `<div class="muted" style="margin-top:4px">${esc(f.ej)}</div>` : ''}</div>` : ''; }).join('')}
+        <div style="font-size:20px;font-weight:600;margin-top:2px">«${esc(f.palabra)}»</div>${f.ej ? `<div class="muted" style="margin-top:4px">${esc(f.ej)}</div>` : ''}</div>` : ''; }).join('')}
       <div class="card"><label class="f" style="margin-top:0">Dónde se usa</label>
-        <div class="chips"><button class="chip ${v.usar ? 'on' : ''}" data-act="val-usar">Anclaje y registro ABC</button><button class="chip ${v.informe ? 'on' : ''}" data-act="val-informe">Informe para tu psicólogo</button></div>
-        <div class="muted small" style="margin-top:8px">${v.informe ? 'Tus frases saldrán en el informe que tú exportes.' : 'Ahora mismo no salen del móvil: tú decides si van en el informe.'}</div></div>
+        <div class="chips"><button class="chip ${v.usar ? 'on' : ''}" data-act="val-usar">Anclaje y registro ABC</button></div></div>
       <div class="actions"><button class="btn" data-act="val-start">Volver a explorar</button><button class="btn danger" data-act="val-del">Borrar</button></div>
       <div class="muted small" style="margin-top:12px">Son direcciones, no notas: no hay una forma correcta de seguirlas.</div>`
     : `<div class="card"><b>Lo que te importa es una dirección, no una meta.</b>
-        <div class="muted" style="margin-top:6px">«Ser un buen amigo» es una dirección que puedes seguir cada día. «Quedar el sábado» es un paso en esa dirección. Aquí vas a explorar qué te importa, sin objetivos ni notas.</div></div>
+        <div class="muted" style="margin-top:8px">«Ser un buen amigo» es una dirección que puedes seguir cada día. «Quedar el sábado» es un paso en esa dirección. Aquí vas a explorar qué te importa, sin objetivos ni notas.</div></div>
       <div class="note" style="border-left-color:var(--acc)"><b>No hay respuestas correctas.</b> Si ahora no te sale nada, está bien: puedes dejarlo y volver cuando quieras.</div>
-      <button class="btn pri big" style="margin-top:14px" data-act="val-start">Empezar</button>
-      <div class="muted small" style="margin-top:10px;text-align:center">Lo que escribas se queda solo en este móvil.</div>`}
+      <button class="btn pri big" style="margin-top:16px" data-act="val-start">Empezar</button>
+      <div class="muted small" style="margin-top:12px;text-align:center">Lo que escribas se queda solo en este móvil.</div>`}
     ${CRISIS}`;
 }
 function renderValPaso(){
@@ -1410,7 +1517,7 @@ function renderValPaso(){
   if (id === 'areas') body = `<h2 class="q">¿Qué áreas de tu vida te importan más ahora?</h2>
     <p class="hint">Elige hasta 3. No hace falta que todo vaya bien en ellas: basta con que te importen.</p>
     <div class="chips">${VAL_AREAS.map(a => chip(a.n, v.areas.includes(a.id), 'val-area', `data-id="${a.id}"`)).join('')}</div>
-    <button class="btn ghost" style="margin-top:14px;width:100%" data-act="val-libre">Ahora mismo no lo tengo claro</button>`;
+    <button class="btn ghost" style="margin-top:16px;width:100%" data-act="val-libre">Ahora mismo no lo tengo claro</button>`;
   else if (id === 'notas') body = `<h2 class="q">Imagina un día normal</h2>
     <p class="hint">Escribe lo que te salga, aunque sea una palabra. Puedes dejar en blanco lo que no te diga nada.</p>
     ${v.areas.map(aid => { const a = valArea(aid); return `<div class="card"><b>${esc(a.n)}</b><div class="muted" style="margin:4px 0 8px">${esc(a.q)}</div>
@@ -1418,7 +1525,7 @@ function renderValPaso(){
   else if (id === 'pal') body = `<h2 class="q">¿Qué palabras te dicen algo?</h2>
     <p class="hint">Marca las que te digan algo, sin pensarlo mucho. Pueden ser muchas.</p>
     <div class="chips">${VAL_PAL.concat(v.pal.filter(p => !VAL_PAL.includes(p))).map(p => chip(cap(p), v.pal.includes(p), 'val-pal', `data-p="${esc(p)}"`)).join('')}</div>
-    <div class="row" style="margin-top:10px"><input id="val-otra" maxlength="30" placeholder="Otra palabra"><button class="btn sm" data-act="val-pal-add">Añadir</button></div>
+    <div class="row" style="margin-top:12px"><input id="val-otra" maxlength="30" placeholder="Otra palabra"><button class="btn sm" data-act="val-pal-add">Añadir</button></div>
     <div class="muted small num" style="margin-top:8px">${v.pal.length} marcada${v.pal.length === 1 ? '' : 's'}</div>`;
   else if (id === 'top') body = `<h2 class="q">¿Cuáles son las 5 que más?</h2>
     <p class="hint">Elige hasta 5 de las que marcaste. Luego puedes cambiarlas.</p>
@@ -1429,15 +1536,15 @@ function renderValPaso(){
     <p class="hint">Para cada área, elige la palabra que mejor la describe y, si quieres, un ejemplo de cómo se vería en un día normal.</p>
     ${v.areas.map(aid => { const a = valArea(aid), f = VAL.f[aid] || {}; return `<div class="card"><b>${esc(cap(a.en))}</b>
       <div class="chips" style="margin-top:8px">${lista.map(p => chip(cap(p), f.palabra === p, 'val-fpal', `data-id="${a.id}" data-p="${esc(p)}"`)).join('')}</div>
-      <textarea data-fej="${a.id}" rows="2" style="min-height:64px;margin-top:10px" placeholder="Ej.: llamar a mis padres los domingos (opcional)">${esc(f.ej || '')}</textarea></div>`; }).join('')}`; }
-  app.innerHTML = `<header class="top"><button class="navb" data-act="val-exit" aria-label="Salir">✕</button><div class="ht"><h1>Lo que importa</h1><div class="sub">${({areas:'Áreas', notas:'Un día normal', pal:'Palabras', top:'Las que más', frases:'Con tus palabras'})[id]}</div></div></header>
+      <textarea data-fej="${a.id}" rows="2" style="min-height:64px;margin-top:12px" placeholder="Ej.: llamar a mis padres los domingos (opcional)">${esc(f.ej || '')}</textarea></div>`; }).join('')}`; }
+  app.innerHTML = `<header class="top"><button class="navb" data-act="val-exit" aria-label="Salir">${ico('cerrar')}</button><div class="ht"><h1>Lo que importa</h1><div class="sub">${({areas:'Áreas', notas:'Un día normal', pal:'Palabras', top:'Las que más', frases:'Con tus palabras'})[id]}</div></div></header>
     ${body}
-    <div class="actions" style="margin-top:18px">${st > 0 ? '<button class="btn" data-act="val-prev">Atrás</button>' : ''}<button class="btn pri" data-act="val-next">${id === 'frases' ? 'Guardar' : 'Siguiente'}</button></div>
+    <div class="actions" style="margin-top:20px">${st > 0 ? '<button class="btn" data-act="val-prev">Atrás</button>' : ''}<button class="btn pri" data-act="val-next">${id === 'frases' ? 'Guardar' : 'Siguiente'}</button></div>
     ${CRISIS}`;
 }
 function sheetValLibre(){
   sheet(`<h2>Si ahora no te sale nada</h2><div class="sub">Es normal, sobre todo en épocas duras. Prueba con una de estas, sin prisa:</div>
-    <ul class="small" style="margin:10px 0 0;padding-left:20px;display:grid;gap:6px"><li>¿Qué te molesta que falte en tu vida?</li><li>¿A quién admiras, y qué admiras de esa persona?</li><li>¿Qué te gustaba hacer antes, aunque ahora no tengas ganas?</li></ul>
+    <ul class="small" style="margin:12px 0 0;padding-left:20px;display:grid;gap:8px"><li>¿Qué te molesta que falte en tu vida?</li><li>¿A quién admiras, y qué admiras de esa persona?</li><li>¿Qué te gustaba hacer antes, aunque ahora no tengas ganas?</li></ul>
     <textarea id="val-libre" rows="4" style="margin-top:12px;min-height:100px" placeholder="Lo que te venga, tal cual.">${esc(S.val.notas.libre || '')}</textarea>
     <div class="muted small" style="margin-top:8px">No hay prisa. Puedes dejarlo y volver otro día.</div>
     <div class="actions"><button class="btn ghost" data-act="sheet-close">Cerrar</button><button class="btn pri" data-act="val-libre-ok">Guardar</button></div>`);
@@ -1461,20 +1568,28 @@ function anIdeas(){ // en la pantalla final: la persona elige qué le importa en
   const v = AN.valor && valFrase(AN.valor), a = v && valArea(v.area);
   return `<label class="f">¿Qué te importa en este momento? <span style="font-weight:400">(opcional)</span></label>
     <div class="chips">${l.map(f => `<button class="chip ${AN.valor === f.id ? 'on' : ''}" data-act="an-val" data-id="${esc(f.id)}">${esc(cap(f.palabra))} · ${esc(valArea(f.area).n)}</button>`).join('')}</div>
-    ${a ? `<div class="muted small" style="margin-top:10px">Algunas ideas ${esc(a.en)}, por si te sirven. Vale lo tuyo:</div>
-    <div class="chips" style="margin-top:6px">${a.ideas.map((t, i) => `<button class="chip" data-act="an-idea" data-i="${i}">${esc(t)}</button>`).join('')}</div>` : ''}`;
+    ${a ? `<div class="muted small" style="margin-top:12px">Algunas ideas ${esc(a.en)}, por si te sirven. Vale lo tuyo:</div>
+    <div class="chips" style="margin-top:8px">${a.ideas.map((t, i) => `<button class="chip" data-act="an-idea" data-i="${i}">${esc(t)}</button>`).join('')}</div>` : ''}`;
 }
-function valHtml(){ // en el informe, solo si la persona lo ha activado
-  const v = S.val; if (!v.informe || !v.frases.length) return '';
-  return `<h2>Lo que le importa</h2><ul>${v.frases.map(f => { const a = valArea(f.area); return a ? `<li>${esc(cap(a.en))}: «${esc(f.palabra)}»${f.ej ? ' · ' + esc(f.ej) : ''}</li>` : ''; }).join('')}</ul>`;
+function valNotas(){ // lo que escribió al explorar: [pregunta, respuesta]
+  const n = S.val.notas || {}, l = VAL_AREAS.filter(a => (n[a.id] || '').trim()).map(a => [a.q, n[a.id].trim()]);
+  if ((n.libre || '').trim()) l.push(['Si ahora no le sale nada (preguntas alternativas)', n.libre.trim()]);
+  return l;
+}
+function valHtml(){ // en el informe: sus frases y lo que escribió al explorar
+  const v = S.val, notas = valNotas(); if (!v.frases.length && !notas.length) return '';
+  return `<h2>Lo que le importa</h2>${v.frases.length ? `<ul>${v.frases.map(f => { const a = valArea(f.area); return a ? `<li>${esc(cap(a.en))}: «${esc(f.palabra)}»${f.ej ? ' · ' + esc(f.ej) : ''}</li>` : ''; }).join('')}</ul>` : ''}
+    ${notas.length ? `<p><b>Al explorar escribió:</b></p><ul>${notas.map(([q, r]) => `<li><i>${esc(q)}</i> ${esc(r)}</li>`).join('')}</ul>` : ''}
+    ${v.top.length ? `<p>Palabras que más le importan: ${v.top.map(esc).join(', ')}.</p>` : ''}`;
 }
 function valText(){
-  const v = S.val; if (!v.informe || !v.frases.length) return [];
-  return ['Lo que me importa:', ...v.frases.map(f => { const a = valArea(f.area); return a ? `— ${cap(a.en)}: «${f.palabra}»${f.ej ? ' · ' + f.ej : ''}` : ''; }).filter(Boolean), ''];
+  const v = S.val, notas = valNotas(); if (!v.frases.length && !notas.length) return [];
+  return ['LO QUE LE IMPORTA', ...v.frases.map(f => { const a = valArea(f.area); return a ? `— ${cap(a.en)}: «${f.palabra}»${f.ej ? ' · ' + f.ej : ''}` : ''; }).filter(Boolean),
+    ...(notas.length ? ['Al explorar escribió:', ...notas.map(([q, r]) => `— ${q} ${r}`)] : []),
+    ...(v.top.length ? [`Palabras que más le importan: ${v.top.join(', ')}.`] : []), ''];
 }
 const CERCA_TXT = {si:'sí', poco:'un poco', no:'no'};
-const accVal = r => S.val.informe && r.valor && valPal(r.valor) ? `Valor: «${valPal(r.valor)}»` : '';
-const accRes = r => (r.rev ? REV_TXT[r.rev] : 'sin revisar') + (S.val.informe && r.cerca ? ' · te acercó a lo que importa: ' + CERCA_TXT[r.cerca] : '');
+const accRes = r => (r.rev ? REV_TXT[r.rev] : 'sin revisar') + (r.cerca ? ' · te acercó a lo que importa: ' + CERCA_TXT[r.cerca] : '');
 function sheetRevCerca(id){
   sheet(`<h2>Anotado</h2><div class="sub">Una última pregunta, si quieres: ¿te acercó a lo que te importa?</div>
     <div class="actions" style="margin-top:12px">${[['no', 'No'], ['poco', 'Un poco'], ['si', 'Sí']].map(([v, l]) => `<button class="btn ${v === 'si' ? 'pri' : ''}" data-act="rev-cerca" data-id="${esc(id)}" data-v="${v}">${l}</button>`).join('')}</div>
@@ -1492,7 +1607,7 @@ function revCard(){
   const r = revPend(); if (!r) return '';
   const b = (v, l, c) => `<button class="btn ${c || ''}" data-act="rev" data-id="${esc(r.id)}" data-v="${v}">${l}</button>`;
   return `<div class="card pend"><b>¿Lo hiciste?</b>
-    <div style="margin:6px 0 2px">«${esc(r.hacer)}»</div><div class="muted small">${dayTitle(dayKey(r.at))}</div>${valSub(r.valor)}
+    <div style="margin:8px 0 2px">«${esc(r.hacer)}»</div><div class="muted small">${dayTitle(dayKey(r.at))}</div>${valSub(r.valor)}
     <div class="actions">${b('no', 'No')}${b('intento', 'Lo intenté')}${b('si', 'Sí', 'pri')}</div></div>`;
 }
 function anRev(id, v){
@@ -1502,7 +1617,7 @@ function anRev(id, v){
 }
 function sheetRevDif(id){
   sheet(`<h2>Anotado</h2><div class="sub">No pasa nada. Si quieres, apunta qué te lo puso difícil.</div>
-    <textarea id="rev-dif" rows="3" maxlength="500" style="margin-top:10px;min-height:90px" placeholder="Ej.: Estaba muy cansado y lo dejé para después."></textarea>
+    <textarea id="rev-dif" rows="3" maxlength="500" style="margin-top:12px;min-height:90px" placeholder="Ej.: Estaba muy cansado y lo dejé para después."></textarea>
     <div class="actions"><button class="btn ghost" data-act="rev-dif-no">Omitir</button><button class="btn pri" data-act="rev-dif-ok" data-id="${esc(id)}">Guardar</button></div>`);
 }
 
@@ -1546,7 +1661,6 @@ const ACT = {
   'val-libre': sheetValLibre,
   'val-libre-ok': () => { S.val.notas.libre = document.getElementById('val-libre').value.trim(); save(); closeSheet(); toast('Guardado'); },
   'val-usar': () => { S.val.usar = !S.val.usar; save(); keepScroll(render); },
-  'val-informe': () => { S.val.informe = !S.val.informe; save(); keepScroll(render); },
   'val-del': sheetValBorrar,
   'val-del-yes': () => { S.val = structuredClone(DEFAULTS.val); VAL = {run:false, step:0, f:{}}; save(); closeSheet(); render(); toast('Borrado'); },
   'an-val': b => { anHacer(); AN.valor = AN.valor === b.dataset.id ? null : b.dataset.id; if (AN.rec){ AN.rec.valor = AN.valor; save(); } anEndScreen(); },
@@ -1611,13 +1725,13 @@ const ACT = {
   'res-per': b => { RES_PER = b.dataset.v; renderResumen(); },
   'theme': b => { S.settings.theme = b.dataset.v; save(); applyTheme(); renderAjustes(); },
   'export': sheetExport,
-  'exp-per': b => { EXP.per = b.dataset.v; sheetExport(); },
   'exp-pdf': exportPDF,
-  'exp-txt': exportText,
-  'exp-csv': exportCSV,
   'bk-export': backupExport,
+  'mom': b => momento(b.dataset.m),
+  'bk-later': () => { S.settings.bk.snooze = Date.now() + BK_POSPONER; save(); keepScroll(render); toast('Te lo recordaré dentro de dos semanas'); },
   'wipe': sheetWipe,
-  'wipe-yes': () => { S = structuredClone(DEFAULTS); VAL = {run:false, step:0, f:{}}; save(); applyTheme(); closeSheet(); ED = null; history.replaceState(null, '', '#inicio'); routeFromHash(); render(); toast('Datos borrados'); },
+  'wipe-yes': () => { try{ for (const k of Object.keys(localStorage)) if (k.startsWith(STORE + '.')) localStorage.removeItem(k); }catch(_){} // también las copias de seguridad internas
+    S = structuredClone(DEFAULTS); VAL = {run:false, step:0, f:{}}; save(); applyTheme(); closeSheet(); ED = null; history.replaceState(null, '', '#inicio'); routeFromHash(); render(); toast('Datos borrados'); },
   'sheet-close': closeSheet,
 };
 function keepScroll(fn){ const y = window.scrollY; fn(); window.scrollTo(0, y); }
